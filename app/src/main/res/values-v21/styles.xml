@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Styles for API Version 21 -->
+
+
+    <!-- Transparent menu button !-->
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+    <!-- End transparent menu button !-->
+
+
+    <!-- End styles for API version 21 -->
+
+</resources>
