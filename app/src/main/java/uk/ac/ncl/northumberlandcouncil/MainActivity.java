@@ -1,5 +1,7 @@
 package uk.ac.ncl.northumberlandcouncil;
 
+
+/* Begin library imports */
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,7 +14,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
-
+/* End library imports */
 
 /**
  * Handles the main activity of the application and creates listeners/formats navigation
