@@ -2,4 +2,5 @@
     <string name="app_name">Northumberland Council</string>
     <string name="navigation_drawer_open">Open Nav</string>
     <string name="navigation_drawer_close">Close Nav</string>
+    <string name="logo">Northumberland Castles Logo</string>
 </resources>

@@ -1,4 +1,4 @@
-/**
+/*
  * Handles the main activity of the application and creates listeners for the navigation bar
  * @author Rayyan Iqbal
  * @date 20/02/2019
@@ -9,11 +9,13 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
@@ -27,6 +29,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /* Add menu button */
         Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
+
+        /* Remove toolbar text */
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+        /* End removal of toolbar text */
 
         drawer = findViewById(R.id.drawer_layout);
 
@@ -50,6 +59,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
+     * Center the logo in the tool bar programmatically
+     * @param hasFocus - whether current window has focus
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus){
+        Toolbar toolbar = findViewById(R.id.toolBar);
+        ImageView logo = findViewById(R.id.logo);
+        int offset = (toolbar.getWidth() / 2) - (logo.getWidth() / 2);
+        // set
+        logo.setX(offset);
+
+    }
+    /**
      * Handle displayed activity from menu select callback
      * @param menuItem - item selected
      * @return boolean - upon selection
@@ -71,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
         drawer.closeDrawer(GravityCompat.START); // Close navigation bar
-        return false;
+        return true;
     }
 
     /**
