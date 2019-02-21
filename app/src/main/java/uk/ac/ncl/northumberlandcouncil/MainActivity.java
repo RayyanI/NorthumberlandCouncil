@@ -1,8 +1,3 @@
-/*
- * Handles the main activity of the application and creates listeners for the navigation bar
- * @author Rayyan Iqbal
- * @date 20/02/2019
- */
 package uk.ac.ncl.northumberlandcouncil;
 
 import android.support.annotation.NonNull;
@@ -18,6 +13,13 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
+/**
+ * Handles the main activity of the application and creates listeners/formats navigation
+ * @author Rayyan Iqbal
+ * Created on 20/02/2019
+ * Last modified 21/02/2019 (R Iqbal)
+ */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
     private DrawerLayout drawer;
 
