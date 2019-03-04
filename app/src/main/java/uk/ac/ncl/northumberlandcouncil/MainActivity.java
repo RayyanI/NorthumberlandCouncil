@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FavouritesFragment()).commit();
                 break;
             case R.id.nav_login:
+                if (getSupportActionBar() != null)
+                    getSupportActionBar().hide(); // hide action bar on login page
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AuthorisationFragment()).commit();
                 break;
             case R.id.nav_website:
