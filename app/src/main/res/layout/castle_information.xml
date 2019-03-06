@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <!-- Logo inside of toolbar !-->
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/ic_logo" />
+            <!-- End logo inside of toolbar !-->
+
+        </android.support.v7.widget.Toolbar>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="277dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="8dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:srcCompat="@tools:sample/backgrounds/scenic[11]" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="297dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="TextView"
+                            android:textColor="@color/tw__composer_white"
+                            android:textSize="35sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:text="  Castle name" />
+                    </android.support.constraint.ConstraintLayout>
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="     Opening time:"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/castle_times"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="        Castle times"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/prices_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="     Prices"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/adult_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="        Adult - £0"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/child_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="        Child - £0"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/age_range"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="     Age Range:"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/child_price2"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="        Ages allowed"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/age_range2"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="     Website:"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/child_price3"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="        http://examplewebsite.co.uk"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/age_range3"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="     Address:"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/editText3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textMultiLine"
+                    android:text="        Line 1\n        Line 2\n        Line 3\n        Line 4"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <!-- Navigation Styling !-->
+    <!-- End Navigation Styling !-->
+</android.support.v4.widget.DrawerLayout>
