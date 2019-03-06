@@ -8,6 +8,7 @@
     <!-- Twitter keys !-->
     <string name="com_twitter_sdk_android_CONSUMER_KEY">w0DdfoAkBW2yjqUjHKQgATAqf </string>
     <string name="com_twitter_sdk_android_CONSUMER_SECRET">bbnD2FfgYQlCffMAnho6gSgw3r538O9mUhkhgOvzPP8IwcKvfL </string>
+    <string name="title_activity_maps">Map</string>
     <!-- End twitter keys !-->
 
 </resources>
