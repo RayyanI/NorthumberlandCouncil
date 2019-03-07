@@ -86,7 +86,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         getLocationPermission();
 
     }
-
+//ffff
     private void initialising(){
         Log.d(MAP_ACTIVITY, "init: initializing");
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
