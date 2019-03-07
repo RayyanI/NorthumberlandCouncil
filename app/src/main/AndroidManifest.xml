@@ -28,10 +28,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/map_main" /> <!-- Modified style for no action bar ! -->
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
