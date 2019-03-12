@@ -8,7 +8,7 @@ android {
     }
     defaultConfig {
         applicationId "uk.ac.ncl.northumberlandcouncil"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -45,9 +45,11 @@ dependencies {
 
     /* End Authorisation Dependencies */
 
-
+    /* Maps Dependencies */
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
-    implementation 'com.google.android.gms:play-services:11.4.0'
+    implementation 'com.google.android.gms:play-services:12.0.1' // needs debundling as bad practice
+    /* End Maps Dependencies */
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
