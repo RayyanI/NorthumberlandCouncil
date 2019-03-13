@@ -126,7 +126,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         }
     }
-
+    /* gets the device current location*/
     private void getDeviceLocation(){
         Log.d(MAP_ACTIVITY, "getDeviceLocation: getting the devices current location");
 
@@ -153,7 +153,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.e(MAP_ACTIVITY, "getDeviceLocation: SecurityException: " + e.getMessage());
         }
     }
-
+    /*Moves camera  */
     private void moveCamera(LatLng latLng, float zoom,String title){
         Log.d(MAP_ACTIVITY, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
