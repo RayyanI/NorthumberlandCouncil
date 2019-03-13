@@ -18,7 +18,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:elevation="10dp"
-        android:background="@color/tw__composer_white"
+        android:background="@android:color/white"
         android:id="@+id/relLayout1">
 
         <ImageView
@@ -27,7 +27,7 @@
             android:id="@+id/ic_magnify"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_search"/>
+            android:src="@drawable/ic_magnify"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -54,5 +54,5 @@
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
         android:id="@+id/ic_gps"
-        android:src="@drawable/ic_favourites"/>
+        android:src="@drawable/ic_gps"/>
 </RelativeLayout>
