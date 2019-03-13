@@ -109,7 +109,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         String searchString = mSearchText.getText().toString();
 
         Geocoder geocoder = new Geocoder(MapsActivity.this);
-        List<Address> list = new ArrayList<>();
+        List<Address> list = new ArrayList<Address>();
         try{
             list = geocoder.getFromLocationName(searchString, 1);
         }catch (IOException e){
@@ -135,8 +135,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         try{
             if(mLocationPermissionsGranted){
 
-                final Task location = fusedLocation.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
+                final Task<Location> location = fusedLocation.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete( Task task) {
                         if(task.isSuccessful()){

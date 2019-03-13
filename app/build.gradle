@@ -23,33 +23,27 @@ android {
 }
 
 dependencies {
-
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     /* Support Dependencies */
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:support-annotations:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
-    implementation 'com.android.support:design:28.0.0' // navigation bar //
+    implementation 'com.android.support:design:28.0.0'
+    // navigation bar //
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     /* End Support Dependencies */
-
     /* Authorisation Dependencies */
-
     // Google //
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
-
     // Twitter //
     implementation 'com.twitter.sdk.android:twitter-core:3.3.0'
     implementation 'com.twitter.sdk.android:twitter:3.3.0'
-
     /* End Authorisation Dependencies */
-
     /* Maps Dependencies */
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
-    implementation 'com.google.android.gms:play-services:12.0.1' // needs debundling as bad practice
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
     /* End Maps Dependencies */
-
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
