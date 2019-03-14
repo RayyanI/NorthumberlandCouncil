@@ -66,7 +66,7 @@
                             tools:srcCompat="@tools:sample/backgrounds/scenic[11]" />
 
                         <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/castle_name"
                             android:layout_width="297dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
