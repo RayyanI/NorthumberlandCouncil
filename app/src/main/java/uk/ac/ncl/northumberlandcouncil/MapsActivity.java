@@ -80,8 +80,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        mSearchText = (EditText) findViewById(R.id.input_search);
-        mGps =(ImageView) findViewById(R.id.ic_gps);
+        mSearchText = findViewById(R.id.input_search);
+        mGps = findViewById(R.id.ic_gps);
 
         getLocationPermission();
 
@@ -135,8 +135,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         try{
             if(mLocationPermissionsGranted){
 
-                final Task location = fusedLocation.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
+                final Task<Location> location = fusedLocation.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete( Task task) {
                         if(task.isSuccessful()){

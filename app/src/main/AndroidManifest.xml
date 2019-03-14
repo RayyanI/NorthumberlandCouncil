@@ -15,6 +15,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:fullBackupContent="true"
         android:theme="@style/AppTheme">
 
         <!--
@@ -28,21 +29,22 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
+        <!--
         <meta-data
             android:name="com.google.android.actions"
-            android:resource="@xml/map_main" /> <!-- Modified style for no action bar ! -->
+            android:resource="@xml/map_main" />
+        -->
+        <!-- Modified style for no action bar ! -->
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
-            <!-- End modification of action bar ! -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- End modification of action bar ! -->
     </application>
 
 </manifest>
