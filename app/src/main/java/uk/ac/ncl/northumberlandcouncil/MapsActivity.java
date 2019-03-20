@@ -3,6 +3,7 @@ package uk.ac.ncl.northumberlandcouncil;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -35,6 +36,13 @@ import java.util.List;
 import static android.widget.Toast.LENGTH_SHORT;
 import static android.widget.Toast.makeText;
 
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.maps.android.data.geojson.GeoJsonLayer;
+import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
+import org.json.JSONException;
+
+
 /**
  * @author Alvin Ho
  * Created on 12/02/2019
@@ -54,6 +62,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     //vars
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
+
   //  protected ImageView mGps = findViewById(R.id.ic_gps);
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -80,7 +89,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mSearchText = findViewById(R.id.input_search);
 
         getLocationPermission();
-
+        getCastleCoordinates();
+        getJsonLayer();
     }
 //ffff
     private void initialising(){
@@ -214,6 +224,50 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
+    /* Displays all 10 castles on the map */
+    private void getCastleCoordinates() {
 
+        LatLng Alnwick = new LatLng(55.41575, -1.70607);
+        mMap.addMarker(new MarkerOptions().position(Alnwick).title("Alnwick Castle"));
+        LatLng Bamburgh = new LatLng(55.608, -1.709);
+        mMap.addMarker(new MarkerOptions().position(Bamburgh).title("Bamburgh Castle"));
+        LatLng Warkworth = new LatLng(55.3447, -1.6105);
+        mMap.addMarker(new MarkerOptions().position(Warkworth).title("Warkworth Castle"));
+        LatLng Lindisfarne = new LatLng(55.669, -1.785);
+        mMap.addMarker(new MarkerOptions().position(Lindisfarne).title("Lindisfarne Castle"));
+        LatLng Tynemouth_Castle_Priory = new LatLng(55.0177, -1.4179);
+        mMap.addMarker(new MarkerOptions().position(Tynemouth_Castle_Priory).title("Tynemouth Castle & Priory"));
+        LatLng Dunstanburgh = new LatLng(55.4894, -1.5950);
+        mMap.addMarker(new MarkerOptions().position(Dunstanburgh).title("Dunstanburgh Castle"));
+        LatLng Chillingham = new LatLng(55.5259, -1.9038);
+        mMap.addMarker(new MarkerOptions().position(Chillingham).title("Chillingham Castle"));
+        LatLng Berwick = new LatLng(55.7736, -2.0125);
+        mMap.addMarker(new MarkerOptions().position(Berwick).title("Berwick Castle"));
+        LatLng Prudhoe = new LatLng(54.9649, -1.8582);
+        mMap.addMarker(new MarkerOptions().position(Prudhoe).title("Prudhoe Castle"));
+        LatLng Edlingham = new LatLng(55.3767, -1.8185);
+        mMap.addMarker(new MarkerOptions().position(Edlingham).title("Edlingham Castle"));
+
+    }
+
+    /* imports json layer which acts as the boundary for the google maps */
+    public void getJsonLayer() {
+
+        try {
+            GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.geojson, getApplicationContext());
+
+            GeoJsonPolygonStyle map = layer.getDefaultPolygonStyle();
+            map.setFillColor(Color.argb(70,255,195,195));
+            map.setStrokeWidth(5);
+            map.setStrokeColor(Color.rgb(255,77,77));
+
+            layer.addLayerToMap();
+
+        }catch (IOException ex) {
+            Log.e("IOException", ex.getLocalizedMessage());
+        } catch (JSONException ex) {
+            Log.e("JSONException", ex.getLocalizedMessage());
+        }
+    }
 }
 
