@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.twitter.sdk.android.core.Callback;
 
 import android.support.annotation.NonNull;
@@ -33,7 +35,7 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 public class AuthorisationFragment extends Fragment {
     /* Declarations */
     TwitterLoginButton twitterLoginButton;
-
+    private GoogleApiClient mGoogleApiClient;
     /* End Declarations */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,9 +61,9 @@ public class AuthorisationFragment extends Fragment {
         twitterLoginButton = view.findViewById(R.id.twitterLoginButton);
         SignInButton signInButton = view.findViewById(R.id.googleLoginButton);
 
+        /* Google */
         // Style buttons to produce similar widths and heights //
         signInButton.setStyle(SignInButton.SIZE_WIDE, SignInButton.COLOR_LIGHT); // GoogleSignIn width & colours
-
         /* Twitter */
         twitterLoginButton.setTextSize(14);
         twitterLoginButton.setTypeface(Typeface.DEFAULT_BOLD);

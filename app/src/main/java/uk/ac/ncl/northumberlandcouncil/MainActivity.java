@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -54,6 +55,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /* End context creation */
 
 
+        /* Create google context */
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        /* End context creation */
 
         /* Add menu button */
         Toolbar toolbar = findViewById(R.id.toolBar);
