@@ -11,4 +11,9 @@
     <string name="title_activity_maps">Map</string>
     <!-- End twitter keys !-->
 
+    <!-- Google Keys !-->
+    <string name="com_google_SECRET">457434229939-6ui451k3e9bpvvsgjb9noqc9f7lblp0m.apps.googleusercontent.com</string>
+
+    <!-- End Google Keys !-->
+
 </resources>
