@@ -55,11 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /* End context creation */
 
 
-        /* Create google context */
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        /* End context creation */
 
         /* Add menu button */
         Toolbar toolbar = findViewById(R.id.toolBar);

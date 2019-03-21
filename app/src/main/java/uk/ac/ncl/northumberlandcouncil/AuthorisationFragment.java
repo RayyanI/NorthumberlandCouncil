@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.twitter.sdk.android.core.Callback;
 
 import android.support.annotation.NonNull;
@@ -35,7 +33,6 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 public class AuthorisationFragment extends Fragment {
     /* Declarations */
     TwitterLoginButton twitterLoginButton;
-    private GoogleApiClient mGoogleApiClient;
     /* End Declarations */
     @Override
     public void onCreate(Bundle savedInstanceState) {
