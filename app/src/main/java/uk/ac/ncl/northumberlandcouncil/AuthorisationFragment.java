@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.twitter.sdk.android.core.Callback;
 
 import android.support.annotation.NonNull;
@@ -21,6 +22,12 @@ import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 /* End library imports */
 
 /**
@@ -30,9 +37,27 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
  * Created on 21/02/2019
  * Last modified 21/02/2019 (R Iqbal)
  */
-public class AuthorisationFragment extends Fragment {
+public class AuthorisationFragment extends Fragment implements  GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.googleLoginButton:
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_LOG_IN);
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
     /* Declarations */
-    TwitterLoginButton twitterLoginButton;
+    private static final int RC_LOG_IN = 3820;
+    private GoogleApiClient mGoogleApiClient;
+    private TwitterLoginButton twitterLoginButton;
+
+
 
     /* End Declarations */
     @Override
@@ -65,6 +90,19 @@ public class AuthorisationFragment extends Fragment {
         /* Twitter */
         twitterLoginButton.setTextSize(14);
         twitterLoginButton.setTypeface(Typeface.DEFAULT_BOLD);
+
+        /* Handle google login */
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestServerAuthCode(getString(R.string.com_google_SECRET))
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder((MainActivity) getActivity() /* Context */)
+                .enableAutoManage((MainActivity) getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        view.findViewById(R.id.googleLoginButton).setOnClickListener(this);
 
         /* Handle twitter login */
         twitterLoginButton.setCallback(new Callback<TwitterSession>() {
@@ -106,11 +144,27 @@ public class AuthorisationFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        /* If the login is for Google */
+        if (requestCode == RC_LOG_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+
         // Pass the activity result to the twitter login button
         twitterLoginButton.onActivityResult(requestCode, resultCode, data);
     }
 
 
+    private void handleSignInResult(GoogleSignInResult result ) {
+        if (result.isSuccess()) {
+            GoogleSignInAccount acct = result.getSignInAccount();
+            System.out.println(acct.getDisplayName());
+
+        }
+        System.out.println("Nope");
+
+    }
     /**
      * Update the user interface upon a successful login
      *
