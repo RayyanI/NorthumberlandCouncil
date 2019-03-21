@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import java.io.*;
 import java.net.*;
+
+import android.widget.ImageView;
 import android.widget.TextView;
 /* End library imports */
 
@@ -39,12 +41,24 @@ public class InformationFragment extends Fragment {
     private int childPrice; /* Price for a child to enter */
     private int adultPrice; /* Price for an adult to enter */
 
-    TextView castleNameTV = (TextView)getView().findViewById(R.id.castle_name); /* Displayed castle name to change */
+    TextView castleNameTV; /* Displayed castle name to change */
+    TextView castleLocationTV;
+    TextView castleRatingTV;
+    ImageView castlePhotoImg;
+    TextView castleWebsiteTV;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        TextView castleNameTV = (TextView)getView().findViewById(R.id.castle_name);
+        TextView castleLocationTV = (TextView)getView().findViewById(R.id.castle_address);
+        TextView castleRatingTV = (TextView)getView().findViewById(R.id.rating);
+        ImageView castlePhotoImg = (ImageView)getView().findViewById(R.id.castle_img);
+        TextView castleWebsiteTV = (TextView)getView().findViewById(R.id.castle_name);
+
         return inflater.inflate(R.layout.fragment_information, container, false);
+
 
 
     }
@@ -116,6 +130,15 @@ public class InformationFragment extends Fragment {
         System.out.println("Photo Reference: " + photoReference);
         System.out.println("Rating: " + rating);
         System.out.println("================================");
+    }
+
+    // When called it updates the page information
+
+    private void setCastleDetails(String castleN, String castleL, String castleR, String castleImgRef){
+        castleNameTV.setText(castleN);
+        castleLocationTV.setText(castleL);
+        castleRatingTV.setText(castleR);
+//        castlePhotoImg.setImage(castleImgRef); Will hold the image
     }
 
 }

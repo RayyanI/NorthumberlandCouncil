@@ -8,6 +8,7 @@
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
+    <!-- Stores everything in linear !-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,10 +39,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!-- Stores everything in the scroll view in a linear layout !-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <!-- Multiple layouts were required to get the textView on top of the imageView and
+                    then position it to the bottom of the image !-->
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -52,13 +57,11 @@
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:id="@+id/imageView3"
+                            android:id="@+id/castle_img"
                             android:layout_width="wrap_content"
                             android:layout_height="277dp"
                             android:layout_marginStart="8dp"
-                            android:layout_marginLeft="8dp"
                             android:layout_marginEnd="8dp"
-                            android:layout_marginRight="8dp"
                             android:layout_marginBottom="8dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -83,6 +86,12 @@
 
                 </FrameLayout>
 
+                <!-- End of image and castle name positioning !-->
+
+                <!-- Castle details gathered from the API will be positioned in the following locations !-->
+
+                <!-- Opening time header !-->
+
                 <TextView
                     android:id="@+id/header"
                     android:layout_width="match_parent"
@@ -91,12 +100,20 @@
                     android:textSize="25sp"
                     android:textStyle="bold" />
 
+                <!-- End opening time header !-->
+
+                <!-- Opening times text !-->
+
                 <TextView
                     android:id="@+id/castle_times"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:text="        Castle times"
                     android:textSize="20sp" />
+
+                <!-- End opening times text !-->
+
+                <!-- Prices header !-->
 
                 <TextView
                     android:id="@+id/prices_header"
@@ -105,6 +122,10 @@
                     android:text="     Prices"
                     android:textSize="25sp"
                     android:textStyle="bold" />
+
+                <!-- End prices header !-->
+
+                <!-- Prices details !-->
 
                 <TextView
                     android:id="@+id/adult_price"
@@ -120,46 +141,68 @@
                     android:text="        Child - £0"
                     android:textSize="20sp" />
 
+                <!-- End price details !-->
+
+                <!-- Rating header !-->
                 <TextView
-                    android:id="@+id/age_range"
+                    android:id="@+id/rating_header"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    android:text="     Age Range:"
+                    android:text="     Rating:"
                     android:textSize="25sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/child_price2"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:text="        Ages allowed"
-                    android:textSize="20sp" />
+                <!-- End rating header !-->
+
+                <!-- Rating details !-->
 
                 <TextView
-                    android:id="@+id/age_range2"
+                    android:id="@+id/rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="        Castle rating"
+                    android:textSize="20sp" />
+
+                <!-- End rating details !-->
+
+                <!-- Website header !-->
+
+                <TextView
+                    android:id="@+id/website_header"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:text="     Website:"
                     android:textSize="25sp"
                     android:textStyle="bold" />
 
+                <!-- End website header !-->
+
+                <!-- Website link !-->
+
                 <TextView
-                    android:id="@+id/child_price3"
+                    android:id="@+id/website"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:text="        http://examplewebsite.co.uk"
                     android:textSize="20sp" />
 
+                <!-- End website link !-->
+
+                <!-- Address header !-->
+
                 <TextView
-                    android:id="@+id/age_range3"
+                    android:id="@+id/address_header"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:text="     Address:"
                     android:textSize="25sp"
                     android:textStyle="bold" />
 
+                <!-- End address header !-->
+
+                <!-- Castle address details !-->
                 <EditText
-                    android:id="@+id/editText3"
+                    android:id="@+id/castle_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -167,8 +210,11 @@
                     android:text="        Line 1\n        Line 2\n        Line 3\n        Line 4"
                     android:textSize="20sp" />
 
+                <!-- End castle address details !-->
             </LinearLayout>
+            <!-- Ennd of details linear layout !-->
         </ScrollView>
+        <!-- End of details scroll view !-->
 
     </LinearLayout>
 
