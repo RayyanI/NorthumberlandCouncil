@@ -122,6 +122,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportActionBar().hide(); // hide action bar on login page
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AuthorisationFragment()).commit();
                 break;
+            case R.id.mapactivity:
+                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit()   ;
+                 break;
             case R.id.nav_website:
                 Toast.makeText(this, "Load website", Toast.LENGTH_SHORT).show();
                 break;

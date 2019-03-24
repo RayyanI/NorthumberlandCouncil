@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
     <!-- Navigation Bar -->
@@ -17,6 +18,10 @@
             android:id="@+id/nav_login"
             android:icon="@drawable/ic_authorisation"
             android:title="Login" />
+        <item
+            android:id="@+id/mapactivity"
+            android:title="Map"/>
+
     </group>
     <!-- End navigation bar !-->
 
