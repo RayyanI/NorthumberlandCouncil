@@ -3,17 +3,18 @@ package uk.ac.ncl.northumberlandcouncil;
 
 /* Begin library imports */
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
-import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -123,7 +124,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AuthorisationFragment()).commit();
                 break;
             case R.id.mapactivity:
-                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit()   ;
+                MapFragment mapFragment = new MapFragment();
+                FragmentManager manage = getSupportFragmentManager();
+                manage.beginTransaction().replace(R.id.mapactivity, mapFragment).commit();
+
                  break;
             case R.id.nav_view_castles:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ViewCastlesFragment()).commit()   ;
