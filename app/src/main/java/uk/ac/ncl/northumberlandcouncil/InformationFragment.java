@@ -50,12 +50,14 @@ public class InformationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        System.out.println("CHANGED");
+        View view = inflater.inflate(R.layout.fragment_information, container, false);
 
-        TextView castleNameTV = (TextView)getView().findViewById(R.id.castle_name);
-        TextView castleLocationTV = (TextView)getView().findViewById(R.id.castle_address);
-        TextView castleRatingTV = (TextView)getView().findViewById(R.id.rating);
-        ImageView castlePhotoImg = (ImageView)getView().findViewById(R.id.castle_img);
-        TextView castleWebsiteTV = (TextView)getView().findViewById(R.id.castle_name);
+        TextView castleNameTV = view.findViewById(R.id.castle_name);
+        TextView castleLocationTV = view.findViewById(R.id.castle_address);
+        TextView castleRatingTV = view.findViewById(R.id.rating);
+        ImageView castlePhotoImg = view.findViewById(R.id.castle_img);
+        TextView castleWebsiteTV = view.findViewById(R.id.castle_name);
 
         return inflater.inflate(R.layout.fragment_information, container, false);
 
