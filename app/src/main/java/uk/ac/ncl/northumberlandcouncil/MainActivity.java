@@ -124,11 +124,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AuthorisationFragment()).commit();
                 break;
             case R.id.mapactivity:
-                MapFragment mapFragment = new MapFragment();
-                FragmentManager manage = getSupportFragmentManager();
-                manage.beginTransaction().replace(R.id.mapactivity, mapFragment).commit();
-
-                 break;
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
+                break;
             case R.id.nav_website:
                 Toast.makeText(this, "Load website", Toast.LENGTH_SHORT).show();
                 break;
