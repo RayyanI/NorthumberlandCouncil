@@ -41,10 +41,12 @@ dependencies {
     implementation 'com.twitter.sdk.android:twitter:3.3.0'
     /* End Authorisation Dependencies */
     /* Maps Dependencies */
+
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     /* End Maps Dependencies */
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
 }

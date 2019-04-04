@@ -51,7 +51,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         GoogleMap theMap;
         theMap = googleMap;
 
-        LatLng location = new LatLng(54.9783, 1.6178);
+        LatLng location = new LatLng(54, 1.68);
         MarkerOptions options = new MarkerOptions();
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 

@@ -11,8 +11,15 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.sensor.stepcounter"
+        android:required="false"/>
+
+    <uses-feature
+        android:name="android.hardware.sensor.stepdetector"
+        android:required="false"/>
     <permission
-        android:name="uk.ac.ncl.northumberlandcouncil.foto.permission.MAPS_RECEIVE"
+        android:name="uk.ac.ncl.northumberlandcouncil.permission.MAPS_RECEIVE"
         android:protectionLevel="signature"/>
     <uses-permission    android:name="uk.ac.ncl.northumberlandcouncil.permission.MAPS_RECEIVE"/>
     <application
@@ -28,6 +35,10 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBt2RpqiKdletwhDxcvPZ-dqTY04xaV2xw" /> <!-- <meta-dataandroid:name="com.google.android.actions"android:resource="@xml/map_main" /> -->
         <!-- Modified style for no action bar ! -->
+        <!--embeds the google play services version to app manifest-->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
