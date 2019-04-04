@@ -63,6 +63,16 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /* Handle google login */
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestServerAuthCode(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder((MainActivity) getActivity() /* Context */)
+                .enableAutoManage((MainActivity) getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
     /**
@@ -91,16 +101,6 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
         twitterLoginButton.setTextSize(14);
         twitterLoginButton.setTypeface(Typeface.DEFAULT_BOLD);
 
-        /* Handle google login */
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestServerAuthCode(getString(R.string.com_google_SECRET))
-                .requestEmail()
-                .build();
-
-        mGoogleApiClient = new GoogleApiClient.Builder((MainActivity) getActivity() /* Context */)
-                .enableAutoManage((MainActivity) getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
 
         view.findViewById(R.id.googleLoginButton).setOnClickListener(this);
 
@@ -148,6 +148,7 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
         /* If the login is for Google */
         if (requestCode == RC_LOG_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            System.out.println(result.getStatus());
             handleSignInResult(result);
         }
 
@@ -162,7 +163,7 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
             System.out.println(acct.getDisplayName());
 
         }
-        System.out.println("Nope");
+
 
     }
     /**
