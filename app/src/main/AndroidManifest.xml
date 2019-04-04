@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="uk.ac.ncl.northumberlandcouncil">
-    <!-- The ACCESS_COARSE/FINE_LOCATION permissions are not required to useGoogle Maps Android API v2, but you must specify either coarse or finelocation permissions for the 'MyLocation' functionality. -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- Allows the Google Maps API to check the connection status in order to determine whether data can be downloaded. -->
-
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission  android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+    <permission
+        android:name="uk.ac.ncl.northumberlandcouncil.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature"/>
+    <uses-permission    android:name="uk.ac.ncl.northumberlandcouncil.MAPS_RECEIVE"/>
 
     <application
         android:allowBackup="true"

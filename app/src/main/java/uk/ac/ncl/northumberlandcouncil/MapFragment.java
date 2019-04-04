@@ -25,19 +25,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View look = inflater.inflate(R.layout.fragment_map, container, false);
         return look;
+
     }
 
-    public void onActivityCreated(View view, @Nullable Bundle savedInstanceState){
-        super.onViewCreated(view, savedInstanceState);
-        SupportMapFragment mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.mapactivity);
-        if(mapFragment!=null){
-            mapFragment.getMapAsync(this);
+    public void onActivityCreated( @Nullable Bundle savedInstanceState){
+        super.onActivityCreated( savedInstanceState);
+        SupportMapFragment sMapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.mapactivity);
+
+        if(sMapFragment!=null){
+            sMapFragment.getMapAsync(this);
         }
     }
 
