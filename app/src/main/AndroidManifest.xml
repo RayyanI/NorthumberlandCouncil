@@ -1,64 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="uk.ac.ncl.northumberlandcouncil">
+<?xml version="1.0" encoding="UTF-8"?>
 
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality.
-    -->
+    <manifest package="uk.ac.ncl.northumberlandcouncil" xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <!--The ACCESS_COARSE/FINE_LOCATION permissions are not required to useGoogle Maps Android API v2, but you must specify either coarse or finelocation permissions for the 'MyLocation' functionality. -->
+
+
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <!-- Allows the Google Maps API to check the connection status in order to determine whether data can be downloaded. -->
+
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <!-- Allows the Google Maps API to cache map tile data in the device's external storage area. -->
+
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <!-- Allows the Google Maps API to use WiFi or mobile cell data (or both) to determine the device's location. -->
+
+
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <!-- Allows the Google Maps API to use the Global Positioning System (GPS) to determine the device's location to within a very small area. -->
+
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
-    <application
-        android:allowBackup="true"
-        android:fullBackupContent="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
 
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+    -<application android:theme="@style/AppTheme" android:supportsRtl="true" android:roundIcon="@mipmap/ic_launcher_round" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:fullBackupContent="true" android:allowBackup="true">
 
-        <!--
-        <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/map_main" />
-        -->
-        <!-- Modified style for no action bar ! -->
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
+    <!--The API key for Google Maps-based APIs is defined as a string resource.(See the file "res/values/google_maps_api.xml").Note that the API key is linked to the encryption key used to sign the APK.You need a different API key for each encryption key, including the release key that is used tosign the APK for publishing.You can define the keys for the debug and release targets in src/debug/ and src/release/. -->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
+
+    <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBt2RpqiKdletwhDxcvPZ-dqTY04xaV2xw"/>
+
+    <!--<meta-dataandroid:name="com.google.android.actions"android:resource="@xml/map_main" /> -->
+
+
+    <!-- Modified style for no action bar ! -->
+
+
+
+    -<activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar">
+
+
+    -<intent-filter>
+
+    <action android:name="android.intent.action.MAIN"/>
+
+    <action android:name="android.intent.action.VIEW"/>
+
+    <category android:name="android.intent.category.LAUNCHER"/>
+
+</intent-filter>
+
+</activity>
+
+</application>
 
 </manifest>
