@@ -18,6 +18,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
+    public MapFragment() {
+        // Required empty public constructor
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,10 +33,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return look;
     }
 
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+    public void onActivityCreated(View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.mapactivity);
-        System.out.print("TEST 3");
+        if(mapFragment!=null){
+            mapFragment.getMapAsync(this);
+        }
     }
 
 
@@ -50,7 +55,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         options.position(location).title("newcastle");
         theMap.addMarker(options);
 
-        System.out.print("TEST 4");
+
     }
 
 

@@ -5,4 +5,5 @@
     <dimen name="tw__login_btn_left_padding" tools:override="true">0dp</dimen>
     <dimen name="tw__login_btn_right_padding" tools:override="true">0dp</dimen>
     <dimen name="tw__login_btn_drawable_padding" tools:override="true">4dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>
