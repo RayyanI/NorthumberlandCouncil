@@ -21,7 +21,8 @@
         <item
             android:id="@+id/mapactivity"
 
-            android:title="Map"/>
+            android:icon="@drawable/ic_gps"
+            android:title="Map" />
 
 
     </group>
