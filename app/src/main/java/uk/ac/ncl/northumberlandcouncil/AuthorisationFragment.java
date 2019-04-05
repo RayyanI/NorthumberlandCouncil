@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.common.ConnectionResult;
 import com.twitter.sdk.android.core.Callback;
 
@@ -16,6 +17,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.common.SignInButton;
 import com.twitter.sdk.android.core.Result;
@@ -35,7 +37,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
  *
  * @author Rayyan Iqbal
  * Created on 21/02/2019
- * Last modified 21/02/2019 (R Iqbal)
+ * Last modified 05/04/2019 (R Iqbal)
  */
 public class AuthorisationFragment extends Fragment implements  GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
     @Override
@@ -63,6 +65,16 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /* Handle google login */
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestServerAuthCode(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder((MainActivity) getActivity() /* Context */)
+                .enableAutoManage((MainActivity) getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
     /**
@@ -80,27 +92,21 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
 
         /* Configure UI */
 
-        // Select the buttons //
+        // Select the buttons and text elements //
         twitterLoginButton = view.findViewById(R.id.twitterLoginButton);
         SignInButton signInButton = view.findViewById(R.id.googleLoginButton);
+        TextView guestText = view.findViewById(R.id.guestText);
+
 
         // Style buttons to produce similar widths and heights //
         signInButton.setStyle(SignInButton.SIZE_WIDE, SignInButton.COLOR_LIGHT); // GoogleSignIn width & colours
 
+        /* Guest */
+        guestText.setOnClickListener((View v) -> updateUI());
         /* Twitter */
         twitterLoginButton.setTextSize(14);
         twitterLoginButton.setTypeface(Typeface.DEFAULT_BOLD);
 
-        /* Handle google login */
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestServerAuthCode(getString(R.string.com_google_SECRET))
-                .requestEmail()
-                .build();
-
-        mGoogleApiClient = new GoogleApiClient.Builder((MainActivity) getActivity() /* Context */)
-                .enableAutoManage((MainActivity) getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
 
         view.findViewById(R.id.googleLoginButton).setOnClickListener(this);
 
@@ -113,7 +119,9 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
             @Override
             public void success(Result<TwitterSession> result) {
                 System.out.println(result.data.getUserName());
-                updateUI(result.data);
+                ((MainActivity) getActivity()).onLoginResult(result); // update ui in activity
+                updateUI();
+
 
             }
 
@@ -148,6 +156,7 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
         /* If the login is for Google */
         if (requestCode == RC_LOG_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            System.out.println(result.getStatus());
             handleSignInResult(result);
         }
 
@@ -158,21 +167,23 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
 
     private void handleSignInResult(GoogleSignInResult result ) {
         if (result.isSuccess()) {
-            GoogleSignInAccount acct = result.getSignInAccount();
-            System.out.println(acct.getDisplayName());
+            ((MainActivity) getActivity()).onLoginResult(result); // update ui in activity
+            updateUI();
 
         }
-        System.out.println("Nope");
+
 
     }
     /**
-     * Update the user interface upon a successful login
+     * Update the user interface upon a successful login by instancing the home fragment, and removing the current from stack
      *
-     * @param result object containing user information
      */
-    private void updateUI(TwitterSession result) {
-        twitterLoginButton.setText(result.getUserName());
-        System.out.println(result.getUserName());
+    private void updateUI() {
+        ((MainActivity) getActivity()).restoreActionBar();
+        getFragmentManager().beginTransaction()
+                .replace(((ViewGroup) getView().getParent()).getId(), new HomeFragment())
+                .addToBackStack(null)
+                .commit();
     }
 
 
