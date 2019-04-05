@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
+import android.widget.Button;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     GoogleMap theMap;
@@ -38,6 +39,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         EditText locationSearch = (EditText) getView().findViewById(R.id.address);
         String location = locationSearch.getText().toString();
         List<Address>addressList = null;
+
 
 
         if (location != null || !location.equals("")) {
@@ -56,9 +58,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    @Override
+
+
+        @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View look = inflater.inflate(R.layout.fragment_map, container, false);
+
+        Button searchButton = (Button) look.findViewById(R.id.searchbutton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //put functionality here
+            }
+        });
+
+
+
+
         mapview = (MapView) look.findViewById(R.id.mapactivity);
         mapview.onCreate(savedInstanceState);
         mapview.onResume();
@@ -87,11 +103,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 theMap.setBuildingsEnabled(true);
 
               theMap.addMarker(new MarkerOptions().position(location).title("Newcastle"));
-theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,14f));
+                theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,14f));
 
 
             }
-
 
     @Override
     public void onResume() {
