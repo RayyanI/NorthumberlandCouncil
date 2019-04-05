@@ -28,6 +28,9 @@ import java.io.IOException;
 import java.util.List;
 import android.widget.Button;
 
+import android.view.inputmethod.InputMethodManager;
+
+
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     GoogleMap theMap;
     MapView mapview;
@@ -69,6 +72,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View view) {
                 //put functionality here
+
+
+
             }
         });
 
