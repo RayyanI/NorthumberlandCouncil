@@ -29,7 +29,7 @@
         <!-- The API key for Google Maps-based APIs is defined as a string resource.(See the file "res/values/google_maps_api.xml").Note that the API key is linked to the encryption key used to sign the APK.You need a different API key for each encryption key, including the release key that is used tosign the APK for publishing.You can define the keys for the debug and release targets in src/debug/ and src/release/. -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBt2RpqiKdletwhDxcvPZ-dqTY04xaV2xw" /> <!-- <meta-dataandroid:name="com.google.android.actions"android:resource="@xml/map_main" /> -->
+            android:value="AIzaSyA-SYN3vPXJ0Z7Xgw7QhkhTl7fo9xL48yw" /> <!-- <meta-dataandroid:name="com.google.android.actions"android:resource="@xml/map_main" /> -->
         <!-- Modified style for no action bar ! -->
 
         <activity
