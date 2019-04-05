@@ -12,11 +12,13 @@
     <!-- End twitter keys !-->
 
     <!-- Google Keys !-->
-    <string name="com_google_SECRET">457434229939-6ui451k3e9bpvvsgjb9noqc9f7lblp0m.apps.googleusercontent.com</string>
+    <string name="default_web_client_id">457434229939-ttbvjn9sjbk37790ceh8bdepaj8qfp36.apps.googleusercontent.com</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps2">Map</string>
+    <string name="title_activity_map_fragment">MapFragmentActivity</string>
+    <string name="action_settings">Settings</string>
 
     <!-- End Google Keys !-->
 

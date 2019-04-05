@@ -9,49 +9,94 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
+    GoogleMap theMap;
+    MapView mapview;
 
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public MapFragment() {
+        // Required empty public constructor
     }
+
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View look = inflater.inflate(R.layout.fragment_map, container, false);
+        mapview = (MapView) look.findViewById(R.id.mapactivity);
+        mapview.onCreate(savedInstanceState);
+        mapview.onResume();
+
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mapview.getMapAsync(this);
         return look;
+
+
     }
 
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
-        super.onViewCreated(view, savedInstanceState);
-        SupportMapFragment mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.mapactivity);
-        System.out.print("TEST 3");
-    }
+//    public void onActivityCreated( @Nullable Bundle savedInstanceState){
+//        super.onActivityCreated( savedInstanceState);
+//        SupportMapFragment sMapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.mapactivity);
+//
+//        if(sMapFragment!=null){
+//            sMapFragment.getMapAsync(this);
+//        }
+//    }
+
+
+            //DISPLAYS MAP
+            public void onMapReady (GoogleMap googleMap){
+
+                theMap = googleMap;
+
+                LatLng location = new LatLng(54.9783, 1.6178);
+                MarkerOptions options = new MarkerOptions();
+                googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                theMap.setBuildingsEnabled(true);
+
+              theMap.addMarker(new MarkerOptions().position(location).title("hello"));
+theMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+
+
+            }
 
 
     @Override
-    //DISPLAYS MAP
-    public void onMapReady(GoogleMap googleMap) {
-        GoogleMap theMap;
-        theMap = googleMap;
+    public void onResume() {
+        super.onResume();
+        mapview.onResume();
+    }
 
-        LatLng location = new LatLng(54.9783, 1.6178);
-        MarkerOptions options = new MarkerOptions();
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapview.onPause();
+    }
 
-        options.position(location).title("newcastle");
-        theMap.addMarker(options);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapview.onDestroy();
+    }
 
-        System.out.print("TEST 4");
-        }
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapview.onLowMemory();
+    }
 
 
 }
