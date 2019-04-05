@@ -15,26 +15,6 @@
         android:orientation="vertical">
 
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-            <!-- Logo inside of toolbar !-->
-            <ImageView
-                android:id="@+id/logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/logo"
-                android:src="@drawable/ic_logo" />
-            <!-- End logo inside of toolbar !-->
-
-        </android.support.v7.widget.Toolbar>
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -73,10 +53,9 @@
                             android:layout_width="297dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:layout_marginLeft="8dp"
                             android:layout_marginBottom="8dp"
-                            android:text="TextView"
-                            android:textColor="@color/tw__composer_white"
+                            android:text="Alnwick castle"
+                            android:textColor="@color/tw__composer_black"
                             android:textSize="35sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
