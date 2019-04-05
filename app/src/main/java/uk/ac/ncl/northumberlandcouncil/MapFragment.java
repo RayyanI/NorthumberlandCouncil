@@ -1,12 +1,17 @@
 package uk.ac.ncl.northumberlandcouncil;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -19,6 +24,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.List;
+
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     GoogleMap theMap;
     MapView mapview;
@@ -26,7 +34,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public MapFragment() {
         // Required empty public constructor
     }
+    public void onMapSearch(View view) {
+        EditText locationSearch = (EditText) getView().findViewById(R.id.address);
+        String location = locationSearch.getText().toString();
+        List<Address>addressList = null;
 
+
+        if (location != null || !location.equals("")) {
+            Geocoder geocoder = new Geocoder(getActivity());
+            try {
+                addressList = geocoder.getFromLocationName(location, 1);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Address address = addressList.get(0);
+            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+            theMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
+            theMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        }
+    }
 
 
     @Override
@@ -60,7 +87,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 theMap.setBuildingsEnabled(true);
 
               theMap.addMarker(new MarkerOptions().position(location).title("Newcastle"));
-theMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,14f));
 
 
             }

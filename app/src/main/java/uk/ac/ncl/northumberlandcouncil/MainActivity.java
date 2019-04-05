@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * @param resultCode  - response from server
      * @param data        - data i.e. login
      */
-    @Override
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
