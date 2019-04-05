@@ -47,27 +47,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-//    public void onActivityCreated( @Nullable Bundle savedInstanceState){
-//        super.onActivityCreated( savedInstanceState);
-//        SupportMapFragment sMapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.mapactivity);
-//
-//        if(sMapFragment!=null){
-//            sMapFragment.getMapAsync(this);
-//        }
-//    }
 
 
-            //DISPLAYS MAP
+           //DISPLAYS MAP
             public void onMapReady (GoogleMap googleMap){
 
                 theMap = googleMap;
 
-                LatLng location = new LatLng(54.9783, 1.6178);
+                LatLng location = new LatLng(54.97385, -1.6252);
                 MarkerOptions options = new MarkerOptions();
-                googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                theMap.setBuildingsEnabled(true);
 
-              theMap.addMarker(new MarkerOptions().position(location).title("hello"));
+                theMap.setBuildingsEnabled(true);
+                
+              theMap.addMarker(new MarkerOptions().position(location).title("Newcastle"));
 theMap.moveCamera(CameraUpdateFactory.newLatLng(location));
 
 
