@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                  break;
             case R.id.nav_view_castles:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ViewCastlesFragment()).commit()   ;
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ViewCastlesFragment()).commit();
                 break;
             case R.id.nav_website:
                 Toast.makeText(this, "Load website", Toast.LENGTH_SHORT).show();
