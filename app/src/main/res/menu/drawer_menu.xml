@@ -20,7 +20,9 @@
             android:title="Login" />
         <item
             android:id="@+id/mapactivity"
+
             android:title="Map"/>
+
 
     </group>
     <!-- End navigation bar !-->

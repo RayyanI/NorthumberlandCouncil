@@ -49,4 +49,7 @@
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_menu" />
     <!-- End Navigation Styling !-->
+
+
+
 </android.support.v4.widget.DrawerLayout>
