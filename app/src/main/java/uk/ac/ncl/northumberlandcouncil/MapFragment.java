@@ -35,6 +35,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapview = (MapView) look.findViewById(R.id.mapactivity);
         mapview.onCreate(savedInstanceState);
         mapview.onResume();
+
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
@@ -68,6 +69,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
               theMap.addMarker(new MarkerOptions().position(location).title("hello"));
 theMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+
 
             }
 
