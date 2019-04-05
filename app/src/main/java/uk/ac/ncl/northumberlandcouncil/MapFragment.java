@@ -38,19 +38,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapSearch(View view) {
         EditText locationSearch = (EditText) getView().findViewById(R.id.address);
         String location = locationSearch.getText().toString();
-        List<Address>addressList = null;
+        List<Address>listOfAddress = null;
 
 
 
         if (location != null || !location.equals("")) {
             Geocoder geocoder = new Geocoder(getActivity());
             try {
-                addressList = geocoder.getFromLocationName(location, 1);
+                listOfAddress = geocoder.getFromLocationName(location, 1);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Address address = addressList.get(0);
+            Address address = listOfAddress.get(0);
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
             theMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
             theMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
