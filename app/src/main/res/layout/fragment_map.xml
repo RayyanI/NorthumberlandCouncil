@@ -15,7 +15,10 @@
         map:uiRotateGestures="true"
         map:uiScrollGestures="false"
         map:uiTiltGestures="true"
-        map:uiZoomControls="false"
-        map:uiZoomGestures="true"/>
+        map:uiZoomControls="true"
+        map:uiZoomGestures="true"
+
+        />
+
 
 </RelativeLayout>

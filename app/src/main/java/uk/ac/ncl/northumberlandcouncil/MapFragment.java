@@ -58,7 +58,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 MarkerOptions options = new MarkerOptions();
 
                 theMap.setBuildingsEnabled(true);
-                
+
               theMap.addMarker(new MarkerOptions().position(location).title("Newcastle"));
 theMap.moveCamera(CameraUpdateFactory.newLatLng(location));
 
