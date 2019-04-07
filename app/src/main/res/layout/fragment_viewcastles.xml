@@ -23,19 +23,43 @@
             android:text="Alnwick castle" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/bamburgh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="Bamburgh castle" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/warkworth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="Warkworth castle" />
+
+        <Button
+            android:id="@+id/lindisfarne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lindisfarne castle" />
+
+        <Button
+            android:id="@+id/tynemouth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tynemouth castle" />
+
+        <Button
+            android:id="@+id/dunstanburgh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="dunstanburgh castle" />
+
+        <Button
+            android:id="@+id/chillingham"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="chillingham castle" />
 
     </LinearLayout>
-            <!-- Ennd of details linear layout !-->
+    <!-- Ennd of details linear layout !-->
 
     <!-- Navigation Styling !-->
     <!-- End Navigation Styling !-->
