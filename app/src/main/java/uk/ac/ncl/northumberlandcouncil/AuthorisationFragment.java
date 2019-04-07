@@ -56,7 +56,7 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
 
     /* Declarations */
     private static final int RC_LOG_IN = 3820;
-    private GoogleApiClient mGoogleApiClient;
+    public static GoogleApiClient mGoogleApiClient;
     private TwitterLoginButton twitterLoginButton;
 
 
@@ -71,10 +71,13 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
                 .requestEmail()
                 .build();
 
-        mGoogleApiClient = new GoogleApiClient.Builder((MainActivity) getActivity() /* Context */)
-                .enableAutoManage((MainActivity) getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+
+        if(mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
+            mGoogleApiClient = new GoogleApiClient.Builder(getActivity() /* Context */)
+                    .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
+        }
     }
 
     /**
@@ -140,7 +143,6 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
         return view;
 
     }
-
 
     /**
      * Handle authorisation responses, passed from this fragment's activity container

@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.twitter.sdk.android.core.DefaultLogger;
@@ -29,6 +30,7 @@ import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
 
 import java.util.List;
@@ -43,7 +45,14 @@ import java.util.List;
  * Last modified 05/04/2019 (R Iqbal)
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    /* Class Variables */
+
     private DrawerLayout drawer;
+    private Result<TwitterSession> twitterSessionResult = null;
+    private GoogleSignInResult googleSignInResult = null;
+
+    /* End Class Variables */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +93,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         /* End menu button */
+
+        /* Hide logout option if not logged in */
+        hideLogoutFromDrawer();
 
 
         /* Load default activity on start, check instance status to prevent double load upon orientation change */
@@ -138,6 +150,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_website:
                 Toast.makeText(this, "Load website", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.nav_logout:
+                logout();
+                break;
         }
         drawer.closeDrawer(GravityCompat.START); // Close navigation bar
         return true;
@@ -151,7 +166,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /* Update UI */
         ((TextView) findViewById(R.id.username)).setText(twitterSessionResult.data.getUserName());
 
+        this.twitterSessionResult = twitterSessionResult;
+
         hideLoginFromDrawer();
+        showLogoutFromDrawer();
 
     }
 
@@ -160,13 +178,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * Handle the changes to UI upon a successful login request for Google
      * @param result google login object
      */
-    protected void onLoginResult (GoogleSignInResult result) {
+    protected void onLoginResult (GoogleSignInResult googleSignInResult) {
         /* Update UI */
-        GoogleSignInAccount googleSignInAccount = result.getSignInAccount();
+        GoogleSignInAccount googleSignInAccount = googleSignInResult.getSignInAccount();
         ((TextView) findViewById(R.id.username)).setText(googleSignInAccount.getDisplayName());
         ((TextView) findViewById(R.id.email)).setText(googleSignInAccount.getEmail());
 
+        this.googleSignInResult = googleSignInResult;
+
         hideLoginFromDrawer();
+        showLogoutFromDrawer();
     }
 
 
@@ -177,6 +198,61 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
     }
+
+    /**
+     * Show login fragment from drawer menu
+     */
+    protected void showLoginFromDrawer () {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
+    }
+
+
+    /**
+     * Hide logout from drawer menu
+     */
+    protected void hideLogoutFromDrawer () {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
+    }
+
+    /**
+     * Show logout from drawer menu
+     */
+    protected void showLogoutFromDrawer () {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
+    }
+
+
+    /**
+     * Logout a user that is currently logged in from the system
+     */
+    private void logout () {
+        /* Handle twitter logout */
+        if (twitterSessionResult != null) {
+            TwitterCore.getInstance().getSessionManager().clearActiveSession();
+            twitterSessionResult = null;
+        }
+
+        /* Handle google logout */
+        if (googleSignInResult != null) {
+            Auth.GoogleSignInApi.signOut(AuthorisationFragment.mGoogleApiClient);
+            googleSignInResult = null;
+
+        }
+
+        /* Handle UI changes */
+        hideLogoutFromDrawer();
+        showLoginFromDrawer();
+        ((TextView) findViewById(R.id.username)).setText("Brown Fox");
+        ((TextView) findViewById(R.id.email)).setText("BrownFox@gmail.com");
+
+
+
+    }
+
+
     /**
      * Restores the action bar
      */
@@ -204,7 +280,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
-
     /**
      * Override on back pressed method to deal with closing of navigation bar before display
      */
