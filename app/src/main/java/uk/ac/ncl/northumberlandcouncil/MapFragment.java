@@ -1,5 +1,6 @@
 package uk.ac.ncl.northumberlandcouncil;
 
+import android.hardware.input.InputManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ import java.util.List;
 import android.widget.Button;
 
 import android.view.inputmethod.InputMethodManager;
-
+import android.content.Context;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     GoogleMap theMap;
@@ -72,9 +73,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View view) {
                 //put functionality here
-
-
-
+                closeKeyboard(getActivity());
             }
         });
 
@@ -96,8 +95,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-
-
     //DISPLAYS MAP
     public void onMapReady (GoogleMap googleMap){
 
@@ -112,6 +109,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,14f));
 
 
+    }
+
+    public static void closeKeyboard(android.app.Activity activity) {
+        InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        if (view != null) {
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     @Override
