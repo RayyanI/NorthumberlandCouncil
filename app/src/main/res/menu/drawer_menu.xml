@@ -15,17 +15,22 @@
             android:icon="@drawable/ic_favourites"
             android:title="Favourites" />
         <item
+            android:id="@+id/nav_view_castles"
+            android:icon="@drawable/ic_castle"
+            android:title="View castles" />
+        <item
             android:id="@+id/nav_login"
             android:icon="@drawable/ic_authorisation"
             android:title="Login" />
         <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout" />
+        <item
             android:id="@+id/mapactivity"
             android:icon="@drawable/ic_gps"
             android:title="Map"/>
-        <item
-            android:id="@+id/nav_view_castles"
-            android:icon="@drawable/ic_castle"
-            android:title="View castles" />
+
 
     </group>
     <!-- End navigation bar !-->
