@@ -8,7 +8,8 @@
     <LinearLayout android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <EditText android:layout_width="287dp"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" style="@style/editTextEntryName"
+
             android:id="@+id/address"/>
 
         <Button
