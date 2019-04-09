@@ -37,9 +37,10 @@ import android.content.Context;
 import android.widget.TextView;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback{
+    /* Declarations */
     GoogleMap theMap;
     MapView mapview;
-
+    /* End Declarations */
     public MapFragment() {
         // Required empty public constructor
     }
@@ -80,14 +81,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                /* If search is selected on the keyboard */
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                /* If search is selected on the keyboard  or enter is pressed on the keyboard*/
+                if (actionId == EditorInfo.IME_ACTION_SEARCH ||  event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
                     searchButton.performClick();
                     return true;
-                }
-                /* Else if enter is pressed on the keyboard */
-                else if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                    searchButton.performClick();
                 }
                 return false;
             }
@@ -109,11 +106,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Address address = listOfAddress.get(0);
-                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                    theMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
-                    theMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                    //put functionality here
+                    if (listOfAddress.size() > 0) {
+                        Address address = listOfAddress.get(0);
+                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                        Thread thread = new Thread(new Runnable() {
+                            public void run() {
+                                try {
+                                    theMap.addMarker(new MarkerOptions().position(latLng));
+                                    theMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        thread.run();
+                    }
+
                 }
                 closeKeyboard(getActivity());
             }
