@@ -1,5 +1,6 @@
 package uk.ac.ncl.northumberlandcouncil;
 
+import android.content.SharedPreferences;
 import android.hardware.input.InputManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -9,9 +10,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 
@@ -31,8 +34,9 @@ import android.widget.Button;
 
 import android.view.inputmethod.InputMethodManager;
 import android.content.Context;
+import android.widget.TextView;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback{
     GoogleMap theMap;
     MapView mapview;
 
@@ -69,10 +73,48 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         View look = inflater.inflate(R.layout.fragment_map, container, false);
 
         Button searchButton = (Button) look.findViewById(R.id.searchbutton);
+        EditText editText  = (EditText) look.findViewById(R.id.address);
+        editText.setImeActionLabel("Enter", KeyEvent.KEYCODE_ENTER);
+
+        // Handle searching using the keyboard //
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                /* If search is selected on the keyboard */
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    searchButton.performClick();
+                    return true;
+                }
+                /* Else if enter is pressed on the keyboard */
+                else if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    searchButton.performClick();
+                }
+                return false;
+            }
+        });
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //put functionality here
+                /*  Try to search for a castle with this name */
+                EditText locationSearch = (EditText) getView().findViewById(R.id.address);
+                String location = locationSearch.getText().toString();
+                List<Address>listOfAddress = null;
+                System.out.println(location);
+                if (location != null ) {
+                    Geocoder geocoder = new Geocoder(getActivity());
+                    try {
+                        listOfAddress = geocoder.getFromLocationName(location, 1);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Address address = listOfAddress.get(0);
+                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    theMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
+                    theMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                    //put functionality here
+                }
                 closeKeyboard(getActivity());
             }
         });
