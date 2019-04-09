@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
+import com.google.android.gms.maps.model.Marker;
+
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,51 +32,30 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
+
 import android.widget.Button;
 
 import android.view.inputmethod.InputMethodManager;
 import android.content.Context;
 import android.widget.TextView;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback{
+public class MapFragment extends Fragment implements OnMapReadyCallback {
     /* Declarations */
     GoogleMap theMap;
     MapView mapview;
+  
+
     /* End Declarations */
     public MapFragment() {
         // Required empty public constructor
     }
-    public void onMapSearch(View view) {
-        EditText locationSearch = (EditText) getView().findViewById(R.id.address);
-        String location = locationSearch.getText().toString();
-        List<Address>listOfAddress = null;
-
-
-
-        if (location != null || !location.equals("")) {
-            Geocoder geocoder = new Geocoder(getActivity());
-            try {
-                listOfAddress = geocoder.getFromLocationName(location, 1);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Address address = listOfAddress.get(0);
-            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-            theMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
-            theMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        }
-    }
-
-
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View look = inflater.inflate(R.layout.fragment_map, container, false);
 
         Button searchButton = (Button) look.findViewById(R.id.searchbutton);
-        EditText editText  = (EditText) look.findViewById(R.id.address);
+        EditText editText = (EditText) look.findViewById(R.id.address);
         editText.setImeActionLabel("Enter", KeyEvent.KEYCODE_ENTER);
 
         // Handle searching using the keyboard //
@@ -82,7 +63,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 /* If search is selected on the keyboard  or enter is pressed on the keyboard*/
-                if (actionId == EditorInfo.IME_ACTION_SEARCH ||  event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
                     searchButton.performClick();
                     return true;
                 }
@@ -93,12 +74,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 /*  Try to search for a castle with this name */
                 EditText locationSearch = (EditText) getView().findViewById(R.id.address);
                 String location = locationSearch.getText().toString();
-                List<Address>listOfAddress = null;
+                List<Address> listOfAddress = null;
                 System.out.println(location);
-                if (location != null ) {
+                if (location != null) {
                     Geocoder geocoder = new Geocoder(getActivity());
                     try {
                         listOfAddress = geocoder.getFromLocationName(location, 1);
@@ -108,11 +90,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                     }
                     if (listOfAddress.size() > 0) {
                         Address address = listOfAddress.get(0);
+                        String loc = address.getLocality();
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+
                         Thread thread = new Thread(new Runnable() {
+
                             public void run() {
+
                                 try {
-                                    theMap.addMarker(new MarkerOptions().position(latLng));
+                                    theMap.clear();
+                                    theMap.addMarker(new MarkerOptions().title(loc).position(latLng));
+
                                     theMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
                                 } catch (Exception e) {
@@ -121,14 +110,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                             }
                         });
                         thread.run();
+
+
                     }
 
                 }
                 closeKeyboard(getActivity());
             }
         });
-
-
 
 
         mapview = (MapView) look.findViewById(R.id.mapactivity);
@@ -147,17 +136,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     }
 
     //DISPLAYS MAP
-    public void onMapReady (GoogleMap googleMap){
-
+    public void onMapReady(GoogleMap googleMap) {
+        this.theMap = googleMap;
         theMap = googleMap;
 
         LatLng location = new LatLng(54.97385, -1.6252);
         MarkerOptions options = new MarkerOptions();
-
         theMap.setBuildingsEnabled(true);
-
         theMap.addMarker(new MarkerOptions().position(location).title("Newcastle"));
-        theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,14f));
+        theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 14f));
 
 
     }
