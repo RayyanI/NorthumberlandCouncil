@@ -88,30 +88,33 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    if (listOfAddress.size() > 0) {
-                        Address address = listOfAddress.get(0);
-                        String loc = address.getLocality();
-                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    if (listOfAddress != null) {
+
+                        if (listOfAddress.size() > 0) {
+                            Address address = listOfAddress.get(0);
+                            String loc = address.getLocality();
+                            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
 
-                        Thread thread = new Thread(new Runnable() {
+                            Thread thread = new Thread(new Runnable() {
 
-                            public void run() {
+                                public void run() {
 
-                                try {
-                                    theMap.clear();
-                                    theMap.addMarker(new MarkerOptions().title(loc).position(latLng));
+                                    try {
+                                        theMap.clear();
+                                        theMap.addMarker(new MarkerOptions().title(loc).position(latLng));
 
-                                    theMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                                        theMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                            }
-                        });
-                        thread.run();
+                            });
+                            thread.run();
 
 
+                        }
                     }
 
                 }

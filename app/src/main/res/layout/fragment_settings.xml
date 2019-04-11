@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:paddingTop="50px"
+    android:background="@color/onBackground"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/tw__composer_white"
+        android:text="Account Settings"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:id="@+id/revokeTwitter"
+        android:width="190sp"
+        android:layout_marginTop="90px"
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
+        android:layout_centerHorizontal="true"
+        android:text="Revoke Twitter access"
+        android:textColor="@color/tw__composer_white"
+        android:background="@color/tw__composer_blue"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/revokeGoogle"
+        android:layout_width="190sp"
+        android:layout_below="@id/revokeTwitter"
+        android:layout_marginTop="40px"
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
+        android:layout_centerHorizontal="true"
+        android:text="Revoke google access"
+        android:textColor="@color/tw__composer_white"
+        android:background="@color/colorAccent"
+        android:layout_height="wrap_content" />
+
+
+
+</RelativeLayout>

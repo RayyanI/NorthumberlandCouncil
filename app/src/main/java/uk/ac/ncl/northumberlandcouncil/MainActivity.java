@@ -156,6 +156,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_logout:
                 logout();
                 break;
+            case R.id.nav_settings:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
+                break;
         }
         drawer.closeDrawer(GravityCompat.START); // Close navigation bar
         return true;
@@ -173,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         hideLoginFromDrawer();
         showLogoutFromDrawer();
+        showAccSettingsFromDrawer();
 
     }
 
