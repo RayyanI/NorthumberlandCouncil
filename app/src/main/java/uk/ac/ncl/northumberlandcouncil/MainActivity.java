@@ -191,8 +191,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         hideLoginFromDrawer();
         showLogoutFromDrawer();
+        showAccSettingsFromDrawer();
     }
 
+    /**
+     * Show account settings from drawer menu
+     */
+    protected void showAccSettingsFromDrawer () {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_settings).setVisible(true);
+    }
+
+
+    /**
+     * Show account settings from drawer menu
+     */
+    protected void hideAccSettingsFromDrawer () {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_settings).setVisible(false);
+    }
 
     /**
      * Hide login fragment from drawer menu
@@ -248,6 +265,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /* Handle UI changes */
         hideLogoutFromDrawer();
         showLoginFromDrawer();
+        hideAccSettingsFromDrawer();
         ((TextView) findViewById(R.id.username)).setText("Brown Fox");
         ((TextView) findViewById(R.id.email)).setText("BrownFox@gmail.com");
 
