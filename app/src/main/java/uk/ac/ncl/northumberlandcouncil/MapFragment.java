@@ -1,9 +1,16 @@
 package uk.ac.ncl.northumberlandcouncil;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.input.InputManager;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
+import android.location.Location;
+import com.google.android.gms.location.LocationServices;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.support.annotation.NonNull;
@@ -19,7 +26,6 @@ import android.widget.EditText;
 
 import com.google.android.gms.maps.model.Marker;
 
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -32,18 +38,27 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
-
+import java.util.Map;
+import java.util.Objects;
 import android.widget.Button;
-
 import android.view.inputmethod.InputMethodManager;
-import android.content.Context;
 import android.widget.TextView;
+import android.support.v4.app.ActivityCompat;
+import android.content.pm.PackageManager;
+import static android.content.Context.*;
+import static android.support.v4.content.ContextCompat.getSystemService;
+
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     /* Declarations */
     GoogleMap theMap;
     MapView mapview;
-  
+
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+    private LocationListener locationListener;
 
     /* End Declarations */
     public MapFragment() {
@@ -53,7 +68,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View look = inflater.inflate(R.layout.fragment_map, container, false);
-
         Button searchButton = (Button) look.findViewById(R.id.searchbutton);
         EditText editText = (EditText) look.findViewById(R.id.address);
         editText.setImeActionLabel("Enter", KeyEvent.KEYCODE_ENTER);
@@ -76,10 +90,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             public void onClick(View view) {
 
                 /*  Try to search for a castle with this name */
-                EditText locationSearch = (EditText) getView().findViewById(R.id.address);
+                EditText locationSearch = (EditText) Objects.requireNonNull(getView()).findViewById(R.id.address);
                 String location = locationSearch.getText().toString();
                 List<Address> listOfAddress = null;
                 System.out.println(location);
+
                 if (location != null) {
                     Geocoder geocoder = new Geocoder(getActivity());
                     try {
@@ -103,7 +118,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                     try {
                                         theMap.clear();
                                         theMap.addMarker(new MarkerOptions().title(loc).position(latLng));
-
                                         theMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
                                     } catch (Exception e) {
@@ -122,7 +136,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-
         mapview = (MapView) look.findViewById(R.id.mapactivity);
         mapview.onCreate(savedInstanceState);
         mapview.onResume();
@@ -140,20 +153,58 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     //DISPLAYS MAP
     public void onMapReady(GoogleMap googleMap) {
+
         this.theMap = googleMap;
         theMap = googleMap;
+        LatLng myPosition;
 
-        LatLng location = new LatLng(54.97385, -1.6252);
-        MarkerOptions options = new MarkerOptions();
-        theMap.setBuildingsEnabled(true);
-        theMap.addMarker(new MarkerOptions().position(location).title("Newcastle"));
-        theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 14f));
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+        else {
+            theMap.setMyLocationEnabled(true);
+        }
 
+        /*Method below calls the handlesNewLocation which sets the default zoom to the user's current location*/
+
+        /*Location location = LocationServices.getFusedLocationProviderClient(this.requireContext()).getLastLocation(mGoogleApiClient);
+        if (location == null) {
+            LocationServices.getFusedLocationProviderClient(getContext()).requestLocationUpdates(mGoogleApiClient, mLocationRequest, locationListener);
+        }
+        else {
+            handleNewLocation(location);
+        }*/
 
     }
 
+
+    private void handleNewLocation(Location location) {
+
+        double currentLatitude = location.getLatitude();
+        double currentLongitude = location.getLongitude();
+
+        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(currentLatitude, currentLongitude)).title("Current Location"));
+        MarkerOptions options = new MarkerOptions()
+                .position(latLng)
+                .title("I am here!");
+        theMap.addMarker(options);
+        theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
+
+    }
+
+
+
     public static void closeKeyboard(android.app.Activity activity) {
-        InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();
         if (view != null) {
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
