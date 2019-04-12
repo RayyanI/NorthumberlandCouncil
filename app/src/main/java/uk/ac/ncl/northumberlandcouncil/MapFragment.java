@@ -8,9 +8,12 @@ import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.support.annotation.NonNull;
@@ -24,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -45,11 +49,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.support.v4.app.ActivityCompat;
 import android.content.pm.PackageManager;
+import android.widget.Toast;
+
 import static android.content.Context.*;
 import static android.support.v4.content.ContextCompat.getSystemService;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     /* Declarations */
@@ -59,8 +67,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private LocationListener locationListener;
-
+    private Task<Location> loc;
     /* End Declarations */
+
     public MapFragment() {
         // Required empty public constructor
     }
@@ -72,8 +81,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         EditText editText = (EditText) look.findViewById(R.id.address);
         editText.setImeActionLabel("Enter", KeyEvent.KEYCODE_ENTER);
 
+
         // Handle searching using the keyboard //
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 /* If search is selected on the keyboard  or enter is pressed on the keyboard*/
@@ -84,6 +95,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 return false;
             }
         });
+
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +170,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         theMap = googleMap;
         LatLng myPosition;
 
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+   if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -166,7 +178,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
         else {
             theMap.setMyLocationEnabled(true);
@@ -174,32 +186,34 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         /*Method below calls the handlesNewLocation which sets the default zoom to the user's current location*/
 
-        /*Location location = LocationServices.getFusedLocationProviderClient(this.requireContext()).getLastLocation(mGoogleApiClient);
-        if (location == null) {
-            LocationServices.getFusedLocationProviderClient(getContext()).requestLocationUpdates(mGoogleApiClient, mLocationRequest, locationListener);
+       loc = LocationServices.getFusedLocationProviderClient(this.requireContext()).getLastLocation();
+        if (loc == null) {
+            LocationServices.getFusedLocationProviderClient(getActivity());
         }
-        else {
-            handleNewLocation(location);
-        }*/
+//        else {
+//            handleNewLocation();
+//       }
+
+
 
     }
+//        public void handleNewLocation(){
+//
+//            double currentLatitude = loc.getLatitude();
+//            double currentLongitude = loc.getLongitude();
+//
+//            LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+//
+//            MarkerOptions options = new MarkerOptions().position(latLng).title("position");
+//            theMap.addMarker(options);
+//            theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
+//        }
 
 
-    private void handleNewLocation(Location location) {
 
-        double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
 
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
-        //mMap.addMarker(new MarkerOptions().position(new LatLng(currentLatitude, currentLongitude)).title("Current Location"));
-        MarkerOptions options = new MarkerOptions()
-                .position(latLng)
-                .title("I am here!");
-        theMap.addMarker(options);
-        theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
 
-    }
 
 
 
