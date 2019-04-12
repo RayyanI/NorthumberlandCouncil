@@ -28,7 +28,6 @@
     <!-- End navigation bar !-->
 
     <!-- Non-fragmented menu !-->
-    <group android:checkableBehavior="single">
         <item android:title="Actions">
             <menu>
                 <item
@@ -50,7 +49,6 @@
                     android:title="Logout" />
             </menu>
         </item>
-    </group>
     <!-- End non-fragmented menu !-->
 
 </menu>

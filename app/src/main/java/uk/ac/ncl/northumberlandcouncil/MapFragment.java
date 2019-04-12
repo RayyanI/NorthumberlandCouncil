@@ -226,6 +226,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        closeKeyboard(getActivity());
         mapview.onDestroy();
     }
 
