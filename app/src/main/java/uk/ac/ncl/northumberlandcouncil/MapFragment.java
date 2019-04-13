@@ -72,7 +72,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         EditText editText = (EditText) look.findViewById(R.id.address);
         editText.setImeActionLabel("Enter", KeyEvent.KEYCODE_ENTER);
 
-
         // Handle searching using the keyboard //
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -175,6 +174,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         handleNewLocation();
+        castleCoordinates();
     }
 
 
@@ -203,6 +203,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             LatLng defaultPosition = new LatLng(55.224470, -2.014950);
             theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultPosition ,8) );
         }
+    }
+
+    public void castleCoordinates() {
+
+        // Castle coordinates
+        LatLng Alnwick = new LatLng(55.41575, -1.70607);
+        theMap.addMarker(new MarkerOptions().position(Alnwick).title("Alnwick Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle)));
+        LatLng Bamburgh = new LatLng(55.608, -1.709);
+        theMap.addMarker(new MarkerOptions().position(Bamburgh).title("Bamburgh Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle)));
+        LatLng Warkworth = new LatLng(55.3447, -1.6105);
+        theMap.addMarker(new MarkerOptions().position(Warkworth).title("Warkworth Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle)));
+        LatLng Lindisfarne = new LatLng(55.669, -1.785);
+        theMap.addMarker(new MarkerOptions().position(Lindisfarne).title("Lindisfarne Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle)));
+        LatLng Belsay = new LatLng(55.0998, -1.8637);
+        theMap.addMarker(new MarkerOptions().position(Belsay).title("Belsay Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle)));
+        LatLng Dunstanburgh = new LatLng(55.4894, -1.5950);
+        theMap.addMarker(new MarkerOptions().position(Dunstanburgh).title("Dunstanburgh Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle)));
+        LatLng Chillingham = new LatLng(55.5259, -1.9038);
+        theMap.addMarker(new MarkerOptions().position(Chillingham).title("Chillingham Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle)));
+        LatLng Berwick = new LatLng(55.7736, -2.0125);
+        theMap.addMarker(new MarkerOptions().position(Berwick).title("Berwick Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle)));
+        LatLng Prudhoe = new LatLng(54.9649, -1.8582);
+        theMap.addMarker(new MarkerOptions().position(Prudhoe).title("Prudhoe Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle)));
+        LatLng Edlingham = new LatLng(55.3767, -1.8185);
+        theMap.addMarker(new MarkerOptions().position(Edlingham).title("Edlingham Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle)));
     }
 
     public static void closeKeyboard(android.app.Activity activity) {
