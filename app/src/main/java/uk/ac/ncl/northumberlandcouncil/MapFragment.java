@@ -60,11 +60,21 @@ import com.google.maps.android.data.geojson.GeoJsonLayer;
 import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
 import android.graphics.Color;
 import org.json.JSONException;
+import java.io.*;
+import java.net.*;
+
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     /* Declarations */
     GoogleMap theMap;
     MapView mapview;
+    static String destinationAddress;
+    static String originAddress;
+    static String distance;
+    static String duration;
+    static URL url;
+    StringBuilder result = new StringBuilder();
+
     /* End Declarations */
 
     public MapFragment() {
@@ -265,6 +275,62 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+    public static void main(String args[])throws MalformedURLException{
+
+        // Array of castle's locations
+        String[] destinations = {"NE66%201NG", "NE69%207DF", "NE65%200UJ", "TD15%202SH", "NE30%204BZ",
+                "NE66%203TT", "NE66%205NJ", "TD15%201NF", "NE42%206NA", "NE66%202BW"};
+
+
+        // For loop to calculate each castle's data. currently the origin is just Newcastle
+        for(String destination : destinations) {
+            calcDistAndDur("Newcastle%20Upon%20Tyne", destination); // <-- Change first argument to correct origin
+            System.out.println("-------------------");
+        }
+    }
+    // Method to calculate the specified castle data
+
+    private static void calcDistAndDur(String origin, String dest) {
+        int currentLine = 0;
+        String readLine = null;
+        String urlString = "https://maps.googleapis.com/maps/api/distancematrix/json?origins="+origin+"&destinations="+dest+"&key=AIzaSyA-SYN3vPXJ0Z7Xgw7QhkhTl7fo9xL48yw";
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        HttpURLConnection connection;
+        try {
+            connection = (HttpURLConnection) url.openConnection();
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream()));
+            StringBuffer response = new StringBuffer();
+            while ((readLine = in .readLine()) != null) {
+                if(currentLine == 1) {
+                    destinationAddress = readLine;
+                }else if (currentLine == 2){
+                    originAddress = readLine;
+                }else if (currentLine == 8) {
+                    distance = readLine;
+                }else if (currentLine == 12){
+                    duration = readLine;
+                }
+                currentLine++;
+                response.append(readLine);
+            } in .close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Destination: "+destinationAddress.substring(32, destinationAddress.length()-4));
+        System.out.println("Origin: "+originAddress.substring(27, originAddress.length()-4));
+        System.out.println("Distance: "+distance.substring(28, distance.length()-2));
+        System.out.println("Duration: "+duration.substring(28, duration.length()-2));
+    }
+
+
+
+
 
     @Override
     public void onResume() {
