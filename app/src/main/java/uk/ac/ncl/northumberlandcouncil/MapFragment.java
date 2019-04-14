@@ -54,6 +54,12 @@ import android.content.pm.PackageManager;
 import android.widget.Toast;
 import static android.content.Context.*;
 
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.maps.android.data.geojson.GeoJsonLayer;
+import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
+import android.graphics.Color;
+import org.json.JSONException;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     /* Declarations */
@@ -120,6 +126,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                     try {
                                         theMap.clear();
                                         getCastleCoordinates();
+                                        //getBorder();
                                         theMap.addMarker(new MarkerOptions().title(loc).position(latLng));
                                         theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,13f) );
 
@@ -173,8 +180,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             theMap.setMyLocationEnabled(true);
         }
 
-        handleNewLocation();
         getCastleCoordinates();
+        handleNewLocation();
+        getBorder();
     }
 
 
@@ -228,6 +236,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         theMap.addMarker(new MarkerOptions().position(Prudhoe).title("Prudhoe Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Edlingham = new LatLng(55.3767, -1.8185);
         theMap.addMarker(new MarkerOptions().position(Edlingham).title("Edlingham Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+
+    }
+
+    public void getBorder() {
+
+        try {
+            GeoJsonLayer layer = new GeoJsonLayer(theMap, R.raw.geojson, getActivity().getApplicationContext());
+
+            GeoJsonPolygonStyle map = layer.getDefaultPolygonStyle();
+            map.setFillColor(Color.argb(60,255,195,195));
+            map.setStrokeWidth(5);
+            map.setStrokeColor(Color.rgb(255,77,77));
+
+            layer.addLayerToMap();
+
+        }catch (IOException ex) {
+            Log.e("IOException", ex.getLocalizedMessage());
+        } catch (JSONException ex) {
+            Log.e("JSONException", ex.getLocalizedMessage());
+        }
     }
 
     public static void closeKeyboard(android.app.Activity activity) {
