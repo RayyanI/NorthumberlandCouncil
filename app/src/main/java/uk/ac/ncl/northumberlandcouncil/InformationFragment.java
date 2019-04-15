@@ -13,6 +13,14 @@ import android.view.ViewGroup;
 import java.io.*;
 import java.net.*;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Date;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 /* End library imports */
@@ -26,6 +34,7 @@ import android.widget.TextView;
  * Updated on 14/03/2019
  * Updated on 09/04/2019
  * Updated on 11/04/2019
+ * Updated on 13/04/2019
  */
 
 /* This still has a lot of work to do, it is nowhere near done */
@@ -37,6 +46,11 @@ public class InformationFragment extends Fragment {
      * @param savedInstanceState current activity datas store
      * @return display xml view on screen
      */
+
+    private Connection connect = null;
+    private Statement statement = null;
+    private PreparedStatement preparedStatement = null;
+    private ResultSet resultSet = null;
 
     private String castleLocation; /* API's castle location */
     private String castleName; /* Targeted castle name */
@@ -80,16 +94,6 @@ public class InformationFragment extends Fragment {
         ImageView castlePhotoImg = view.findViewById(R.id.castle_img);
         TextView openingTimeTV = view.findViewById(R.id.castle_times);
         TextView castleWebsiteTV = view.findViewById(R.id.website);
-//
-//        vcf = new ViewCastlesFragment();
-//        castleNameTV.setText(vcf.getChosenCastle().replaceAll("%20", " "));
-//        castleLocationTV.setText(vcf.getInfo().get("Address"));
-//        castleRatingTV.setText(vcf.getInfo().get("Rating"));
-//        adultPriceTV.setText(vcf.getInfo().get("AdultPrice"));
-//        childPriceTV.setText(vcf.getInfo().get("ChildPrice"));
-//        castleWebsiteTV.setText(vcf.getInfo().get("Website"));
-//        openingTimeTV.setText(vcf.getInfo().get("Time"));
-
 
         try{
             GooglePlacesTask gpt = new GooglePlacesTask();
@@ -102,6 +106,19 @@ public class InformationFragment extends Fragment {
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        try{
+            String myDriver = "org.gjt.mm.mysql.Driver";
+            Class.forName(myDriver);
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection("jdbc:mysql://locahost/northumberland?"
+                            + "user=northumberland&password=rdncGxJZ8LK99rh");
+        }catch(Exception e){
+            Log.e("FAILED", "sql fail");
+            e.printStackTrace();
+        }
+
 
         return view;
     }
