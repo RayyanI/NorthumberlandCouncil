@@ -28,10 +28,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -63,17 +64,16 @@ import org.json.JSONException;
 import java.io.*;
 import java.net.*;
 
-
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     /* Declarations */
     GoogleMap theMap;
     MapView mapview;
     String destinationAddress;
     String originAddress;
-     String distance;
-     String duration;
+    String distance;
+    String duration;
     Location currentlocation;
-     URL url;
+    URL url;
     StringBuilder result = new StringBuilder();
 
     /* End Declarations */
@@ -194,6 +194,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         getCastleCoordinates();
         handleNewLocation();
         getBorder();
+        //map.setInfoWindowAdapter(new InfoWindowCustom(this));
+
     }
 
 
@@ -224,11 +226,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    //method that makes a info window for each marker
+    public class getInfoWindows implements GoogleMap.InfoWindowAdapter {
+        @Override
+        public View getInfoWindow(Marker marker) {
+            return null;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            return null;
+        }
+
+        public void onInfoWindowClick(Marker marker) {
+
+        }
+
+    }
+
     public void getCastleCoordinates() {
 
         // Castle coordinates
         LatLng Alnwick = new LatLng(55.41575, -1.70607);
-        theMap.addMarker(new MarkerOptions().position(Alnwick).title("Alnwick Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+        theMap.addMarker(new MarkerOptions().position(Alnwick).title("Alnwick Castle").snippet("Get info , Get directions").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Bamburgh = new LatLng(55.608, -1.709);
         theMap.addMarker(new MarkerOptions().position(Bamburgh).title("Bamburgh Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Warkworth = new LatLng(55.3447, -1.6105);
@@ -248,7 +268,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         LatLng Edlingham = new LatLng(55.3767, -1.8185);
         theMap.addMarker(new MarkerOptions().position(Edlingham).title("Edlingham Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
 
-    }
+}
 
     public void getBorder() {
 
