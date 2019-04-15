@@ -68,11 +68,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     /* Declarations */
     GoogleMap theMap;
     MapView mapview;
-    static String destinationAddress;
-    static String originAddress;
-    static String distance;
-    static String duration;
-    static URL url;
+    String destinationAddress;
+    String originAddress;
+     String distance;
+     String duration;
+    Location currentlocation;
+     URL url;
     StringBuilder result = new StringBuilder();
 
     /* End Declarations */
@@ -206,12 +207,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return;
         }
 
-        Location location = locationManager.getLastKnownLocation(provider);
+        currentlocation = locationManager.getLastKnownLocation(provider);
 
-        if (location != null) {
+        if (currentlocation != null) {
 
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
+            double latitude = currentlocation.getLatitude();
+            double longitude = currentlocation.getLongitude();
             LatLng currentPosition = new LatLng(latitude, longitude);
             theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition ,13f) );
         }
@@ -275,7 +276,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
-    public static void main(String args[])throws MalformedURLException{
+    public void data() throws MalformedURLException{
 
         // Array of castle's locations
         String[] destinations = {"NE66%201NG", "NE69%207DF", "NE65%200UJ", "TD15%202SH", "NE30%204BZ",
@@ -284,15 +285,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         // For loop to calculate each castle's data. currently the origin is just Newcastle
         for(String destination : destinations) {
-            calcDistAndDur("Newcastle%20Upon%20Tyne", destination); // <-- Change first argument to correct origin
+            calcDistAndDur(originAddress, destination); // <-- Change first argument to correct origin
             System.out.println("-------------------");
         }
     }
     // Method to calculate the specified castle data
 
-    private static void calcDistAndDur(String origin, String dest) {
+    private  void calcDistAndDur(String origin, String dest) {
         int currentLine = 0;
         String readLine = null;
+        origin= currentlocation.toString();
         String urlString = "https://maps.googleapis.com/maps/api/distancematrix/json?origins="+origin+"&destinations="+dest+"&key=AIzaSyA-SYN3vPXJ0Z7Xgw7QhkhTl7fo9xL48yw";
         try {
             url = new URL(urlString);
@@ -327,7 +329,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         System.out.println("Distance: "+distance.substring(28, distance.length()-2));
         System.out.println("Duration: "+duration.substring(28, duration.length()-2));
     }
-
 
 
 
