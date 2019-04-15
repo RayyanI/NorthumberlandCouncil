@@ -6,14 +6,12 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.twitter.sdk.android.core.Callback;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +24,15 @@ import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 /* End library imports */
 
 /**
@@ -67,17 +70,16 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
         super.onCreate(savedInstanceState);
         /* Handle google login */
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestServerAuthCode(getString(R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
-
         if(mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity() /* Context */)
                     .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
                     .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                     .build();
         }
+
     }
 
     /**
@@ -169,8 +171,45 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
 
     private void handleSignInResult(GoogleSignInResult result ) {
         if (result.isSuccess()) {
-            ((MainActivity) getActivity()).onLoginResult(result); // update ui in activity
+
+            // Pass the user data to the backend server for authentication via HTTPS Post //
+
+            OkHttpClient client = new OkHttpClient();
+            String idToken = result.getSignInAccount().getIdToken();
+            System.out.println(idToken);
+            try {
+                // Setup the body of the request to include name-value pair of idToken //
+                RequestBody requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("idToken", idToken)
+                        .build();
+
+
+                // Setup API URL //
+                Request request = new Request.Builder()
+                        .url("http://18.130.117.241/validation.php")
+                        .post(requestBody)
+                        .build();
+
+
+                // Execute network activity off of the main thread //
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            Response response = client.newCall(request).execute();
+                            System.out.println(response.body().string());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                ((MainActivity) getActivity()).onLoginResult(result); // update ui in activity
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             updateUI();
+
+
 
         }
 
