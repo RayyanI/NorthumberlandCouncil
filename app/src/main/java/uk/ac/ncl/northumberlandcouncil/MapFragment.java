@@ -2,21 +2,13 @@ package uk.ac.ncl.northumberlandcouncil;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.hardware.input.InputManager;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,14 +29,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import android.widget.Button;
@@ -52,11 +41,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.support.v4.app.ActivityCompat;
 import android.content.pm.PackageManager;
-import android.widget.Toast;
+
 import static android.content.Context.*;
 
-import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
 import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
 import android.graphics.Color;
@@ -76,6 +63,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     URL url;
     StringBuilder result = new StringBuilder();
 
+    private ViewGroup infoWindow;
+
     /* End Declarations */
 
     public MapFragment() {
@@ -88,6 +77,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Button searchButton = (Button) look.findViewById(R.id.searchbutton);
         EditText editText = (EditText) look.findViewById(R.id.address);
         editText.setImeActionLabel("Enter", KeyEvent.KEYCODE_ENTER);
+
 
         // Handle searching using the keyboard //
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -178,6 +168,34 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         this.theMap = googleMap;
         theMap = googleMap;
 
+        getCastleCoordinates();
+
+        if (theMap != null) {
+
+            theMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+                @Override
+                public View getInfoWindow(Marker marker) {
+                    return null;
+                }
+
+                @Override
+                public View getInfoContents(Marker marker) {
+
+                    View row = getLayoutInflater().inflate(R.layout.info_window, null);
+                    TextView t1_name = (TextView)row.findViewById(R.id.markerTitle);
+                    Button moreInfoBtn = (Button)row.findViewById(R.id.moreInfo);
+                    Button getDirectionsBtn = (Button)row.findViewById(R.id.getDirections);
+
+                    t1_name.setText(marker.getTitle());
+                    moreInfoBtn.setText("More Info");
+                    getDirectionsBtn.setText("Get Directions");
+
+                    return row;
+                }
+            });
+        }
+
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -191,10 +209,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             theMap.setMyLocationEnabled(true);
         }
 
-        getCastleCoordinates();
+        //getCastleCoordinates();
         handleNewLocation();
         getBorder();
-        //map.setInfoWindowAdapter(new InfoWindowCustom(this));
 
     }
 
@@ -226,29 +243,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    //method that makes a info window for each marker
-    public class getInfoWindows implements GoogleMap.InfoWindowAdapter {
-        @Override
-        public View getInfoWindow(Marker marker) {
-            return null;
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-            return null;
-        }
-
-        public void onInfoWindowClick(Marker marker) {
-
-        }
-
-    }
 
     public void getCastleCoordinates() {
 
         // Castle coordinates
         LatLng Alnwick = new LatLng(55.41575, -1.70607);
-        theMap.addMarker(new MarkerOptions().position(Alnwick).title("Alnwick Castle").snippet("Get info , Get directions").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+        theMap.addMarker(new MarkerOptions().position(Alnwick).title("Alnwick Castle").snippet("").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Bamburgh = new LatLng(55.608, -1.709);
         theMap.addMarker(new MarkerOptions().position(Bamburgh).title("Bamburgh Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Warkworth = new LatLng(55.3447, -1.6105);
