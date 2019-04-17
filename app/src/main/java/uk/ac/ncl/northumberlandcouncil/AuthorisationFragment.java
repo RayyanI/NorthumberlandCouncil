@@ -7,13 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-
-
-import com.google.android.gms.common.ConnectionResult;
-import com.twitter.sdk.android.core.Callback;
-
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,7 +14,6 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,19 +21,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-
-import java.io.IOException;
-import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,9 +48,9 @@ import okhttp3.Response;
  *
  * @author Rayyan Iqbal
  * Created on 21/02/2019
- * Last modified 05/04/2019 (R Iqbal)
+ * Last modified 17/04/2019 (R Iqbal)
  */
-public class AuthorisationFragment extends Fragment implements  GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+public class AuthorisationFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -87,8 +78,6 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
 
-
-
     /* End Declarations */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,7 +90,7 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        if(mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
+        if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity() /* Context */)
                     .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
                     .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -203,7 +192,7 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
                     e.printStackTrace();
                 }
 
-                System.out.println (" TWITTER STATUS " + existingTwitterUser);
+                System.out.println(" TWITTER STATUS " + existingTwitterUser);
                 if (existingTwitterUser) {
                     updateUI();
                 }
@@ -222,9 +211,6 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
                     nameBox.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
                     nameBox.setHint("Full Name");
                     layout.addView(nameBox); // Notice this is an add method
-
-
-
 
 
                     // Add another TextView here for the "Description" label
@@ -254,7 +240,6 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
                             /* Parse the name now */
                             firstName = firstName.split(" ")[0];
                             lastName = lastName.split(" ")[1];
-
 
 
                             System.out.println(firstName + " " + lastName + " " + email);
@@ -308,12 +293,14 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
                     alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 
                     // Enable the button only when the text fields are valid //
-                    nameBox.addTextChangedListener (new TextWatcher() {
+                    nameBox.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count,
-                                                      int after) {}
+                                                      int after) {
+                        }
+
                         @Override
-                        public void afterTextChanged (Editable s) {
+                        public void afterTextChanged(Editable s) {
                             // Check if either of the two edit texts are not filled //
                             if (nameBox.getText().toString().isEmpty() || emailBox.getText().toString().isEmpty())
                                 alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false); // Defensive
@@ -321,11 +308,12 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
 
                             // Double check email address and name //
                             if (!emailBox.getText().toString().isEmpty() && !nameBox.getText().toString().isEmpty())
-                                if ( !(validateEmail(emailBox.getText().toString()) && validateName(nameBox.getText().toString())))
+                                if (!(validateEmail(emailBox.getText().toString()) && validateName(nameBox.getText().toString())))
                                     alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false); // Defensive
                         }
+
                         @Override
-                        public void onTextChanged(CharSequence s, int i, int i1, int i2){
+                        public void onTextChanged(CharSequence s, int i, int i1, int i2) {
                             // Check if both of the two edit texts are now filled //
                             if (!nameBox.getText().toString().isEmpty() && !emailBox.getText().toString().isEmpty()) {
                                 // Validate email address before enabling the button //
@@ -339,12 +327,14 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
 
 
                     // Enable the button only when the text fields are valid //
-                    emailBox.addTextChangedListener (new TextWatcher() {
+                    emailBox.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count,
-                                                      int after) {}
+                                                      int after) {
+                        }
+
                         @Override
-                        public void afterTextChanged (Editable s) {
+                        public void afterTextChanged(Editable s) {
                             // Check if either of the two edit texts are not filled //
                             if (nameBox.getText().toString().isEmpty() || emailBox.getText().toString().isEmpty())
                                 alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false); // Defensive
@@ -352,11 +342,12 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
 
                             // Double check email address and name //
                             if (!emailBox.getText().toString().isEmpty() && !nameBox.getText().toString().isEmpty())
-                                if ( !(validateEmail(emailBox.getText().toString()) && validateName(nameBox.getText().toString())))
+                                if (!(validateEmail(emailBox.getText().toString()) && validateName(nameBox.getText().toString())))
                                     alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false); // Defensive
                         }
+
                         @Override
-                        public void onTextChanged(CharSequence s, int i, int i1, int i2){
+                        public void onTextChanged(CharSequence s, int i, int i1, int i2) {
                             // Check if both of the two edit texts are now filled //
                             if (!nameBox.getText().toString().isEmpty() && !emailBox.getText().toString().isEmpty()) {
                                 // Validate email address before enabling the button //
@@ -387,7 +378,6 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
     }
 
 
-
     /**
      * Handle authorisation responses, passed from this fragment's activity container
      *
@@ -411,7 +401,7 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
     }
 
 
-    private void handleSignInResult(GoogleSignInResult result ) {
+    private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
 
             // Pass the user data to the backend server for authentication via HTTPS Post //
@@ -452,7 +442,6 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
             updateUI();
 
 
-
         }
 
 
@@ -460,11 +449,12 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
 
     /**
      * Returns true or false when given an email string that is valid (minor counter examples exist for performance i.e. @ 127.0.0.1)
+     *
      * @param emailStr - email string to be checked
      * @return boolean - true or false depending on email validity
      */
     public static boolean validateEmail(String emailStr) {
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
     }
 
@@ -472,15 +462,16 @@ public class AuthorisationFragment extends Fragment implements  GoogleApiClient.
     /**
      * Returns true or false when given a name string, expects a first and last name separated by a space
      * consisting of at least 3 characters in each element
+     *
      * @param name - name string to be checked
      * @return boolean - true or false depending on email validity
      */
-    public static boolean validateName( String name ) {
+    public static boolean validateName(String name) {
         return name.matches("([a-zA-Z\\-]+){3,}\\s+([a-zA-Z\\-]+){3,}");
     }
+
     /**
      * Update the user interface upon a successful login by instancing the home fragment, and removing the current from stack
-     *
      */
     private void updateUI() {
         ((MainActivity) getActivity()).restoreActionBar();
