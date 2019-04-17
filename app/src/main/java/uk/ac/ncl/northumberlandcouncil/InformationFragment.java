@@ -3,6 +3,7 @@ package uk.ac.ncl.northumberlandcouncil;
 
 /* Begin library imports */
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,14 @@ import java.util.Date;
 
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Entity;
+
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 /* End library imports */
 
 
@@ -70,6 +79,11 @@ public class InformationFragment extends Fragment {
     private String photoReference;
     private String rating;
 
+    String ip;
+    String db;
+    String DBUserNameStr;
+    String DBPasswordStr;
+
     TextView castleNameTV; /* Displayed castle name to change */
     TextView castleLocationTV;
     TextView castleRatingTV;
@@ -95,7 +109,7 @@ public class InformationFragment extends Fragment {
         TextView openingTimeTV = view.findViewById(R.id.castle_times);
         TextView castleWebsiteTV = view.findViewById(R.id.website);
 
-        try{
+        try {
             GooglePlacesTask gpt = new GooglePlacesTask();
             gpt.execute();
             String results = gpt.get();
@@ -103,25 +117,48 @@ public class InformationFragment extends Fragment {
             castleLocationTV.setText("        " + values[0].replaceAll(",", "\n       "));
             castleNameTV.setText(values[1]);
             castleRatingTV.setText("        " + values[2]);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        try{
-            String myDriver = "org.gjt.mm.mysql.Driver";
-            Class.forName(myDriver);
-            // Setup the connection with the DB
-            connect = DriverManager
-                    .getConnection("jdbc:mysql://locahost/northumberland?"
-                            + "user=northumberland&password=rdncGxJZ8LK99rh");
+        OkHttpClient client = new OkHttpClient();                       // WEB REQUEST //
+
+        String API_URL = "http://18.130.117.241/";
+
+        try {
+            // Setup the body of the request to include name-value pair of idToken //
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("idToken", "0")
+                    .build();
+            Request request = new Request.Builder()
+                    .url(API_URL + "testPHP.php")
+                    .post(requestBody)
+                    .build();
+            // Execute network activity off of the main thread //
+            Log.d("working", "b4 thread");
+            Thread t1 = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        Response response = client.newCall(request).execute();
+
+                        Log.d("FTP_RES", response.body().string());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            Log.d("threadRun", "b4");
+        t1.start();
+        t1.join();
+        Log.d("threadRun", "after");
         }catch(Exception e){
-            Log.e("FAILED", "sql fail");
-            e.printStackTrace();
+            Log.e("FTP_ERROR", e.getMessage());
+       }
+
+
+            return view;
         }
-
-
-        return view;
-    }
 
     /* Eventually this method will be called when a castle is clicked, it will run the places API */
     public void displayCastle(String name, String location) throws java.io.IOException{
