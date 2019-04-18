@@ -41,13 +41,14 @@ public class ViewCastlesFragment extends Fragment {
     private Button alnwickButton;
     private static TextView cName;
     private static String chosenCastle;
+    private static int castleID;
 
-    List<String> castles = new ArrayList<>(Arrays.asList("Alnwick%20Castle", "Bamburgh%20Castle", "Warkworth%20Castle",
+    private static List<String> castles = new ArrayList<>(Arrays.asList("Alnwick%20Castle", "Bamburgh%20Castle", "Warkworth%20Castle",
             "Lindisfarne%20Castle","Tynemouth%20Castle%20&%20Priory","Dunstanburgh%20castle",
             "Chillingham%20Castle", "Berwick%20castle", "Prudhoe%20Castle", "Edlingham%20Castle"));
 
+    private static HashMap<String, String> castleIDs = new HashMap<>();
     private static HashMap<String, HashMap<String, String>> castleInfo = new HashMap<>();
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = alnwickButton.getText().toString();
+                castleID = 0;
             }
         });
 
@@ -78,6 +80,7 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = warkworthButton.getText().toString();
+                castleID = 0;
             }
         });
 
@@ -87,6 +90,7 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = bamburghButton.getText().toString();
+                castleID = 0;
             }
         });
 
@@ -125,6 +129,7 @@ public class ViewCastlesFragment extends Fragment {
             }
         });
 
+        int i = 0;
 
         return view;
 
@@ -135,6 +140,12 @@ public class ViewCastlesFragment extends Fragment {
 
     public static HashMap<String, String> getInfo(){
 
+        Log.d("chosenCastle", getChosenCastle());
         return castleInfo.get("Alnwick Castle");
+    }
+
+
+    public static int getCastleID(){
+        return castleID;
     }
 }

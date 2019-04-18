@@ -59,12 +59,12 @@ public class InformationFragment extends Fragment {
      * @return display xml view on screen
      */
     private ArrayList<String> castleInfo;
-    private HashMap<String, String> cleanedInfo;
+    private HashMap<String, String> refinedCastleInfo = new HashMap<>();
     private Connection connect = null;
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
-
+    private static int castleid;
     private String castleLocation; /* API's castle location */
     private String castleName; /* Targeted castle name */
     private String ageRange; /* Age range for the castle */
@@ -82,7 +82,7 @@ public class InformationFragment extends Fragment {
     private boolean open;
     private String photoReference;
     private String rating;
-
+    private HashMap<String, Integer> castleIDs = new HashMap<>();
     String ip;
     String db;
     String DBUserNameStr;
@@ -101,7 +101,7 @@ public class InformationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        cleanedInfo = new HashMap<>();
+
         View view = inflater.inflate(R.layout.fragment_information, container, false);
 
         TextView castleNameTV = view.findViewById(R.id.castle_name);
@@ -114,23 +114,33 @@ public class InformationFragment extends Fragment {
         TextView castleWebsiteTV = view.findViewById(R.id.website);
 
 
+        castleIDs.put("Alnwick%20castle", 0);
+        castleIDs.put("Bamburgh%20castle", 1);
 
         OkHttpClient client = new OkHttpClient();                       // WEB REQUEST //
 
         String API_URL = "http://18.130.117.241/";
 
+        vcf = new ViewCastlesFragment();
+        String casteID = Integer.toString(vcf.getCastleID());
+
         try {
+
+            ViewCastlesFragment vcf = new ViewCastlesFragment();
+            String chosenCastle = vcf.getChosenCastle();
+            String casid = Integer.toString(vcf.getId());
             // Setup the body of the request to include name-value pair of idToken //
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart("idToken", "0")
+                    .addFormDataPart("idToken", Integer.toString(castleIDs.get(chosenCastle)))
                     .build();
             Request request = new Request.Builder()
                     .url(API_URL + "testPHP.php")
                     .post(requestBody)
                     .build();
             // Execute network activity off of the main thread //
-            Log.d("working", "b4 thread");
+
+
             Thread t1 = new Thread(new Runnable() {
                 public void run() {
                     try {
@@ -138,11 +148,12 @@ public class InformationFragment extends Fragment {
                         String res = response.body().string().replace(":", " ").replace("" +
                                 "[{", "").replace("}]", "").replace("\"", "");
                         castleInfo = new ArrayList<String>(Arrays.asList(res.split(",")));
-
+                        Log.d("worked", res);
                         for(String s : castleInfo){
                             String val1 = s.split(" ")[0];
+                            Log.d("value", s);
                             String val2 = s.split(" ")[1];
-                            cleanedInfo.put(val1, val2);
+                            refinedCastleInfo.put(val1, val2);
                         }
                     } catch (Exception e) {
                         Log.e("response", "failure");
@@ -166,12 +177,12 @@ public class InformationFragment extends Fragment {
             castleLocationTV.setText("        " + values[0].replaceAll(",", "\n       "));
             castleNameTV.setText(values[1]);
             castleRatingTV.setText("        " + values[2]);
-            childPriceTV.setText("        £" + cleanedInfo.get("childCost"));
-            adultPriceTV.setText("        £" + cleanedInfo.get("adultCost"));
-            castleWebsiteTV.setText("        " + cleanedInfo.get("website"));
-            openingTimeTV.setText("        " + cleanedInfo.get("openingClosing")+":00am");
-
+            childPriceTV.setText("        " + refinedCastleInfo.get("childCost"));
+            adultPriceTV.setText("        " + refinedCastleInfo.get("adultCost"));
+            castleWebsiteTV.setText("        " + refinedCastleInfo.get("website"));
+            openingTimeTV.setText("        " + refinedCastleInfo.get("openingClosing"));
         } catch (Exception e) {
+            Log.e("FTPFAIL", "hi");
             e.printStackTrace();
         }
             return view;
@@ -198,6 +209,10 @@ public class InformationFragment extends Fragment {
 
 
 //        setCastleDetails(name, address, rating, "temp");
+    }
+
+    public static void setID(int id){
+        castleid = id;
     }
     // When called it updates the page information
 //
