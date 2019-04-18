@@ -63,7 +63,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static StringBuffer response;
     Location currentlocation;
     URL url;
-    StringBuilder result = new StringBuilder();
+
 
     private ViewGroup infoWindow;
 

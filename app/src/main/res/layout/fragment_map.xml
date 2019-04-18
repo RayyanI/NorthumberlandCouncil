@@ -5,16 +5,18 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background ="@drawable/round_background"           >
+        android:layout_marginVertical="5dp"
+        android:background="@drawable/round_background"
+        android:elevation="100dp">
         <EditText
             android:id="@+id/address"
             style="@style/editTextSingleLine"
             android:layout_width="287dp"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:imeOptions="actionSearch" />
+            android:imeOptions="actionSearch"
+            android:inputType="text" />
 
         <Button
             android:id="@+id/searchbutton"
@@ -23,8 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:onClick="onSearch"
             android:drawableLeft="@drawable/ic_logo"
+            android:onClick="onSearch"
             android:text="      "
             android:textSize="12sp" />
 
