@@ -2,15 +2,17 @@ package uk.ac.ncl.northumberlandcouncil;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
-
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,38 +20,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Marker;
-
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.data.geojson.GeoJsonLayer;
+import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
-import android.widget.Button;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
-import android.support.v4.app.ActivityCompat;
-import android.content.pm.PackageManager;
-
-import static android.content.Context.*;
-
-import com.google.maps.android.data.geojson.GeoJsonLayer;
-import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
-import android.graphics.Color;
-import org.json.JSONException;
-import java.io.*;
-import java.net.*;
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     /* Declarations */
@@ -59,6 +59,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     String originAddress;
     String distance;
     String duration;
+    private static BufferedReader in;
+    private static StringBuffer response;
     Location currentlocation;
     URL url;
     StringBuilder result = new StringBuilder();
@@ -74,9 +76,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View look = inflater.inflate(R.layout.fragment_map, container, false);
-        Button searchButton = (Button) look.findViewById(R.id.searchbutton);
-        EditText editText = (EditText) look.findViewById(R.id.address);
+        Button searchButton = look.findViewById(R.id.searchbutton);
+        EditText editText = look.findViewById(R.id.address);
         editText.setImeActionLabel("Enter", KeyEvent.KEYCODE_ENTER);
+
+
+        // TODO: SET THE CURRENT LOCATION TO USERS CURRENT LOCATION HERE OR THIS IF NO LOCATION ACCESS //
+        currentlocation = new Location("Northumberland Council");
+        currentlocation.setLatitude(55.224470);
+        currentlocation.setLongitude(-2.014950);
 
 
         // Handle searching using the keyboard //
@@ -99,7 +107,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             public void onClick(View view) {
 
                 /*  Try to search for a castle with this name */
-                EditText locationSearch = (EditText) Objects.requireNonNull(getView()).findViewById(R.id.address);
+                EditText locationSearch = Objects.requireNonNull(getView()).findViewById(R.id.address);
                 String location = locationSearch.getText().toString();
                 List<Address> listOfAddress = null;
                 System.out.println(location);
@@ -147,7 +155,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        mapview = (MapView) look.findViewById(R.id.mapactivity);
+        mapview = look.findViewById(R.id.mapactivity);
         mapview.onCreate(savedInstanceState);
         mapview.onResume();
 
@@ -157,6 +165,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             e.printStackTrace();
         }
         mapview.getMapAsync(this);
+        data();
         return look;
 
 
@@ -183,9 +192,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 public View getInfoContents(Marker marker) {
 
                     View row = getLayoutInflater().inflate(R.layout.info_window, null);
-                    TextView t1_name = (TextView)row.findViewById(R.id.markerTitle);
-                    Button moreInfoBtn = (Button)row.findViewById(R.id.moreInfo);
-                    Button getDirectionsBtn = (Button)row.findViewById(R.id.getDirections);
+                    TextView t1_name = row.findViewById(R.id.markerTitle);
+                    Button moreInfoBtn = row.findViewById(R.id.moreInfo);
+                    Button getDirectionsBtn = row.findViewById(R.id.getDirections);
 
                     t1_name.setText(marker.getTitle());
                     moreInfoBtn.setText("More Info");
@@ -296,7 +305,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
-    public void data() throws MalformedURLException{
+    public void data(){
 
         // Array of castle's locations
         String[] destinations = {"NE66%201NG", "NE69%207DF", "NE65%200UJ", "TD15%202SH", "NE30%204BZ",
@@ -312,43 +321,61 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     // Method to calculate the specified castle data
 
     private  void calcDistAndDur(String origin, String dest) {
-        int currentLine = 0;
-        String readLine = null;
-        origin= currentlocation.toString();
-        String urlString = "https://maps.googleapis.com/maps/api/distancematrix/json?origins="+origin+"&destinations="+dest+"&key=AIzaSyA-SYN3vPXJ0Z7Xgw7QhkhTl7fo9xL48yw";
+        origin = currentlocation.toString();
+        String urlString = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin + "&destinations=" + dest + "&key=AIzaSyA-SYN3vPXJ0Z7Xgw7QhkhTl7fo9xL48yw";
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-        HttpURLConnection connection;
-        try {
-            connection = (HttpURLConnection) url.openConnection();
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream()));
-            StringBuffer response = new StringBuffer();
-            while ((readLine = in .readLine()) != null) {
-                if(currentLine == 1) {
-                    destinationAddress = readLine;
-                }else if (currentLine == 2){
-                    originAddress = readLine;
-                }else if (currentLine == 8) {
-                    distance = readLine;
-                }else if (currentLine == 12){
-                    duration = readLine;
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    in = new BufferedReader(
+                            new InputStreamReader(connection.getInputStream()));
+                    response = new StringBuffer();
+
+                    int currentLine = 0;
+                    String readLine = null;
+                    try {
+                        while ((readLine = in.readLine()) != null) {
+                            if (currentLine == 1) {
+                                destinationAddress = readLine;
+                            } else if (currentLine == 2) {
+                                originAddress = readLine;
+                            } else if (currentLine == 8) {
+                                distance = readLine;
+                            } else if (currentLine == 12) {
+                                duration = readLine;
+                            }
+                            currentLine++;
+                            response.append(readLine);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        JSONObject js = new JSONObject(response.toString());
+                        System.out.println(js.getString("destination_addresses"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                currentLine++;
-                response.append(readLine);
-            } in .close();
-        } catch (IOException e) {
+            }
+        });
+        try {
+            thread.start();
+            thread.join();
+        } catch (Exception e){
             e.printStackTrace();
         }
-        System.out.println("Destination: "+destinationAddress.substring(32, destinationAddress.length()-4));
-        System.out.println("Origin: "+originAddress.substring(27, originAddress.length()-4));
-        System.out.println("Distance: "+distance.substring(28, distance.length()-2));
-        System.out.println("Duration: "+duration.substring(28, duration.length()-2));
     }
+
 
 
 
