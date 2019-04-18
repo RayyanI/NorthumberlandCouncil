@@ -20,7 +20,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,7 +58,8 @@ public class InformationFragment extends Fragment {
      * @param savedInstanceState current activity datas store
      * @return display xml view on screen
      */
-
+    private ArrayList<String> castleInfo;
+    private HashMap<String, String> cleanedInfo;
     private Connection connect = null;
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
@@ -97,7 +101,7 @@ public class InformationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-
+        cleanedInfo = new HashMap<>();
         View view = inflater.inflate(R.layout.fragment_information, container, false);
 
         TextView castleNameTV = view.findViewById(R.id.castle_name);
@@ -109,17 +113,7 @@ public class InformationFragment extends Fragment {
         TextView openingTimeTV = view.findViewById(R.id.castle_times);
         TextView castleWebsiteTV = view.findViewById(R.id.website);
 
-        try {
-            GooglePlacesTask gpt = new GooglePlacesTask();
-            gpt.execute();
-            String results = gpt.get();
-            String[] values = results.split("\n", 3);
-            castleLocationTV.setText("        " + values[0].replaceAll(",", "\n       "));
-            castleNameTV.setText(values[1]);
-            castleRatingTV.setText("        " + values[2]);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
         OkHttpClient client = new OkHttpClient();                       // WEB REQUEST //
 
@@ -141,9 +135,17 @@ public class InformationFragment extends Fragment {
                 public void run() {
                     try {
                         Response response = client.newCall(request).execute();
+                        String res = response.body().string().replace(":", " ").replace("" +
+                                "[{", "").replace("}]", "").replace("\"", "");
+                        castleInfo = new ArrayList<String>(Arrays.asList(res.split(",")));
 
-                        Log.d("FTP_RES", response.body().string());
+                        for(String s : castleInfo){
+                            String val1 = s.split(" ")[0];
+                            String val2 = s.split(" ")[1];
+                            cleanedInfo.put(val1, val2);
+                        }
                     } catch (Exception e) {
+                        Log.e("response", "failure");
                         e.printStackTrace();
                     }
                 }
@@ -156,7 +158,22 @@ public class InformationFragment extends Fragment {
             Log.e("FTP_ERROR", e.getMessage());
        }
 
+        try {
+            GooglePlacesTask gpt = new GooglePlacesTask();
+            gpt.execute();
+            String results = gpt.get();
+            String[] values = results.split("\n", 3);
+            castleLocationTV.setText("        " + values[0].replaceAll(",", "\n       "));
+            castleNameTV.setText(values[1]);
+            castleRatingTV.setText("        " + values[2]);
+            childPriceTV.setText("        £" + cleanedInfo.get("childCost"));
+            adultPriceTV.setText("        £" + cleanedInfo.get("adultCost"));
+            castleWebsiteTV.setText("        " + cleanedInfo.get("website"));
+            openingTimeTV.setText("        " + cleanedInfo.get("openingClosing")+":00am");
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
             return view;
         }
 
