@@ -179,6 +179,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         getCastleCoordinates();
 
+
+
         if (theMap != null) {
 
             theMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {

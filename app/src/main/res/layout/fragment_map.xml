@@ -6,8 +6,8 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:background ="@drawable/round_background"           >
         <EditText
             android:id="@+id/address"
             style="@style/editTextSingleLine"
@@ -19,11 +19,13 @@
         <Button
             android:id="@+id/searchbutton"
             style="?android:attr/buttonStyleSmall"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:onClick="onSearch"
-            android:text="Search"
+            android:drawableLeft="@drawable/ic_logo"
+            android:text="      "
             android:textSize="12sp" />
 
 
