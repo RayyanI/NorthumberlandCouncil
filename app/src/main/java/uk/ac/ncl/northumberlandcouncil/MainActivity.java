@@ -7,9 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -18,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +23,6 @@ import android.widget.Toast;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.maps.GoogleMap;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.Twitter;
@@ -35,8 +31,16 @@ import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
-import android.content.pm.PackageManager;
+import java.util.Map;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /* End library imports */
 
@@ -54,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private Result<TwitterSession> twitterSessionResult = null;
     private GoogleSignInResult googleSignInResult = null;
+    private Map<String,String> userMap =  new HashMap<String,String>();
 
     /* End Class Variables */
 
@@ -174,9 +179,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     protected void onLoginResult(Result<TwitterSession> twitterSessionResult) {
         /* Update UI */
-        ((TextView) findViewById(R.id.username)).setText(twitterSessionResult.data.getUserName());
+        this.twitterSessionResult = twitterSessionResult; // Let's save this session
+        String url = "http://18.130.117.241/API.php?getNameAndEmail&tokenId=" + Long.toString(twitterSessionResult.data.getUserId());
+        try {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
 
-        this.twitterSessionResult = twitterSessionResult;
+            /* Submit the GET Request to the API and wait for synchronisation */
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Response responses = client.newCall(request).execute();
+                        String jsonData = responses.body().string();
+
+                        // Parse the response from the server into a JSON Object and then parse that JSON object for data //
+                        JSONObject jsonObject = new JSONArray(jsonData).getJSONObject(0);
+                        userMap.put("name", jsonObject.getString("firstName") + " " + jsonObject.getString("lastName"));
+                        userMap.put("email", jsonObject.getString("email"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+
+            ((TextView) findViewById(R.id.username)).setText(userMap.get("name"));
+            ((TextView) findViewById(R.id.email)).setText(userMap.get("email"));
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /* Pull name and email address from our database */
+
 
         hideLoginFromDrawer();
         showLogoutFromDrawer();
