@@ -46,6 +46,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,7 +64,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static StringBuffer response;
     Location currentlocation;
     URL url;
-
 
     private ViewGroup infoWindow;
 
@@ -135,10 +135,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                     try {
                                         theMap.clear();
                                         getCastleCoordinates();
-                                        theMap.addMarker(new MarkerOptions().title(loc).position(latLng));
-                                        theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,13f) );
-                                        theMap.clear();
-                                        getCastleCoordinates();
+
+                                        Location castleSearch = new Location("point B");
+                                        castleSearch.setLatitude(latLng.latitude);
+                                        castleSearch.setLongitude(latLng.longitude);
+
+                                        removeDuplictaeMarkers(castleSearch);
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -380,7 +382,37 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
+    public void removeDuplictaeMarkers(Location castleSearch) {
 
+        List<LatLng> points = new ArrayList<LatLng>();
+        points.add(new LatLng(55.41575, -1.70607));
+        points.add(new LatLng(55.608, -1.709));
+        points.add(new LatLng(55.3447, -1.6105));
+        points.add(new LatLng(55.669, -1.785));
+        points.add(new LatLng(55.0998, -1.8637));
+        points.add(new LatLng(55.4894, -1.5950));
+        points.add(new LatLng(55.5259, -1.9038));
+        points.add(new LatLng(55.7736, -2.0125));
+        points.add(new LatLng(54.9649, -1.8582));
+        points.add(new LatLng(55.3767, -1.8185));
+
+        for (int i = 0; i <= 10; i++) {
+
+            Location castleCoord = new Location("point A");
+            castleCoord.setLatitude(points.get(i).latitude);
+            castleCoord.setLongitude(points.get(i).longitude);
+
+            double distance = castleCoord.distanceTo(castleSearch);
+
+            if (distance < 1000) {
+
+                theMap.addMarker(new MarkerOptions().position(points.get(i)).title(points.get(i).toString()).snippet("").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+                theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(points.get(i),13f));
+                theMap.clear();
+                getCastleCoordinates();
+            }
+        }
+    }
 
 
     @Override
