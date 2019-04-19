@@ -70,7 +70,6 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = alnwickButton.getText().toString();
-                castleID = 0;
             }
         });
 
@@ -80,7 +79,6 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = warkworthButton.getText().toString();
-                castleID = 0;
             }
         });
 
@@ -90,7 +88,6 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = bamburghButton.getText().toString();
-                castleID = 0;
             }
         });
 
@@ -116,7 +113,7 @@ public class ViewCastlesFragment extends Fragment {
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
-                chosenCastle = dunstanburghButton.getText().toString();
+                chosenCastle = "National%20Trust%20-%20Dunstanburgh%20Castle";
             }
         });
 
@@ -125,7 +122,7 @@ public class ViewCastlesFragment extends Fragment {
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
-                chosenCastle = chillinghamButton.getText().toString();
+                chosenCastle = "Chillingham%20Castle";
             }
         });
 

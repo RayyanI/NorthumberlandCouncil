@@ -116,13 +116,19 @@ public class InformationFragment extends Fragment {
 
         castleIDs.put("Alnwick%20castle", 0);
         castleIDs.put("Bamburgh%20castle", 1);
-
+        castleIDs.put("Warkworth%20castle", 2);
+        castleIDs.put("Lindisfarne%20castle", 3);
+        castleIDs.put("Tynemouth%20Priory%20and%20Castle", 4);
+        castleIDs.put("National%20Trust%20-%20Dunstanburgh%20Castle", 5);
+        castleIDs.put("Chillingham%20Castle", 6);
+        castleIDs.put("Berwick%20castle", 7);
+        castleIDs.put("Prudhoe%20Castle", 8);
+        castleIDs.put("Edlingham%20Castle", 9);
         OkHttpClient client = new OkHttpClient();                       // WEB REQUEST //
 
         String API_URL = "http://18.130.117.241/";
 
-        vcf = new ViewCastlesFragment();
-        String casteID = Integer.toString(vcf.getCastleID());
+
 
         try {
 
@@ -151,8 +157,10 @@ public class InformationFragment extends Fragment {
                         Log.d("worked", res);
                         for(String s : castleInfo){
                             String val1 = s.split(" ")[0];
-                            Log.d("value", s);
+                            Log.d("key", val1);
+
                             String val2 = s.split(" ")[1];
+                            Log.d("value", val2);
                             refinedCastleInfo.put(val1, val2);
                         }
                     } catch (Exception e) {
@@ -177,8 +185,8 @@ public class InformationFragment extends Fragment {
             castleLocationTV.setText("        " + values[0].replaceAll(",", "\n       "));
             castleNameTV.setText(values[1]);
             castleRatingTV.setText("        " + values[2]);
-            childPriceTV.setText("        " + refinedCastleInfo.get("childCost"));
-            adultPriceTV.setText("        " + refinedCastleInfo.get("adultCost"));
+            childPriceTV.setText("        £" + refinedCastleInfo.get("childCost"));
+            adultPriceTV.setText("        £" + refinedCastleInfo.get("adultCost"));
             castleWebsiteTV.setText("        " + refinedCastleInfo.get("website"));
             openingTimeTV.setText("        " + refinedCastleInfo.get("openingClosing"));
         } catch (Exception e) {
