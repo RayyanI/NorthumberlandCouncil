@@ -135,9 +135,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                     try {
                                         theMap.clear();
                                         getCastleCoordinates();
-                                        //getBorder();
                                         theMap.addMarker(new MarkerOptions().title(loc).position(latLng));
                                         theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,13f) );
+                                        theMap.clear();
+                                        getCastleCoordinates();
 
                                     } catch (Exception e) {
                                         e.printStackTrace();

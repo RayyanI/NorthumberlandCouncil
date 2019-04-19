@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.net.Uri;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -112,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.nav_home);
 
         }
-
         /* End activity loading */
 
     }
@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_website:
                 Toast.makeText(this, "Load website", Toast.LENGTH_SHORT).show();
+                goToWebsite(this);
                 break;
             case R.id.nav_view_castles:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ViewCastlesFragment()).commit();
@@ -365,6 +366,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         /* End handling */
 
+    }
+
+    public void goToWebsite(MainActivity view) {
+        Intent openBrowser = new Intent(Intent.ACTION_VIEW, Uri.parse("http://northumberlandcastles.co.uk"));
+        startActivity(openBrowser);
     }
 
 }
