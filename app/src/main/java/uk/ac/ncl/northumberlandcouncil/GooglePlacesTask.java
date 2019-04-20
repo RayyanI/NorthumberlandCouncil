@@ -124,5 +124,4 @@ public class GooglePlacesTask extends AsyncTask<Void, Void, String> {
         Log.i("json", s);
     }
 
-
 }

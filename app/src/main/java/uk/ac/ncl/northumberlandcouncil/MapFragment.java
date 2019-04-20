@@ -34,8 +34,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
 import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
+import com.mysql.cj.x.protobuf.MysqlxResultset;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,13 +82,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Button searchButton = look.findViewById(R.id.searchbutton);
         EditText editText = look.findViewById(R.id.address);
         editText.setImeActionLabel("Enter", KeyEvent.KEYCODE_ENTER);
+        Button getDirectionsButton = look.findViewById(R.id.getDirectionsButton);
 
 
         // TODO: SET THE CURRENT LOCATION TO USERS CURRENT LOCATION HERE OR THIS IF NO LOCATION ACCESS //
         currentlocation = new Location("Northumberland Council");
         currentlocation.setLatitude(55.224470);
         currentlocation.setLongitude(-2.014950);
-
 
         // Handle searching using the keyboard //
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -100,7 +103,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 return false;
             }
         });
-
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,8 +141,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                         Location castleSearch = new Location("point B");
                                         castleSearch.setLatitude(latLng.latitude);
                                         castleSearch.setLongitude(latLng.longitude);
-
-                                        removeDuplictaeMarkers(castleSearch);
+                                        removeDuplicateMarkers(castleSearch, listOfCastles());
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -158,6 +159,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        getDirectionsButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
+        //onclick listener for marker event
+        /*theMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                return true;
+            }
+        });*/
+
         mapview = look.findViewById(R.id.mapactivity);
         mapview.onCreate(savedInstanceState);
         mapview.onResume();
@@ -171,7 +190,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         data();
         return look;
 
-
     }
 
     //DISPLAYS MAP
@@ -181,8 +199,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         theMap = googleMap;
 
         getCastleCoordinates();
-
-
 
         if (theMap != null) {
 
@@ -230,14 +246,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    public void handleNewLocation() {
+    public LatLng handleNewLocation() {
 
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
 
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+            //return;
         }
 
         currentlocation = locationManager.getLastKnownLocation(provider);
@@ -248,12 +264,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             double longitude = currentlocation.getLongitude();
             LatLng currentPosition = new LatLng(latitude, longitude);
             theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition ,13f) );
+            return currentPosition;
         }
 
         else {
             // if the user doesn't have signal, the default zoom is placed in the centre of Northumberland (zoomed out)
             LatLng defaultPosition = new LatLng(55.224470, -2.014950);
-            theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultPosition ,8) );
+            theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultPosition ,8));
+            return null;
         }
     }
 
@@ -281,8 +299,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         theMap.addMarker(new MarkerOptions().position(Prudhoe).title("Prudhoe Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Edlingham = new LatLng(55.3767, -1.8185);
         theMap.addMarker(new MarkerOptions().position(Edlingham).title("Edlingham Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+    }
 
-}
+    public List<LatLng> listOfCastles() {
+        List<LatLng> points = new ArrayList<LatLng>();
+        points.add(new LatLng(55.41575, -1.70607));
+        points.add(new LatLng(55.608, -1.709));
+        points.add(new LatLng(55.3447, -1.6105));
+        points.add(new LatLng(55.669, -1.785));
+        points.add(new LatLng(55.0998, -1.8637));
+        points.add(new LatLng(55.4894, -1.5950));
+        points.add(new LatLng(55.5259, -1.9038));
+        points.add(new LatLng(55.7736, -2.0125));
+        points.add(new LatLng(54.9649, -1.8582));
+        points.add(new LatLng(55.3767, -1.8185));
+        return points;
+    }
 
     public void getBorder() {
 
@@ -298,6 +330,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         }catch (IOException ex) {
             Log.e("IOException", ex.getLocalizedMessage());
+
         } catch (JSONException ex) {
             Log.e("JSONException", ex.getLocalizedMessage());
         }
@@ -310,6 +343,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
     public void data(){
 
         // Array of castle's locations
@@ -325,7 +359,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
     // Method to calculate the specified castle data
 
-    private  void calcDistAndDur(String origin, String dest) {
+    private void calcDistAndDur(String origin, String dest) {
         origin = currentlocation.toString();
         String urlString = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin + "&destinations=" + dest + "&key=AIzaSyA-SYN3vPXJ0Z7Xgw7QhkhTl7fo9xL48yw";
         try {
@@ -381,22 +415,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    public void removeDuplicateMarkers(Location castleSearch, List<LatLng> points) {
 
-    public void removeDuplictaeMarkers(Location castleSearch) {
-
-        List<LatLng> points = new ArrayList<LatLng>();
-        points.add(new LatLng(55.41575, -1.70607));
-        points.add(new LatLng(55.608, -1.709));
-        points.add(new LatLng(55.3447, -1.6105));
-        points.add(new LatLng(55.669, -1.785));
-        points.add(new LatLng(55.0998, -1.8637));
-        points.add(new LatLng(55.4894, -1.5950));
-        points.add(new LatLng(55.5259, -1.9038));
-        points.add(new LatLng(55.7736, -2.0125));
-        points.add(new LatLng(54.9649, -1.8582));
-        points.add(new LatLng(55.3767, -1.8185));
-
-        for (int i = 0; i <= 10; i++) {
+        for (int i = 0; i < 10; i++) {
 
             Location castleCoord = new Location("point A");
             castleCoord.setLatitude(points.get(i).latitude);
@@ -410,10 +431,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(points.get(i),13f));
                 theMap.clear();
                 getCastleCoordinates();
+                //getBorder();
             }
         }
     }
-
 
     @Override
     public void onResume() {
