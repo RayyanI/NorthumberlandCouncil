@@ -30,6 +30,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="5dp"
             android:drawableLeft="@drawable/ic_magnify"
+            android:background="@drawable/searchbutton"
             android:gravity="center"
             android:onClick="onSearch" />
 
