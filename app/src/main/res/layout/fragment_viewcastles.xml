@@ -58,6 +58,42 @@
             android:layout_height="wrap_content"
             android:text="chillingham castle" />
 
+        <Button
+            android:id="@+id/berwick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Berwick castle" />
+
+        <Button
+            android:id="@+id/prudhoe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Prudhoe castle" />
+
+        <Button
+            android:id="@+id/edlingham"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Edlingham castle" />
+
+        <Button
+            android:id="@+id/witton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Witton castle" />
+
+        <Button
+            android:id="@+id/newcastle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Newcastle castle" />
+
+        <Button
+            android:id="@+id/durham"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Durham castle" />
+
     </LinearLayout>
     <!-- Ennd of details linear layout !-->
 
