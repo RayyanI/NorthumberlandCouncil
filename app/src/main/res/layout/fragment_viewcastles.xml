@@ -28,14 +28,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:background="@drawable/view_castle"
             android:drawableLeft="@drawable/alnwick"
-            android:text="Alnwick castle" />
-
+        android:text="Alnwick castle"/>
         <Button
             android:id="@+id/bamburgh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/bamburgh"
+            android:background="@drawable/view_castle"
             android:text="Bamburgh castle" />
 
         <Button
@@ -43,6 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/warkworth"
+            android:background="@drawable/view_castle"
             android:text="Warkworth castle" />
 
         <Button
@@ -50,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/lindisfarne"
+            android:background="@drawable/view_castle"
             android:text="Lindisfarne castle" />
 
         <Button
@@ -57,6 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/tynemouth"
+            android:background="@drawable/view_castle"
             android:text="Tynemouth Priory and Castle" />
 
         <Button
@@ -64,6 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/dunstanburgh"
+            android:background="@drawable/view_castle"
             android:text="dunstanburgh castle" />
 
         <Button
@@ -71,6 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/chillingham"
+            android:background="@drawable/view_castle"
             android:text="chillingham castle" />
 
         <Button
@@ -78,6 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/berwick"
+            android:background="@drawable/view_castle"
             android:text="Berwick castle" />
 
         <Button
@@ -85,6 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/prudhoe"
+            android:background="@drawable/view_castle"
             android:text="Prudhoe castle" />
 
         <Button
@@ -92,6 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/edlingham"
+            android:background="@drawable/view_castle"
             android:text="Edlingham castle" />
 
         <Button
@@ -99,7 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/witton"
-
+            android:background="@drawable/view_castle"
             android:text="Witton castle" />
 
         <Button
@@ -107,6 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/newcastle"
+            android:background="@drawable/view_castle"
             android:text="Newcastle castle" />
 
         <Button
@@ -114,6 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/durham"
+            android:background="@drawable/view_castle"
             android:text="Durham castle" />
 
     </LinearLayout>
