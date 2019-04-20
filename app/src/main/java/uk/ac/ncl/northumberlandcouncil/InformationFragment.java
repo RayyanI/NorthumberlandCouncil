@@ -2,6 +2,7 @@ package uk.ac.ncl.northumberlandcouncil;
 
 
 /* Begin library imports */
+import android.media.Image;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
@@ -112,7 +113,7 @@ public class InformationFragment extends Fragment {
         ImageView castlePhotoImg = view.findViewById(R.id.castle_img);
         TextView openingTimeTV = view.findViewById(R.id.castle_times);
         TextView castleWebsiteTV = view.findViewById(R.id.website);
-
+        ImageView castleImg = view.findViewById(R.id.castle_img);
 
         castleIDs.put("Alnwick%20castle", 0);
         castleIDs.put("Bamburgh%20castle", 1);
@@ -137,6 +138,11 @@ public class InformationFragment extends Fragment {
 
             ViewCastlesFragment vcf = new ViewCastlesFragment();
             String chosenCastle = vcf.getChosenCastle();
+            String chosenImage = vcf.getChosenCastleImg();
+
+            castleImg.setImageResource(getResources().getIdentifier(chosenImage,"drawable", BuildConfig.APPLICATION_ID));
+            castleImg.setAdjustViewBounds(true);
+            castleImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
             String casid = Integer.toString(vcf.getId());
             // Setup the body of the request to include name-value pair of idToken //
             RequestBody requestBody = new MultipartBody.Builder()
