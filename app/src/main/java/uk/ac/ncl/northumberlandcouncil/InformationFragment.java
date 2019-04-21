@@ -166,11 +166,16 @@ public class InformationFragment extends Fragment {
                         Log.d("worked", res);
                         for(String s : castleInfo){
                             String val1 = s.split(" ")[0];
-                            Log.d("key", val1);
+                            if(val1.equals("shortDescription")){
+                                String desc[] = s.split(" ", 1);
+                                Log.d("desc", desc[0].replace("shortDescription", ""));
+                            }else{
+                                String val2 = s.split(" ")[1];
+                                Log.d("value", val2);
+                                refinedCastleInfo.put(val1, val2);
+                            }
 
-                            String val2 = s.split(" ")[1];
-                            Log.d("value", val2);
-                            refinedCastleInfo.put(val1, val2);
+
                         }
                     } catch (Exception e) {
                         Log.e("response", "failure");

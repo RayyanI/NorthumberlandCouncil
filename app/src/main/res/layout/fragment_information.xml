@@ -23,6 +23,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:foregroundGravity="right"
                 android:orientation="vertical">
 
                 <!-- Multiple layouts were required to get the textView on top of the imageView and
