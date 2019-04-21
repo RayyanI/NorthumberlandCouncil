@@ -50,13 +50,4 @@
     map:uiZoomControls="true"
     map:uiZoomGestures="true"/>
 
-    <Button
-        android:id="@+id/getDirectionsButton"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="3dp"
-        android:text="Get Directions"
-        android:onClick="getDirectionsButton"/>
-
 </FrameLayout>

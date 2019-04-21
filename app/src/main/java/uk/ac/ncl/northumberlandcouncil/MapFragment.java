@@ -1,7 +1,10 @@
 package uk.ac.ncl.northumberlandcouncil;
 
 import android.Manifest;
+import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -15,10 +18,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -51,6 +56,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
+import static com.google.android.gms.maps.GoogleMap.*;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     /* Declarations */
@@ -64,6 +70,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static StringBuffer response;
     Location currentlocation;
     URL url;
+    boolean isMarkerPressed = false;
 
     private ViewGroup infoWindow;
 
@@ -79,8 +86,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Button searchButton = look.findViewById(R.id.searchbutton);
         EditText editText = look.findViewById(R.id.address);
         editText.setImeActionLabel("Enter", KeyEvent.KEYCODE_ENTER);
-        Button getDirectionsButton = look.findViewById(R.id.getDirectionsButton);
-
 
         // TODO: SET THE CURRENT LOCATION TO USERS CURRENT LOCATION HERE OR THIS IF NO LOCATION ACCESS //
         currentlocation = new Location("Northumberland Council");
@@ -156,23 +161,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        getDirectionsButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-
-            }
-        });
-
-        //onclick listener for marker event
-        /*theMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                return true;
-            }
-        });*/
 
         mapview = look.findViewById(R.id.mapactivity);
         mapview.onCreate(savedInstanceState);
@@ -199,7 +187,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         if (theMap != null) {
 
-            theMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            theMap.setInfoWindowAdapter(new InfoWindowAdapter() {
+
 
                 @Override
                 public View getInfoWindow(Marker marker) {
@@ -211,17 +200,28 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                     View row = getLayoutInflater().inflate(R.layout.info_window, null);
                     TextView t1_name = row.findViewById(R.id.markerTitle);
-                    Button moreInfoBtn = row.findViewById(R.id.moreInfo);
-                    Button getDirectionsBtn = row.findViewById(R.id.getDirections);
-
                     t1_name.setText(marker.getTitle());
-                    moreInfoBtn.setText("More Info");
-                    getDirectionsBtn.setText("Get Directions");
 
                     return row;
                 }
+
             });
         }
+
+        theMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+                isMarkerPressed = true;
+
+                PopupWindow popUp = new PopupWindow();
+                popUp.show(getActivity().getSupportFragmentManager(),"");
+
+
+            }
+        });
+
 
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -241,7 +241,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         getBorder();
 
     }
-
 
     public LatLng handleNewLocation() {
 
