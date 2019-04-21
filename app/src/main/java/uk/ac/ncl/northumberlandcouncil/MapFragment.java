@@ -2,8 +2,10 @@ package uk.ac.ncl.northumberlandcouncil;
 
 import android.Manifest;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -28,7 +30,9 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -86,6 +90,38 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Button searchButton = look.findViewById(R.id.searchbutton);
         EditText editText = look.findViewById(R.id.address);
         editText.setImeActionLabel("Enter", KeyEvent.KEYCODE_ENTER);
+        ImageButton infoButton = look.findViewById(R.id.infobutton);
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        getActivity());
+
+                // set title
+                alertDialogBuilder.setTitle("Castles");
+
+                // set dialog message
+                alertDialogBuilder
+                        .setMessage("Castles to Enter are as follows:\n" + "Alnwick\n" + "Bamburgh\n" + "Warkworth\n " + "Lindisfarne\n" + "Tynemouth Priory\n " + "Dunstanburgh\n" + "Chillingham\n" + "Berwick\n" + "Prudhoe\n" + "Edlinghan\n" + "Witton\n"+ "Newcastle\n"+ "Durham\n"
+
+                        )
+                        .setCancelable(false)
+                        .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                Toast.makeText(getContext(), "OK button click ", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+            }
+        });
+
 
         // TODO: SET THE CURRENT LOCATION TO USERS CURRENT LOCATION HERE OR THIS IF NO LOCATION ACCESS //
         currentlocation = new Location("Northumberland Council");
@@ -176,6 +212,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return look;
 
     }
+
 
     //DISPLAYS MAP
     public void onMapReady(GoogleMap googleMap) {

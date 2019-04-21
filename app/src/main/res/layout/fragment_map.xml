@@ -37,17 +37,27 @@
 
     </LinearLayout>
 
-    <com.google.android.gms.maps.MapView
-    xmlns:map="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/mapactivity"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    map:mapType="normal"
-    map:uiCompass="true"
-    map:uiRotateGestures="true"
-    map:uiScrollGestures="true"
-    map:uiTiltGestures="true"
-    map:uiZoomControls="true"
-    map:uiZoomGestures="true"/>
+    <ImageButton
+        android:id="@+id/infobutton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/round_background"
+        android:src="@drawable/ic_info" />
+
+    <com.google.android.gms.maps.MapView xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/mapactivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        map:mapType="normal"
+        map:uiCompass="true"
+        map:uiRotateGestures="true"
+        map:uiScrollGestures="true"
+        map:uiTiltGestures="true"
+        map:uiZoomControls="true"
+        map:uiZoomGestures="true" />
 
 </FrameLayout>
