@@ -10,6 +10,8 @@ import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -117,6 +120,18 @@ public class InformationFragment extends Fragment {
         TextView openingTimeTV = view.findViewById(R.id.castle_times);
         TextView castleWebsiteTV = view.findViewById(R.id.website);
         ImageView castleImg = view.findViewById(R.id.castle_img);
+        ImageButton backbutton = view.findViewById(R.id.backButton);
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment viewcastle = new ViewCastlesFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.backButton,viewcastle);
+                fragmentTransaction.commit();
+            }
+        });
+
 
         castleIDs.put("Alnwick%20castle", 0);
         castleIDs.put("Bamburgh%20castle", 1);
