@@ -123,7 +123,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                 // set dialog message
                 alertDialogBuilder
-                        .setMessage("Castles to Enter are as follows:\n" + "Alnwick Castle\n" + "Bamburgh Castle\n" + "Warkworth Castle\n " + "Lindisfarne Castle\n" + "Mitford Castle\n " + "Dunstanburgh Castle\n" + "Chillingham Castle\n" + "Berwick Castle\n" + "Prudhoe Castle\n" + "Edlingham Castle\n"
+                        .setMessage("Castles to Enter are as follows:\n" + "Alnwick Castle\n" + "Bamburgh Castle\n" + "Warkworth Castle\n " + "Lindisfarne Castle\n" + "Tynemouth Priory\n " + "Dunstanburgh Castle\n" + "Chillingham Castle\n" + "Berwick Castle\n" + "Prudhoe Castle\n" + "Edlinghan Castle\n"
 
                         )
                         .setCancelable(false)

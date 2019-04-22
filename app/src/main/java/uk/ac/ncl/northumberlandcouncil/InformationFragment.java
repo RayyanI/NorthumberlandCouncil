@@ -120,7 +120,7 @@ public class InformationFragment extends Fragment {
         TextView openingTimeTV = view.findViewById(R.id.castle_times);
         TextView castleWebsiteTV = view.findViewById(R.id.website);
         ImageView castleImg = view.findViewById(R.id.castle_img);
-        ImageView backbutton = view.findViewById(R.id.backButton);
+        ImageButton backbutton = view.findViewById(R.id.backButton);
 
 
 
