@@ -45,16 +45,17 @@
                             tools:srcCompat="@tools:sample/backgrounds/scenic[11]"
                             android:scaleType="fitXY"/>
 
-                        <ImageButton
+                        <ImageView
                             android:id="@+id/backButton"
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/round_background"
+                            android:layout_width="106dp"
+                            android:layout_height="80dp"
+
+                            android:padding="10dp"
+
                             android:src="@drawable/ic_backarrow"
                             app:layout_constraintHorizontal_bias="1.0"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
-                            android:padding="10dp"
                             tools:layout_editor_absoluteY="16dp" />
 
                         <TextView
