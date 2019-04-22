@@ -2,6 +2,8 @@ package uk.ac.ncl.northumberlandcouncil;
 
 
 /* Begin library imports */
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -81,6 +83,7 @@ public class InformationFragment extends Fragment {
     private String address;
     private String name;
     private boolean open;
+    private boolean fave = false;
     private String photoReference;
     private String rating;
     private HashMap<String, Integer> castleIDs = new HashMap<>();
@@ -143,6 +146,28 @@ public class InformationFragment extends Fragment {
             castleImg.setImageResource(getResources().getIdentifier(chosenImage,"drawable", BuildConfig.APPLICATION_ID));
             castleImg.setAdjustViewBounds(true);
             castleImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            ImageView starImg = view.findViewById(R.id.imageStar);
+            starImg.bringToFront();
+
+
+            starImg.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View v){
+                    if(fave == false){
+                        fave = true;
+                    }else{
+                        fave = false;
+                    }
+                    if(fave){
+                        starImg.setImageResource(getResources().getIdentifier("yellowstar","drawable", BuildConfig.APPLICATION_ID));
+                        starImg.setAdjustViewBounds(true);
+                    }else{
+                        starImg.setImageResource(getResources().getIdentifier("staroutline","drawable", BuildConfig.APPLICATION_ID));
+                        starImg.setAdjustViewBounds(true);
+                    }
+
+                }
+            });
             String casid = Integer.toString(vcf.getId());
             // Setup the body of the request to include name-value pair of idToken //
             RequestBody requestBody = new MultipartBody.Builder()
@@ -150,7 +175,7 @@ public class InformationFragment extends Fragment {
                     .addFormDataPart("idToken", Integer.toString(castleIDs.get(chosenCastle)))
                     .build();
             Request request = new Request.Builder()
-                    .url(API_URL + "testPHP.php")
+                    .url(API_URL + "InformationAPI.php")
                     .post(requestBody)
                     .build();
             // Execute network activity off of the main thread //
