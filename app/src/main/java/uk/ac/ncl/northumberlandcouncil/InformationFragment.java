@@ -121,16 +121,7 @@ public class InformationFragment extends Fragment {
         TextView castleWebsiteTV = view.findViewById(R.id.website);
         ImageView castleImg = view.findViewById(R.id.castle_img);
         ImageButton backbutton = view.findViewById(R.id.backButton);
-        backbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment viewcastle = new ViewCastlesFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.backButton,viewcastle);
-                fragmentTransaction.commit();
-            }
-        });
+
 
 
         castleIDs.put("Alnwick%20castle", 0);
@@ -247,6 +238,14 @@ public class InformationFragment extends Fragment {
             Log.e("FTPFAIL", "hi");
             e.printStackTrace();
         }
+
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new ViewCastlesFragment()).commit();
+            }
+        });
+
             return view;
         }
 
