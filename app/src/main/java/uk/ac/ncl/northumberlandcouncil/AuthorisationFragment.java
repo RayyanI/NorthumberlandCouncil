@@ -78,6 +78,7 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
 
+
     /* End Declarations */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -141,7 +142,6 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
             @Override
             public void success(Result<TwitterSession> result) {
                 System.out.println(result.data.getUserId());
-                ((MainActivity) getActivity()).onLoginResult(result);
                 /* Successful twitter login has occurred
                     (1) Has this user already registered with twitter before? --> fetch data and redirect
                     (2) Create a popup to request additional information from the user
@@ -268,7 +268,7 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
 
 
                                 // Execute network activity off of the main thread //
-                                new Thread(new Runnable() {
+                                Thread thread = new Thread(new Runnable() {
                                     public void run() {
                                         try {
                                             Response response = client.newCall(request).execute();
@@ -277,7 +277,10 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
                                             e.printStackTrace();
                                         }
                                     }
-                                }).start();
+                                });
+                                thread.start();
+                                thread.join();
+                                System.out.println("HERE ALREADY");
                                 ((MainActivity) getActivity()).onLoginResult(result); // update ui in activity
                             } catch (Exception e) {
                                 e.printStackTrace();

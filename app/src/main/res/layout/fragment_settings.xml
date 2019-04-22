@@ -13,14 +13,42 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/tw__composer_white"
         android:text="Account Settings"/>
+
     <Button
         android:layout_width="wrap_content"
-        android:id="@+id/revokeTwitter"
-        android:width="190sp"
+        android:id="@+id/changeName"
+        android:layout_height="wrap_content"
         android:layout_marginTop="90px"
         android:paddingLeft="20px"
         android:paddingRight="20px"
         android:layout_centerHorizontal="true"
+        android:width="210sp"
+        android:background="@android:color/holo_purple"
+        android:text="Change full name"
+        android:textColor="@color/tw__composer_white" />
+
+    <Button
+        android:id="@+id/changeEmailAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="270px"
+        android:width="210sp"
+        android:background="@android:color/holo_orange_dark"
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
+        android:text="Change email address"
+        android:textColor="@color/tw__composer_white" />
+
+
+    <Button
+        android:id="@+id/revokeTwitter"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="450px"
+        android:width="210sp"
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
         android:text="Revoke Twitter access"
         android:textColor="@color/tw__composer_white"
         android:background="@color/tw__composer_blue"
@@ -28,10 +56,8 @@
 
     <Button
         android:id="@+id/revokeGoogle"
-        android:layout_width="190sp"
-        android:layout_below="@id/revokeTwitter"
-        android:layout_marginTop="40px"
-        android:paddingLeft="20px"
+        android:layout_width="210sp"
+        android:layout_marginTop="450px"
         android:paddingRight="20px"
         android:layout_centerHorizontal="true"
         android:text="Revoke google access"

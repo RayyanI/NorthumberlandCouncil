@@ -4,6 +4,7 @@ package uk.ac.ncl.northumberlandcouncil;
 /* Begin library imports */
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -19,7 +20,6 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.net.Uri;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Result<TwitterSession> twitterSessionResult = null;
     private GoogleSignInResult googleSignInResult = null;
     private Map<String,String> userMap =  new HashMap<String,String>();
-
     /* End Class Variables */
 
     @Override
@@ -181,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onLoginResult(Result<TwitterSession> twitterSessionResult) {
         /* Update UI */
         this.twitterSessionResult = twitterSessionResult; // Let's save this session
+        this.googleSignInResult = null; // In the event that a user signed in with Google then Twitter (defensive)
         String url = "http://18.130.117.241/API.php?getNameAndEmail&tokenId=" + Long.toString(twitterSessionResult.data.getUserId());
         try {
             OkHttpClient client = new OkHttpClient();
@@ -238,8 +238,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ((TextView) findViewById(R.id.username)).setText(googleSignInAccount.getDisplayName());
         ((TextView) findViewById(R.id.email)).setText(googleSignInAccount.getEmail());
 
-        this.googleSignInResult = googleSignInResult;
 
+        /* Setup declarations */
+        this.googleSignInResult = googleSignInResult;
+        this.twitterSessionResult = null; // In the event that a user signed in with Twitter, then Google (defensive)
         hideLoginFromDrawer();
         showLogoutFromDrawer();
         showAccSettingsFromDrawer();
@@ -299,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /**
      * Logout a user that is currently logged in from the system
      */
-    private void logout() {
+    public void logout() {
         /* Handle twitter logout */
         if (twitterSessionResult != null) {
             TwitterCore.getInstance().getSessionManager().clearActiveSession();
@@ -320,6 +322,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ((TextView) findViewById(R.id.username)).setText("Brown Fox");
         ((TextView) findViewById(R.id.email)).setText("BrownFox@gmail.com");
 
+
+        /* Let's also update the current fragment being displayed */
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
 
     }
 
@@ -366,6 +371,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         /* End handling */
 
+    }
+
+    public Result<TwitterSession> getTwitterSessionResult() {
+        return twitterSessionResult;
+    }
+
+    public GoogleSignInResult getGoogleSignInResult() {
+        return googleSignInResult;
     }
 
     public void goToWebsite(MainActivity view) {
