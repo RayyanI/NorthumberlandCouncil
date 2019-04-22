@@ -79,7 +79,7 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = alnwickButton.getText().toString();
-                chosenImage = "alnwick";
+                chosenImage = "alnwicktest";
             }
         });
 
@@ -89,7 +89,7 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = warkworthButton.getText().toString();
-                chosenImage = "warkworth";
+                chosenImage = "warkworthtest";
             }
         });
 
@@ -99,7 +99,7 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = bamburghButton.getText().toString();
-                chosenImage = "bamburgh";
+                chosenImage = "bamburghtest";
             }
         });
 
@@ -109,7 +109,7 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = lindisfarneButton.getText().toString();
-                chosenImage = "lindisfarne";
+                chosenImage = "lindisfarnetest";
             }
         });
 
@@ -119,7 +119,7 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = tynemouthButton.getText().toString();
-                chosenImage = "tynemouth";
+                chosenImage = "tynemouthtest";
             }
         });
         dunstanburghButton.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +128,7 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = "National%20Trust%20-%20Dunstanburgh%20Castle";
-                chosenImage = "dunstanburgh";
+                chosenImage = "dunstanburghtest";
             }
         });
 
@@ -138,7 +138,7 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = "Chillingham%20Castle";
-                chosenImage = "chillingham";
+                chosenImage = "chillinghamtest";
             }
         });
 
@@ -148,7 +148,7 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = berwickButton.getText().toString();
-                chosenImage = "berwick";
+                chosenImage = "berwicktest";
             }
         });
 
@@ -158,7 +158,7 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = prudhoeButton.getText().toString();
-                chosenImage = "prudhoe";
+                chosenImage = "prudhoetest";
             }
         });
         edlinghamButton.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +167,7 @@ public class ViewCastlesFragment extends Fragment {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
                 chosenCastle = edlinghamButton.getText().toString();
-                chosenImage = "edlingham";
+                chosenImage = "edlinghamtest";
             }
         });
 
