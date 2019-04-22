@@ -175,10 +175,13 @@ public class InformationFragment extends Fragment {
                 }
             });
             String casid = Integer.toString(vcf.getId());
+//            String testId = Integer.toString(castleIDs.get(chosenCastle.replace(" ", "%20")));
+            Log.i("castleID", chosenCastle.replace(" ", "%20"));
+            Log.i("castleID", Integer.toString(castleIDs.get(chosenCastle.replace(" ", "%20"))));
             // Setup the body of the request to include name-value pair of idToken //
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart("idToken", Integer.toString(castleIDs.get(chosenCastle)))
+                    .addFormDataPart("idToken", Integer.toString(castleIDs.get(chosenCastle.replace(" ", "%20"))))
                     .build();
             Request request = new Request.Builder()
                     .url(API_URL + "InformationAPI.php")
