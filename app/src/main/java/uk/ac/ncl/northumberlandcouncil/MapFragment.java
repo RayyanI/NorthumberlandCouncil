@@ -91,37 +91,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         EditText editText = look.findViewById(R.id.address);
         editText.setImeActionLabel("Enter", KeyEvent.KEYCODE_ENTER);
         ImageButton infoButton = look.findViewById(R.id.infobutton);
-        infoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                        getActivity());
-
-                // set title
-                alertDialogBuilder.setTitle("Castles");
-
-                // set dialog message
-                alertDialogBuilder
-                        .setMessage("Castles to Enter are as follows:\n" + "Alnwick\n" + "Bamburgh\n" + "Warkworth\n " + "Lindisfarne\n" + "Tynemouth Priory\n " + "Dunstanburgh\n" + "Chillingham\n" + "Berwick\n" + "Prudhoe\n" + "Edlinghan\n" + "Witton\n"+ "Newcastle\n"+ "Durham\n"
-
-                        )
-                        .setCancelable(false)
-                        .setPositiveButton("OK",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                Toast.makeText(getContext(), "OK button click ", Toast.LENGTH_SHORT).show();
-
-                            }
-                        });
-
-
-                // create alert dialog
-                AlertDialog alertDialog = alertDialogBuilder.create();
-
-                // show it
-                alertDialog.show();
-            }
-        });
-
 
         // TODO: SET THE CURRENT LOCATION TO USERS CURRENT LOCATION HERE OR THIS IF NO LOCATION ACCESS //
         currentlocation = new Location("Northumberland Council");
@@ -139,6 +108,37 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     return true;
                 }
                 return false;
+            }
+        });
+
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        getActivity());
+
+                // set title
+                alertDialogBuilder.setTitle("Castles");
+
+                // set dialog message
+                alertDialogBuilder
+                        .setMessage("Castles to Enter are as follows:\n" + "Alnwick Castle\n" + "Bamburgh Castle\n" + "Warkworth Castle\n " + "Lindisfarne Castle\n" + "Tynemouth Priory\n " + "Dunstanburgh Castle\n" + "Chillingham Castle\n" + "Berwick Castle\n" + "Prudhoe Castle\n" + "Edlinghan Castle\n"
+
+                        )
+                        .setCancelable(false)
+                        .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                Toast.makeText(getContext(), "Info closed", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.getWindow().setLayout(600, 350);
+                // show it
+                alertDialog.show();
             }
         });
 
