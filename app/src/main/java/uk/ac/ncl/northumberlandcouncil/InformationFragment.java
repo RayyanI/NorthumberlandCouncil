@@ -76,6 +76,7 @@ public class InformationFragment extends Fragment {
     private String ageRange; /* Age range for the castle */
     private int childPrice; /* Price for a child to enter */
     private int adultPrice; /* Price for an adult to enter */
+    private static String previousPage;
 
     private String key = "AIzaSyA-SYN3vPXJ0Z7Xgw7QhkhTl7fo9xL48yw"; /* Places API key */
     private String urlString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/" +
@@ -245,7 +246,12 @@ public class InformationFragment extends Fragment {
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new ViewCastlesFragment()).commit();
+                if(previousPage.equals("ViewCastlesFragment")){
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_container, new ViewCastlesFragment()).commit();
+                }else{
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
+                }
+
             }
         });
 
@@ -275,6 +281,9 @@ public class InformationFragment extends Fragment {
 //        setCastleDetails(name, address, rating, "temp");
     }
 
+    public static void setPreviousPage(String prevPage){
+        previousPage = prevPage;
+    }
     public static void setID(int id){
         castleid = id;
     }

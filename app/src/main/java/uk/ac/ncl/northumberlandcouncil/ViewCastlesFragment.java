@@ -44,6 +44,7 @@ public class ViewCastlesFragment extends Fragment {
     private static int castleID;
     private static String chosenImage;
 
+
     private static List<String> castles = new ArrayList<>(Arrays.asList("Alnwick%20Castle", "Bamburgh%20Castle", "Warkworth%20Castle",
             "Lindisfarne%20Castle","Tynemouth%20Castle%20&%20Priory","Dunstanburgh%20castle",
             "Chillingham%20Castle", "Berwick%20castle", "Prudhoe%20castle", "Edlingham%20castle",
@@ -54,9 +55,10 @@ public class ViewCastlesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        Fragment InformationFragment = new InformationFragment();
         View view = inflater.inflate(R.layout.fragment_viewcastles, container, false);
 
+        ((InformationFragment) InformationFragment).setPreviousPage("ViewCastlesFragment");
 
         alnwickButton = view.findViewById(R.id.alnwick);
         Button warkworthButton = (Button) view.findViewById(R.id.warkworth);
@@ -77,7 +79,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = alnwickButton.getText().toString();
                 chosenImage = "alnwicktest";
             }
@@ -87,7 +89,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = warkworthButton.getText().toString();
                 chosenImage = "warkworthtest";
             }
@@ -97,7 +99,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = bamburghButton.getText().toString();
                 chosenImage = "bamburghtest";
             }
@@ -107,7 +109,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = lindisfarneButton.getText().toString();
                 chosenImage = "lindisfarnetest";
             }
@@ -117,7 +119,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = tynemouthButton.getText().toString();
                 chosenImage = "tynemouthtest";
             }
@@ -126,7 +128,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = "National%20Trust%20-%20Dunstanburgh%20Castle";
                 chosenImage = "dunstanburghtest";
             }
@@ -136,7 +138,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = "Chillingham%20castle";
                 chosenImage = "chillinghamtest";
             }
@@ -146,7 +148,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = berwickButton.getText().toString();
                 chosenImage = "berwicktest";
             }
@@ -156,7 +158,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = prudhoeButton.getText().toString();
                 chosenImage = "prudhoetest";
             }
@@ -165,7 +167,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = edlinghamButton.getText().toString();
                 chosenImage = "edlinghamtest";
             }
@@ -175,7 +177,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = newcastleButton.getText().toString();
                 chosenImage = "newcastle";
             }
@@ -185,7 +187,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = wittonButton.getText().toString();
                 chosenImage = "witton";
             }
@@ -195,7 +197,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = durhamButton.getText().toString();
                 chosenImage = "durham";
             }

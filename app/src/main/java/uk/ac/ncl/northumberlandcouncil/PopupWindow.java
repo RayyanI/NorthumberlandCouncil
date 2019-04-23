@@ -56,8 +56,9 @@ public class PopupWindow extends DialogFragment {
         getMoreInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
+                Fragment infoFragment = new InformationFragment();
+                ((InformationFragment) infoFragment).setPreviousPage("MapFragment");
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,infoFragment).commit();
                 dismiss();
             }
 
