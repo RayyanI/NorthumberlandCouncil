@@ -82,14 +82,18 @@
                 <!-- Castle details gathered from the API will be positioned in the following locations !-->
 
                 <!-- Opening time header !-->
-                <ImageButton
+                <ImageView
                     android:id="@+id/backButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="20dp"
-                    />
+                    android:layout_width="106dp"
+                    android:layout_height="80dp"
+
+                    android:padding="10dp"
+
+                    android:src="@drawable/ic_backarrow"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    tools:layout_editor_absoluteY="16dp" />
                 <TextView
                     android:id="@+id/header"
                     android:layout_width="match_parent"
