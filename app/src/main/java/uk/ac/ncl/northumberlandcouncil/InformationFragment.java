@@ -123,7 +123,7 @@ public class InformationFragment extends Fragment {
         TextView castleWebsiteTV = view.findViewById(R.id.website);
         ImageView castleImg = view.findViewById(R.id.castle_img);
         ImageView backbutton = view.findViewById(R.id.backButton);
-        TextView shortDescription = view.findViewById(R.id.shortdescription);
+        TextView shortDescription = view.findViewById(R.id.shortDescription);
 
 
 
@@ -204,8 +204,11 @@ public class InformationFragment extends Fragment {
                         for(String s : castleInfo){
                             String val1 = s.split(" ")[0];
                             if(val1.equals("shortDescription")){
+
                                 String desc[] = s.split(" ", 1);
-                                Log.d("desc", desc[0].replace("shortDescription", ""));
+                                Log.d("description", val1);
+                                String val2 = desc[0].replace("shortDescription", "");
+                                refinedCastleInfo.put(val1, val2);
                             }else{
                                 String val2 = s.split(" ")[1];
                                 Log.d("value", val2);

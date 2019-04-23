@@ -98,7 +98,7 @@
                     android:id="@+id/header"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    android:text="     Opening time:"
+                    android:text="     Opening time"
                     android:textSize="25sp"
                     android:textStyle="bold" />
 
@@ -150,7 +150,7 @@
                     android:id="@+id/rating_header"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    android:text="     Rating:"
+                    android:text="     Rating"
                     android:textSize="25sp"
                     android:textStyle="bold" />
 
@@ -173,7 +173,7 @@
                     android:id="@+id/website_header"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    android:text="     Website:"
+                    android:text="     Website"
                     android:textSize="25sp"
                     android:textStyle="bold" />
 
@@ -189,14 +189,22 @@
                     android:textSize="20sp" />
 
                 <!-- End website link !-->
+                <!-- Address header !-->
+
                 <TextView
-                    android:id="@+id/shortdescription"
+                    android:id="@+id/shortDescription_header"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    android:text="     Information:"
+                    android:text="     Description"
                     android:textSize="25sp"
                     android:textStyle="bold" />
-                <!-- Address header !-->
+
+                <TextView
+                    android:id="@+id/shortDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="        http://examplewebsite.co.uk"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/address_header"
@@ -210,6 +218,7 @@
 
 
                 <!-- Castle address details !-->
+
                 <EditText
                     android:id="@+id/castle_address"
                     android:layout_width="match_parent"
