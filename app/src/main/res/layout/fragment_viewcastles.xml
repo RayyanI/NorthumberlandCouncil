@@ -81,10 +81,10 @@
             android:id="@+id/chillingham"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/chillingham"
-            android:background="@drawable/view_castle"
             android:layout_marginBottom="10dp"
-            android:text="chillingham castle" />
+            android:background="@drawable/view_castle"
+            android:drawableLeft="@drawable/chillingham"
+            android:text="Chillingham castle" />
 
         <Button
             android:id="@+id/berwick"

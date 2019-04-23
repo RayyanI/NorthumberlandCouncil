@@ -130,7 +130,8 @@ public class InformationFragment extends Fragment {
         castleIDs.put("Lindisfarne%20castle", 3);
         castleIDs.put("Tynemouth%20Priory%20and%20Castle", 4);
         castleIDs.put("National%20Trust%20-%20Dunstanburgh%20Castle", 5);
-        castleIDs.put("Chillingham%20Castle", 6);
+        castleIDs.put("Dunstanburgh%20castle", 5);
+        castleIDs.put("Chillingham%20castle", 6);
         castleIDs.put("Berwick%20castle", 7);
         castleIDs.put("Prudhoe%20castle", 8);
         castleIDs.put("Edlingham%20castle", 9);
@@ -147,6 +148,7 @@ public class InformationFragment extends Fragment {
 
             ViewCastlesFragment vcf = new ViewCastlesFragment();
             String chosenCastle = vcf.getChosenCastle();
+            Log.i("REFINED", chosenCastle.replaceAll(" ", "%20"));
             String chosenImage = vcf.getChosenCastleImg();
 
             castleImg.setImageResource(getResources().getIdentifier(chosenImage,"drawable", BuildConfig.APPLICATION_ID));
@@ -175,10 +177,11 @@ public class InformationFragment extends Fragment {
                 }
             });
             String casid = Integer.toString(vcf.getId());
+            Log.i("castle", chosenCastle);
             // Setup the body of the request to include name-value pair of idToken //
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart("idToken", Integer.toString(castleIDs.get(chosenCastle)))
+                    .addFormDataPart("idToken", Integer.toString(castleIDs.get(chosenCastle.replaceAll(" ", "%20"))))
                     .build();
             Request request = new Request.Builder()
                     .url(API_URL + "InformationAPI.php")

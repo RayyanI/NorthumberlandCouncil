@@ -70,6 +70,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     String originAddress;
     String distance;
     String duration;
+    String cName;
     private static BufferedReader in;
     private static StringBuffer response;
     Location currentlocation;
@@ -122,7 +123,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                 // set dialog message
                 alertDialogBuilder
-                        .setMessage("Castles to Enter are as follows:\n" + "Alnwick Castle\n" + "Bamburgh Castle\n" + "Warkworth Castle\n" + "Lindisfarne Castle\n" + "Mitford Castle\n" + "Dunstanburgh Castle\n" + "Chillingham Castle\n" + "Berwick Castle\n" + "Prudhoe Castle\n" + "Edlinghan Castle\n"
+                        .setMessage("Castles to Enter are as follows:\n" + "Alnwick Castle\n" + "Bamburgh Castle\n" + "Warkworth Castle\n " + "Lindisfarne Castle\n" + "Tynemouth Priory\n " + "Dunstanburgh Castle\n" + "Chillingham Castle\n" + "Berwick Castle\n" + "Prudhoe Castle\n" + "Edlinghan Castle\n"
 
                         )
                         .setCancelable(false)
@@ -238,7 +239,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     View row = getLayoutInflater().inflate(R.layout.info_window, null);
                     TextView t1_name = row.findViewById(R.id.markerTitle);
                     t1_name.setText(marker.getTitle());
-
+                    cName = marker.getTitle();
+                    Log.i("name", cName);
                     return row;
                 }
 
@@ -253,7 +255,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 isMarkerPressed = true;
 
                 PopupWindow popUp = new PopupWindow();
+
                 popUp.show(getActivity().getSupportFragmentManager(),"");
+                Log.i("Title", cName);
+                popUp.setTitle(cName);
 
 
             }
@@ -313,25 +318,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         // Castle coordinates
         LatLng Alnwick = new LatLng(55.41575, -1.70607);
-        theMap.addMarker(new MarkerOptions().position(Alnwick).title("Alnwick Castle").snippet("").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+        theMap.addMarker(new MarkerOptions().position(Alnwick).title("Alnwick castle").snippet("").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Bamburgh = new LatLng(55.608, -1.709);
-        theMap.addMarker(new MarkerOptions().position(Bamburgh).title("Bamburgh Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+        theMap.addMarker(new MarkerOptions().position(Bamburgh).title("Bamburgh castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Warkworth = new LatLng(55.3447, -1.6105);
-        theMap.addMarker(new MarkerOptions().position(Warkworth).title("Warkworth Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+        theMap.addMarker(new MarkerOptions().position(Warkworth).title("Warkworth castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Lindisfarne = new LatLng(55.669, -1.785);
-        theMap.addMarker(new MarkerOptions().position(Lindisfarne).title("Lindisfarne Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+        theMap.addMarker(new MarkerOptions().position(Lindisfarne).title("Lindisfarne castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Belsay = new LatLng(55.0998, -1.8637);
-        theMap.addMarker(new MarkerOptions().position(Belsay).title("Belsay Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+        theMap.addMarker(new MarkerOptions().position(Belsay).title("Belsay castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Dunstanburgh = new LatLng(55.4894, -1.5950);
-        theMap.addMarker(new MarkerOptions().position(Dunstanburgh).title("Dunstanburgh Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+        theMap.addMarker(new MarkerOptions().position(Dunstanburgh).title("Dunstanburgh castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Chillingham = new LatLng(55.5259, -1.9038);
-        theMap.addMarker(new MarkerOptions().position(Chillingham).title("Chillingham Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+        theMap.addMarker(new MarkerOptions().position(Chillingham).title("Chillingham castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Berwick = new LatLng(55.7736, -2.0125);
-        theMap.addMarker(new MarkerOptions().position(Berwick).title("Berwick Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+        theMap.addMarker(new MarkerOptions().position(Berwick).title("Berwick castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Prudhoe = new LatLng(54.9649, -1.8582);
-        theMap.addMarker(new MarkerOptions().position(Prudhoe).title("Prudhoe Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+        theMap.addMarker(new MarkerOptions().position(Prudhoe).title("Prudhoe castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Edlingham = new LatLng(55.3767, -1.8185);
-        theMap.addMarker(new MarkerOptions().position(Edlingham).title("Edlingham Castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+        theMap.addMarker(new MarkerOptions().position(Edlingham).title("Edlingham castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
     }
 
     public List<LatLng> listOfCastles() {

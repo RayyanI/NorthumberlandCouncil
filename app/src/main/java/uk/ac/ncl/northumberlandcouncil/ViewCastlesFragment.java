@@ -137,7 +137,7 @@ public class ViewCastlesFragment extends Fragment {
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new InformationFragment()).commit();
-                chosenCastle = "Chillingham%20Castle";
+                chosenCastle = "Chillingham%20castle";
                 chosenImage = "chillinghamtest";
             }
         });
@@ -212,6 +212,17 @@ public class ViewCastlesFragment extends Fragment {
 
     public static String getChosenCastleImg(){
         return chosenImage;
+    }
+
+    public static void setCastleID(int id){
+        castleID = id;
+    }
+    public static void setChosenCastle(String castle){
+        chosenCastle = castle;
+    }
+
+    public static void setChosenImage(String img){
+        chosenImage = img;
     }
     public static HashMap<String, String> getInfo(){
 
