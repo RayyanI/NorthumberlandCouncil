@@ -46,7 +46,7 @@ public class ViewCastlesFragment extends Fragment {
 
 
     private static List<String> castles = new ArrayList<>(Arrays.asList("Alnwick%20Castle", "Bamburgh%20Castle", "Warkworth%20Castle",
-            "Lindisfarne%20Castle","Tynemouth%20Castle%20&%20Priory","Dunstanburgh%20castle",
+            "Lindisfarne%20Castle","Mitford%20Castle","Dunstanburgh%20castle",
             "Chillingham%20Castle", "Berwick%20castle", "Prudhoe%20castle", "Edlingham%20castle",
             "Witton%20castle", "Newcastle%20castle","Durham%20castle"));
 
@@ -64,7 +64,7 @@ public class ViewCastlesFragment extends Fragment {
         Button warkworthButton = (Button) view.findViewById(R.id.warkworth);
         Button bamburghButton = (Button) view.findViewById(R.id.bamburgh);
         Button lindisfarneButton = (Button) view.findViewById(R.id.lindisfarne);
-        Button tynemouthButton = (Button) view.findViewById(R.id.tynemouth);
+        Button mitfordButton = (Button) view.findViewById(R.id.mitford);
         Button dunstanburghButton = (Button) view.findViewById(R.id.dunstanburgh);
         Button chillinghamButton = (Button) view.findViewById(R.id.chillingham);
         Button berwickButton = (Button) view.findViewById(R.id.berwick);
@@ -115,13 +115,13 @@ public class ViewCastlesFragment extends Fragment {
             }
         });
 
-        tynemouthButton.setOnClickListener(new View.OnClickListener() {
+        mitfordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
-                chosenCastle = tynemouthButton.getText().toString();
-                chosenImage = "tynemouthtest";
+                chosenCastle = mitfordButton.getText().toString();
+                chosenImage = "mitfordtest1";
             }
         });
         dunstanburghButton.setOnClickListener(new View.OnClickListener() {
