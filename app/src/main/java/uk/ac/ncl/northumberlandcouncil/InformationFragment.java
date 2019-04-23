@@ -197,22 +197,22 @@ public class InformationFragment extends Fragment {
                 public void run() {
                     try {
                         Response response = client.newCall(request).execute();
+                        Response descResponse = client.newCall(request).execute();
+                        String shortDescription = descResponse.body().string().split("shortDescription")[1].replaceAll(
+                                "\"", "").replaceAll(":", "").split(",ageRange")[0];
+
                         String res = response.body().string().replace(":", " ").replace("" +
                                 "[{", "").replace("}]", "").replace("\"", "");
                         castleInfo = new ArrayList<String>(Arrays.asList(res.split(",")));
                         Log.d("worked", res);
                         for(String s : castleInfo){
                             String val1 = s.split(" ")[0];
-                            if(val1.equals("shortDescription")){
-
-                                String desc[] = s.split(" ", 1);
-                                Log.d("description", val1);
-                                String val2 = desc[0].replace("shortDescription", "");
-                                refinedCastleInfo.put(val1, val2);
-                            }else{
+                            if(!val1.equals("shortDescription")){
                                 String val2 = s.split(" ")[1];
                                 Log.d("value", val2);
                                 refinedCastleInfo.put(val1, val2);
+                            }else{
+                                refinedCastleInfo.put(val1, shortDescription);
                             }
 
 
@@ -243,7 +243,7 @@ public class InformationFragment extends Fragment {
             adultPriceTV.setText("        £" + refinedCastleInfo.get("adultCost"));
             castleWebsiteTV.setText("        " + refinedCastleInfo.get("website"));
             openingTimeTV.setText("        " + refinedCastleInfo.get("openingClosing"));
-            shortDescription.setText("     "+ refinedCastleInfo.get ("shortDescription"));
+            shortDescription.setText(refinedCastleInfo.get ("shortDescription"));
         } catch (Exception e) {
             Log.e("FTPFAIL", "hi");
             e.printStackTrace();
