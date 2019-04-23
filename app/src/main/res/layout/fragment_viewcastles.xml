@@ -113,32 +113,7 @@
             android:layout_marginBottom="10dp"
             android:text="Edlingham castle" />
 
-        <Button
-            android:id="@+id/witton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/witton"
-            android:background="@drawable/view_castle"
-            android:layout_marginBottom="10dp"
-            android:text="Witton castle" />
 
-        <Button
-            android:id="@+id/newcastle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/newcastle"
-            android:background="@drawable/view_castle"
-            android:layout_marginBottom="10dp"
-            android:text="Newcastle castle" />
-
-        <Button
-            android:id="@+id/durham"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/durham"
-            android:background="@drawable/view_castle"
-            android:layout_marginBottom="10dp"
-            android:text="Durham castle" />
 
     </LinearLayout>
     </ScrollView>

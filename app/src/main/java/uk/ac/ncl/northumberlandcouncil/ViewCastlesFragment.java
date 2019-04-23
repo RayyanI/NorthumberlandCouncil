@@ -47,8 +47,7 @@ public class ViewCastlesFragment extends Fragment {
 
     private static List<String> castles = new ArrayList<>(Arrays.asList("Alnwick%20Castle", "Bamburgh%20Castle", "Warkworth%20Castle",
             "Lindisfarne%20Castle","Mitford%20Castle","Dunstanburgh%20castle",
-            "Chillingham%20Castle", "Berwick%20castle", "Prudhoe%20castle", "Edlingham%20castle",
-            "Witton%20castle", "Newcastle%20castle","Durham%20castle"));
+            "Chillingham%20Castle", "Berwick%20castle", "Prudhoe%20castle", "Edlingham%20castle"));
 
     private static HashMap<String, String> castleIDs = new HashMap<>();
     private static HashMap<String, HashMap<String, String>> castleInfo = new HashMap<>();
@@ -70,9 +69,7 @@ public class ViewCastlesFragment extends Fragment {
         Button berwickButton = (Button) view.findViewById(R.id.berwick);
         Button prudhoeButton = (Button) view.findViewById(R.id.prudhoe);
         Button edlinghamButton = (Button) view.findViewById(R.id.edlingham);
-        Button newcastleButton = (Button) view.findViewById(R.id.newcastle);
-        Button wittonButton = (Button) view.findViewById(R.id.witton);
-        Button durhamButton = (Button) view.findViewById(R.id.durham);
+     
 
 
         alnwickButton.setOnClickListener(new View.OnClickListener() {
@@ -173,35 +170,7 @@ public class ViewCastlesFragment extends Fragment {
             }
         });
 
-        newcastleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
-                chosenCastle = newcastleButton.getText().toString();
-                chosenImage = "newcastle";
-            }
-        });
 
-        wittonButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
-                chosenCastle = wittonButton.getText().toString();
-                chosenImage = "witton";
-            }
-        });
-
-        durhamButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CLICKED", "clicked");
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
-                chosenCastle = durhamButton.getText().toString();
-                chosenImage = "durham";
-            }
-        });
 
         int i = 0;
 

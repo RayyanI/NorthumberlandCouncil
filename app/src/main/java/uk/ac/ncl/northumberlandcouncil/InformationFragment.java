@@ -138,9 +138,7 @@ public class InformationFragment extends Fragment {
         castleIDs.put("Berwick%20castle", 7);
         castleIDs.put("Prudhoe%20castle", 8);
         castleIDs.put("Edlingham%20castle", 9);
-        castleIDs.put("Witton%20castle", 10);
-        castleIDs.put("Newcastle%20castle", 11);
-        castleIDs.put("Durham%20castle", 12);
+
         OkHttpClient client = new OkHttpClient();                       // WEB REQUEST //
 
         String API_URL = "http://18.130.117.241/";
