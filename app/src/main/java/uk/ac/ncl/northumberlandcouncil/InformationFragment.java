@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Entity;
+import org.w3c.dom.Text;
 
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -122,6 +123,7 @@ public class InformationFragment extends Fragment {
         TextView castleWebsiteTV = view.findViewById(R.id.website);
         ImageView castleImg = view.findViewById(R.id.castle_img);
         ImageView backbutton = view.findViewById(R.id.backButton);
+        TextView shortDescription = view.findViewById(R.id.shortdescription);
 
 
 
@@ -129,7 +131,7 @@ public class InformationFragment extends Fragment {
         castleIDs.put("Bamburgh%20castle", 1);
         castleIDs.put("Warkworth%20castle", 2);
         castleIDs.put("Lindisfarne%20castle", 3);
-        castleIDs.put("Tynemouth%20Priory%20and%20Castle", 4);
+        castleIDs.put("Mitford%20Castle", 4);
         castleIDs.put("National%20Trust%20-%20Dunstanburgh%20Castle", 5);
         castleIDs.put("Dunstanburgh%20castle", 5);
         castleIDs.put("Chillingham%20castle", 6);
@@ -238,6 +240,7 @@ public class InformationFragment extends Fragment {
             adultPriceTV.setText("        £" + refinedCastleInfo.get("adultCost"));
             castleWebsiteTV.setText("        " + refinedCastleInfo.get("website"));
             openingTimeTV.setText("        " + refinedCastleInfo.get("openingClosing"));
+            shortDescription.setText("     "+ refinedCastleInfo.get ("shortDescription"));
         } catch (Exception e) {
             Log.e("FTPFAIL", "hi");
             e.printStackTrace();

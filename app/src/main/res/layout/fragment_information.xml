@@ -189,7 +189,13 @@
                     android:textSize="20sp" />
 
                 <!-- End website link !-->
-
+                <TextView
+                    android:id="@+id/shortdescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="     Information:"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
                 <!-- Address header !-->
 
                 <TextView
@@ -201,6 +207,7 @@
                     android:textStyle="bold" />
 
                 <!-- End address header !-->
+
 
                 <!-- Castle address details !-->
                 <EditText
