@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -26,6 +27,11 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterSession;
+
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import static uk.ac.ncl.northumberlandcouncil.AuthorisationFragment.validateEmail;
 import static uk.ac.ncl.northumberlandcouncil.AuthorisationFragment.validateName;
@@ -41,6 +47,10 @@ import static uk.ac.ncl.northumberlandcouncil.AuthorisationFragment.validateName
 public class SettingsFragment extends Fragment {
     // Declarations //
     private GoogleApiClient mGoogleApiClient;
+    private final String API_URL = "http://18.130.117.241/";
+
+
+    private Boolean changedField;
 
     private String tokenId;
     private String firstName;
@@ -82,7 +92,7 @@ public class SettingsFragment extends Fragment {
         /* Detect if the user is signed in with Google or Twitter, change UI Thread appropriately & find token id */
         if (((MainActivity) (getActivity())).getTwitterSessionResult() == null) {
             revokeTwitterButton.setVisibility(View.INVISIBLE);
-            tokenId = ((MainActivity) getActivity()).getGoogleSignInResult().getSignInAccount().getIdToken();
+            tokenId = ((MainActivity) getActivity()).getGoogleSignInResult().getSignInAccount().getId();
 
         } else {
             revokeGoogleButton.setVisibility(View.INVISIBLE);
@@ -175,7 +185,53 @@ public class SettingsFragment extends Fragment {
                         }
 
                         /* Work with the output now */
+                        try {
 
+                            OkHttpClient client = new OkHttpClient();
+
+
+                            // Setup the body of the request to include name-value pair of idToken //
+                            HttpUrl.Builder urlBuilder = HttpUrl.parse(API_URL + "API.php" + "?changeEmailAddress").newBuilder();
+                            urlBuilder.addQueryParameter("tokenId", tokenId);
+                            urlBuilder.addQueryParameter("email", email);
+
+
+                            // Build the URL for the request //
+                            String url = urlBuilder.build().toString();
+
+                            // Setup API URL //
+                            Request request = new Request.Builder()
+                                    .url(url)
+                                    .build();
+
+                            // Execute network activity off of the main thread //
+                            Thread thread = new Thread(new Runnable() {
+                                public void run() {
+                                    try {
+                                        Response response = client.newCall(request).execute();
+                                        String res = response.body().string();
+                                        changedField = false;
+                                        if (res.equals("Email successfully changed")) {
+                                            changedField = true;
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+
+                            /* Wait for thread to finish & inform the user if the change was successful */
+                            thread.start();
+                            thread.join();
+                            if (changedField) {
+                                Toast.makeText(getActivity().getApplicationContext(), "Your email address has been changed. Relog to see changes.", Toast.LENGTH_LONG).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        // Call thew appropriate API function to change this users email address //
 
                         System.out.println(email);
 
@@ -258,6 +314,53 @@ public class SettingsFragment extends Fragment {
 
 
                         System.out.println(firstName + " " + lastName);
+                        /* Work with the output now */
+                        try {
+
+                            OkHttpClient client = new OkHttpClient();
+
+
+                            // Setup the body of the request to include name-value pair of idToken //
+                            HttpUrl.Builder urlBuilder = HttpUrl.parse(API_URL + "API.php" + "?changeUsername").newBuilder();
+                            urlBuilder.addQueryParameter("tokenId", tokenId);
+                            urlBuilder.addQueryParameter("firstName", firstName);
+                            urlBuilder.addQueryParameter("lastName", lastName);
+
+
+                            // Build the URL for the request //
+                            String url = urlBuilder.build().toString();
+
+                            // Setup API URL //
+                            Request request = new Request.Builder()
+                                    .url(url)
+                                    .build();
+
+                            // Execute network activity off of the main thread //
+                            Thread thread = new Thread(new Runnable() {
+                                public void run() {
+                                    try {
+                                        Response response = client.newCall(request).execute();
+                                        String res = response.body().string();
+                                        changedField = false;
+                                        if (res.equals("Username sucessfully changed")) {
+                                            changedField = true;
+                                        } else {
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+
+                            /* Wait for thread to finish & inform the user if the change was successful */
+                            thread.start();
+                            thread.join();
+                            if (changedField) {
+                                Toast.makeText(getActivity().getApplicationContext(), "Your name has been changed. Relog to see changes.", Toast.LENGTH_LONG).show();
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 });
