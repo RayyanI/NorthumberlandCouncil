@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         /* Hide logout option if not logged in */
         hideLogoutFromDrawer();
+        hideFavouritesFromDrawer();
 
 
         /* Load default activity on start, check instance status to prevent double load upon orientation change */
@@ -221,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         hideLoginFromDrawer();
+        showFavouritesFromDrawer();
         showLogoutFromDrawer();
         showAccSettingsFromDrawer();
 
@@ -244,6 +246,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.twitterSessionResult = null; // In the event that a user signed in with Twitter, then Google (defensive)
         hideLoginFromDrawer();
         showLogoutFromDrawer();
+        showFavouritesFromDrawer();
         showAccSettingsFromDrawer();
     }
 
@@ -272,6 +275,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
     }
 
+    /**
+     * Hide favourites fragment from drawer menu
+     */
+    protected void hideFavouritesFromDrawer() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_favourites).setVisible(false);
+    }
+
+    /**
+     * Shows favourites fragment from drawer menu
+     */
+    protected void showFavouritesFromDrawer() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_favourites).setVisible(true);
+    }
     /**
      * Show login fragment from drawer menu
      */
