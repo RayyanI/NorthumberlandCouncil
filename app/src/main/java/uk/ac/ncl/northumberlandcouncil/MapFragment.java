@@ -1,12 +1,9 @@
 package uk.ac.ncl.northumberlandcouncil;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -20,12 +17,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -76,6 +71,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     Location currentlocation;
     URL url;
     boolean isMarkerPressed = false;
+    LocationManager locationManager;
+
 
     private ViewGroup infoWindow;
 
@@ -127,8 +124,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                         )
                         .setCancelable(false)
-                        .setPositiveButton("OK",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
                                 Toast.makeText(getContext(), "Info closed", Toast.LENGTH_SHORT).show();
 
                             }
@@ -240,7 +237,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     TextView t1_name = row.findViewById(R.id.markerTitle);
                     t1_name.setText(marker.getTitle());
                     cName = marker.getTitle();
-                    theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition() ,13f) );
                     Log.i("name", cName);
                     return row;
                 }
@@ -257,7 +253,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                 PopupWindow popUp = new PopupWindow();
 
-                popUp.show(getActivity().getSupportFragmentManager(),"");
+                popUp.show(getActivity().getSupportFragmentManager(), "");
                 Log.i("Title", cName);
                 popUp.setTitle(cName);
 
@@ -275,6 +271,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            theMap.setMyLocationEnabled(true);
         } else {
             theMap.setMyLocationEnabled(true);
         }
@@ -287,9 +284,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     public LatLng handleNewLocation() {
 
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
+
 
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //return;
@@ -304,6 +302,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             LatLng currentPosition = new LatLng(latitude, longitude);
             theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition ,13f) );
             return currentPosition;
+
         }
 
         else {
@@ -312,6 +311,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultPosition ,8));
             return null;
         }
+    }
+
+    public LatLng passCurrentLocation() {
+        return handleNewLocation();
     }
 
 
@@ -326,8 +329,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         theMap.addMarker(new MarkerOptions().position(Warkworth).title("Warkworth castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Lindisfarne = new LatLng(55.669, -1.785);
         theMap.addMarker(new MarkerOptions().position(Lindisfarne).title("Lindisfarne castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
-        LatLng Belsay = new LatLng(55.0998, -1.8637);
-        theMap.addMarker(new MarkerOptions().position(Belsay).title("Belsay castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
+        LatLng Mitford = new LatLng(55.164,-1.734);
+        theMap.addMarker(new MarkerOptions().position(Mitford).title("Mitford castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Dunstanburgh = new LatLng(55.4894, -1.5950);
         theMap.addMarker(new MarkerOptions().position(Dunstanburgh).title("Dunstanburgh castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Chillingham = new LatLng(55.5259, -1.9038);
@@ -341,18 +344,35 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public List<LatLng> listOfCastles() {
+
         List<LatLng> points = new ArrayList<LatLng>();
         points.add(new LatLng(55.41575, -1.70607));
         points.add(new LatLng(55.608, -1.709));
         points.add(new LatLng(55.3447, -1.6105));
         points.add(new LatLng(55.669, -1.785));
-        points.add(new LatLng(55.0998, -1.8637));
+        points.add(new LatLng(55.164,-1.734));
         points.add(new LatLng(55.4894, -1.5950));
         points.add(new LatLng(55.5259, -1.9038));
         points.add(new LatLng(55.7736, -2.0125));
         points.add(new LatLng(54.9649, -1.8582));
         points.add(new LatLng(55.3767, -1.8185));
         return points;
+    }
+
+    public List<String> listOfCastleNames() {
+
+        List<String> names = new ArrayList<>();
+        names.add("Alnwick castle");
+        names.add("Bamburgh castle");
+        names.add("Warkworth castle");
+        names.add("Lindisfarne castle");
+        names.add("Mitford castle");
+        names.add("Dunstanburgh castle");
+        names.add("Chillingham castle");
+        names.add("Berwick castle");
+        names.add("Prudhoe castle");
+        names.add("Edlingham castle");
+        return names;
     }
 
     public void getBorder() {
