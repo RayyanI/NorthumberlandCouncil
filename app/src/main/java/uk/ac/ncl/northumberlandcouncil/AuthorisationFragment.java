@@ -195,6 +195,7 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
                 System.out.println(" TWITTER STATUS " + existingTwitterUser);
                 if (existingTwitterUser) {
                     updateUI();
+                    ((MainActivity) getActivity()).onLoginResult(result); // update ui in activity
                 }
 
                 if (!existingTwitterUser) {
@@ -395,7 +396,7 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
         /* If the login is for Google */
         if (requestCode == RC_LOG_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            System.out.println(result.getStatus());
+            System.out.println(result.getSignInAccount().getId());
             handleSignInResult(result);
         }
 
