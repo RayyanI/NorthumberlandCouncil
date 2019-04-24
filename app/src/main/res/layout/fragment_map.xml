@@ -23,15 +23,14 @@
         <Button
             android:id="@+id/searchbutton"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="37dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
+
+
             android:layout_marginStart="5dp"
-            android:drawableLeft="@drawable/ic_magnify"
             android:background="@drawable/searchbutton"
-            android:gravity="center"
+            android:drawableRight="@drawable/ic_magnify"
             android:onClick="onSearch" />
 
 

@@ -31,7 +31,8 @@
             android:background="@drawable/view_castle"
             android:drawableLeft="@drawable/alnwick"
             android:layout_marginBottom="10dp"
-        android:text="Alnwick castle"/>
+            android:layout_marginTop="10dp"
+            android:text="Alnwick castle"/>
         <Button
             android:id="@+id/bamburgh"
             android:layout_width="match_parent"

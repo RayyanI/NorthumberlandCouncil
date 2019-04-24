@@ -46,9 +46,17 @@ public class PopupWindow extends DialogFragment {
         ViewCastlesFragment vcf = new ViewCastlesFragment();
         vcf.setChosenCastle(chosenCastle);
         vcf.setChosenImage(chosenCastle.split(" ")[0].toLowerCase()+"test");
+
         getDirectionsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                /*MapFragment mf = new MapFragment();
+                mf.handleNewLocation();
+                LatLng curloc = new LatLng(mf.currentlocation.getLatitude(),mf.currentlocation.getLongitude());
+
+                mf.theMap.addMarker(new MarkerOptions().position(curloc).title("current location"));*/
+
 
             }
         });

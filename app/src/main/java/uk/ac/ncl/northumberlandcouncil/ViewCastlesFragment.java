@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,7 +39,6 @@ import android.widget.TextView;
  */
 
 public class ViewCastlesFragment extends Fragment {
-    private Button alnwickButton;
     private static TextView cName;
     private static String chosenCastle;
     private static int castleID;
@@ -59,7 +59,7 @@ public class ViewCastlesFragment extends Fragment {
 
         ((InformationFragment) InformationFragment).setPreviousPage("ViewCastlesFragment");
 
-        alnwickButton = view.findViewById(R.id.alnwick);
+        Button alnwickButton = (Button) view.findViewById(R.id.alnwick);
         Button warkworthButton = (Button) view.findViewById(R.id.warkworth);
         Button bamburghButton = (Button) view.findViewById(R.id.bamburgh);
         Button lindisfarneButton = (Button) view.findViewById(R.id.lindisfarne);
@@ -69,13 +69,15 @@ public class ViewCastlesFragment extends Fragment {
         Button berwickButton = (Button) view.findViewById(R.id.berwick);
         Button prudhoeButton = (Button) view.findViewById(R.id.prudhoe);
         Button edlinghamButton = (Button) view.findViewById(R.id.edlingham);
-     
 
+        //Animation for button onclicks
+        AlphaAnimation animation = new AlphaAnimation(1.0f, 0.8f);
 
         alnwickButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
+                alnwickButton.startAnimation(animation);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = alnwickButton.getText().toString();
                 chosenImage = "alnwicktest";
@@ -86,6 +88,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
+                warkworthButton.startAnimation(animation);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = warkworthButton.getText().toString();
                 chosenImage = "warkworthtest";
@@ -96,6 +99,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
+                bamburghButton.startAnimation(animation);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = bamburghButton.getText().toString();
                 chosenImage = "bamburghtest";
@@ -106,6 +110,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
+                lindisfarneButton.startAnimation(animation);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = lindisfarneButton.getText().toString();
                 chosenImage = "lindisfarnetest";
@@ -116,6 +121,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
+                mitfordButton.startAnimation(animation);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = mitfordButton.getText().toString();
                 chosenImage = "mitfordtest1";
@@ -125,6 +131,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
+                dunstanburghButton.startAnimation(animation);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = "National%20Trust%20-%20Dunstanburgh%20Castle";
                 chosenImage = "dunstanburghtest";
@@ -135,6 +142,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
+                chillinghamButton.startAnimation(animation);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = "Chillingham%20castle";
                 chosenImage = "chillinghamtest";
@@ -145,6 +153,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
+                berwickButton.startAnimation(animation);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = berwickButton.getText().toString();
                 chosenImage = "berwicktest";
@@ -155,6 +164,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
+                prudhoeButton.startAnimation(animation);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = prudhoeButton.getText().toString();
                 chosenImage = "prudhoetest";
@@ -164,6 +174,7 @@ public class ViewCastlesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("CLICKED", "clicked");
+                edlinghamButton.startAnimation(animation);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = edlinghamButton.getText().toString();
                 chosenImage = "edlinghamtest";

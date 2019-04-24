@@ -240,6 +240,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     TextView t1_name = row.findViewById(R.id.markerTitle);
                     t1_name.setText(marker.getTitle());
                     cName = marker.getTitle();
+                    theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition() ,13f) );
                     Log.i("name", cName);
                     return row;
                 }

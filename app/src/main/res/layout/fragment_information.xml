@@ -60,13 +60,13 @@
 
                         <TextView
                             android:id="@+id/castle_name"
-                            android:layout_width="297dp"
+                            android:layout_width="250dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginBottom="8dp"
                             android:text="Castle @string/app_name"
                             android:textColor="#F7F3F3"
-                            android:textSize="35sp"
+                            android:textSize="30sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
