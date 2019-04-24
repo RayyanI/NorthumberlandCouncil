@@ -120,7 +120,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                 // set dialog message
                 alertDialogBuilder
-                        .setMessage("Castles to Enter are as follows:\n" + "Alnwick Castle\n" + "Bamburgh Castle\n" + "Warkworth Castle\n " + "Lindisfarne Castle\n" + "Tynemouth Priory\n " + "Dunstanburgh Castle\n" + "Chillingham Castle\n" + "Berwick Castle\n" + "Prudhoe Castle\n" + "Edlinghan Castle\n"
+                        .setMessage("Castles to Enter are as follows:\n" + "Alnwick Castle\n" + "Bamburgh Castle\n" + "Warkworth Castle\n" + "Lindisfarne Castle\n" + "Tynemouth Priory\n " + "Dunstanburgh Castle\n" + "Chillingham Castle\n" + "Berwick Castle\n" + "Prudhoe Castle\n" + "Edlinghan Castle\n"
 
                         )
                         .setCancelable(false)
@@ -271,7 +271,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            theMap.setMyLocationEnabled(true);
         } else {
             theMap.setMyLocationEnabled(true);
         }

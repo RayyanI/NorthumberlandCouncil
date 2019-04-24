@@ -65,16 +65,15 @@ public class PopupWindow extends DialogFragment {
 
                 MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
 
-
-                mapFragment.passCurrentLocation();
+                //mapFragment.passCurrentLocation();
 
                 if (mapFragment.passCurrentLocation() == null) {
                     Toast.makeText(getContext(), "Error: location cannot be found", Toast.LENGTH_SHORT).show();
-                    //return;
+                    return;
                 }
 
+                LatLng curloc = new LatLng(mapFragment.passCurrentLocation().latitude, mapFragment.passCurrentLocation().longitude);
 
-                LatLng curloc = new LatLng(54.9757,-1.5984);
                 mapFragment.theMap.addMarker(new MarkerOptions().position(curloc).title("current location"));
 
                 for (int i = 0; i < 10; i++) {
