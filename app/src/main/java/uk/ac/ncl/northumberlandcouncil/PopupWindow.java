@@ -67,17 +67,30 @@ public class PopupWindow extends DialogFragment {
 
                 //mapFragment.passCurrentLocation();
 
-                if (mapFragment.passCurrentLocation() == null) {
-                    Toast.makeText(getContext(), "Error: location cannot be found", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            if (mapFragment.passCurrentLocation() == null) {
+                                Toast.makeText(getContext(), "Error: location cannot be found", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
+
+                        }
+                        catch(Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                    
+                });
+                thread.run();
                 LatLng curloc = new LatLng(mapFragment.passCurrentLocation().latitude, mapFragment.passCurrentLocation().longitude);
 
                 mapFragment.theMap.addMarker(new MarkerOptions().position(curloc).title("current location"));
 
                 for (int i = 0; i < 10; i++) {
-                        Thread thread = new Thread(new Runnable() {
+                        Thread thread1 = new Thread(new Runnable() {
                             public void run() {
                                 try {
                                     mapFragment.theMap.clear();
@@ -88,27 +101,32 @@ public class PopupWindow extends DialogFragment {
                             }
 
                         });
-                    thread.run();
-                    if (chosenCastle.equals(mapFragment.listOfCastleNames().get(i))) {
+                    thread1.run();
+                    try {
+                        if (chosenCastle.equals(mapFragment.listOfCastleNames().get(i))) {
 
 
-                        LatLng castleloc = new LatLng(mapFragment.listOfCastles().get(i).latitude, mapFragment.listOfCastles().get(i).longitude);
+                            LatLng castleloc = new LatLng(mapFragment.listOfCastles().get(i).latitude, mapFragment.listOfCastles().get(i).longitude);
 
-                        mapFragment.theMap.addMarker(new MarkerOptions().position(castleloc).title("castle location"));
+                            mapFragment.theMap.addMarker(new MarkerOptions().position(castleloc).title("castle location"));
 
-                        polyline = mapFragment.theMap.addPolyline(new PolylineOptions()
-                                .add((curloc),(castleloc))
-                                .width(5)
-                                .color(Color.RED)
-                        );
+                            polyline = mapFragment.theMap.addPolyline(new PolylineOptions()
+                                    .add((curloc), (castleloc))
+                                    .width(5)
+                                    .color(Color.RED)
+                            );
 
-                        cameraZoom(polyline);
+                            cameraZoom(polyline);
 
-                        break;
+                            break;
+                        } else {
+                            //continue;
+                        }
+                   }catch(Exception e ){
+                        e.printStackTrace();
+
                     }
-                    else {
-                        //continue;
-                    }
+                    thread1.run();
                 }
 
             }
