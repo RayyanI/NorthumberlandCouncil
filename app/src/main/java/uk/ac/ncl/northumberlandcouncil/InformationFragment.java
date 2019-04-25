@@ -41,6 +41,7 @@ import okhttp3.Response;
  * Updated on 09/04/2019
  * Updated on 11/04/2019
  * Updated on 13/04/2019
+ * Updated on 25/04/2019
  */
 
 /* This still has a lot of work to do, it is nowhere near done */
@@ -79,6 +80,7 @@ public class InformationFragment extends Fragment {
     private String photoReference;
     private String rating;
     private HashMap<String, Integer> castleIDs = new HashMap<>();
+    private HashMap<String, Boolean> isDisabled = new HashMap<>();
     String ip;
     String db;
     String DBUserNameStr;
@@ -113,7 +115,7 @@ public class InformationFragment extends Fragment {
         TextView shortDescription = view.findViewById(R.id.shortDescription);
         TextView ageRangeTV = view.findViewById(R.id.ageRange);
         TextView access = view.findViewById(R.id.disabilityDescription);
-
+        ImageView disabledIV = view.findViewById(R.id.disabledIcon);
 
         castleIDs.put("Alnwick%20castle", 0);
         castleIDs.put("Bamburgh%20castle", 1);
@@ -127,6 +129,18 @@ public class InformationFragment extends Fragment {
         castleIDs.put("Prudhoe%20castle", 8);
         castleIDs.put("Edlingham%20castle", 9);
 
+        isDisabled.put("Alnwick%20castle", true);
+        isDisabled.put("Bamburgh%20castle", true);
+        isDisabled.put("Warkworth%20castle", true);
+        isDisabled.put("Lindisfarne%20castle", false);
+        isDisabled.put("Mitford%20Castle", false);
+        isDisabled.put("National%20Trust%20-%20Dunstanburgh%20Castle", true);
+        isDisabled.put("Dunstanburgh%20castle", true);
+        isDisabled.put("Chillingham%20castle", true);
+        isDisabled.put("Berwick%20castle", true);
+        isDisabled.put("Prudhoe%20castle", false);
+        isDisabled.put("Edlingham%20castle", false);
+
         OkHttpClient client = new OkHttpClient();                       // WEB REQUEST //
 
         String API_URL = "http://18.130.117.241/";
@@ -137,7 +151,9 @@ public class InformationFragment extends Fragment {
 
             ViewCastlesFragment vcf = new ViewCastlesFragment();
             String chosenCastle = vcf.getChosenCastle();
-            Log.i("REFINED", chosenCastle.replaceAll(" ", "%20"));
+            if(isDisabled.get(chosenCastle.replaceAll(" ", "%20")) == false){
+                disabledIV.setVisibility(View.INVISIBLE);
+            }
             String chosenImage = vcf.getChosenCastleImg();
 
             castleImg.setImageResource(getResources().getIdentifier(chosenImage,"drawable", BuildConfig.APPLICATION_ID));
@@ -233,10 +249,11 @@ public class InformationFragment extends Fragment {
             castleLocationTV.setText("        " + values[0].replaceAll(",", "\n       "));
             castleNameTV.setText(values[1]);
             castleRatingTV.setText("        " + values[2]);
-            childPriceTV.setText("        £" + refinedCastleInfo.get("childCost"));
-            adultPriceTV.setText("        £" + refinedCastleInfo.get("adultCost"));
+            childPriceTV.setText("        Adult:  £" + refinedCastleInfo.get("childCost"));
+            adultPriceTV.setText("        Child:  £" + refinedCastleInfo.get("adultCost"));
             castleWebsiteTV.setText("        " + refinedCastleInfo.get("website"));
             openingTimeTV.setText("        " + refinedCastleInfo.get("openingClosing"));
+            ageRangeTV.setText("        " + refinedCastleInfo.get("ageRange"));
             access.setText(refinedCastleInfo.get("disabilityAccess"));
             shortDescription.setText(refinedCastleInfo.get ("shortDescription"));
         } catch (Exception e) {

@@ -74,18 +74,34 @@
 
                         <ImageView
                             android:id="@+id/imageStar"
-                            android:layout_width="92dp"
-                            android:layout_height="72dp"
+                            android:layout_width="61dp"
+                            android:layout_height="61dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="8dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/castle_img"
-                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintHorizontal_bias="0.976"
                             app:layout_constraintStart_toStartOf="@+id/castle_img"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.956"
+                            app:layout_constraintVertical_bias="0.955"
                             app:srcCompat="@drawable/staroutline" />
+
+                        <ImageView
+                            android:id="@+id/disabledIcon"
+                            android:layout_width="61dp"
+                            android:layout_height="61dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/castle_img"
+                            app:layout_constraintHorizontal_bias="0.754"
+                            app:layout_constraintStart_toStartOf="@+id/castle_img"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.955"
+                            app:srcCompat="@drawable/disabledicon" />
+
                     </android.support.constraint.ConstraintLayout>
 
                 </FrameLayout>
@@ -196,7 +212,7 @@
                     android:id="@+id/age_header"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    android:text="     Website"
+                    android:text="     Age range"
                     android:textSize="25sp"
                     android:textStyle="bold" />
 
