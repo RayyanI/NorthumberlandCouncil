@@ -77,8 +77,20 @@ public class PopupWindow extends DialogFragment {
                 mapFragment.theMap.addMarker(new MarkerOptions().position(curloc).title("current location"));
 
                 for (int i = 0; i < 10; i++) {
+                        Thread thread = new Thread(new Runnable() {
+                            public void run() {
+                                try {
+                                    mapFragment.theMap.clear();
+                                    mapFragment.getCastleCoordinates();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
 
+                        });
+                    thread.run();
                     if (chosenCastle.equals(mapFragment.listOfCastleNames().get(i))) {
+
 
                         LatLng castleloc = new LatLng(mapFragment.listOfCastles().get(i).latitude, mapFragment.listOfCastles().get(i).longitude);
 
