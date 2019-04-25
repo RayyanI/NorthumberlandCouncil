@@ -124,7 +124,7 @@ public class InformationFragment extends Fragment {
         ImageView castleImg = view.findViewById(R.id.castle_img);
         ImageView backbutton = view.findViewById(R.id.backButton);
         TextView shortDescription = view.findViewById(R.id.shortDescription);
-
+        TextView access = view.findViewById(R.id.accessibility);
 
 
         castleIDs.put("Alnwick%20castle", 0);
@@ -241,6 +241,7 @@ public class InformationFragment extends Fragment {
             adultPriceTV.setText("        £" + refinedCastleInfo.get("adultCost"));
             castleWebsiteTV.setText("        " + refinedCastleInfo.get("website"));
             openingTimeTV.setText("        " + refinedCastleInfo.get("openingClosing"));
+            access.setText(refinedCastleInfo.get("disabilityAccess"));
             shortDescription.setText(refinedCastleInfo.get ("shortDescription"));
         } catch (Exception e) {
             Log.e("FTPFAIL", "hi");
