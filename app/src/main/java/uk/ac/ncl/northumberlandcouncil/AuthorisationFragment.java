@@ -396,7 +396,6 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
         /* If the login is for Google */
         if (requestCode == RC_LOG_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            System.out.println(result.getSignInAccount().getId());
             handleSignInResult(result);
         }
 
@@ -429,7 +428,7 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
 
 
                 // Execute network activity off of the main thread //
-                new Thread(new Runnable() {
+                Thread thread = new Thread(new Runnable() {
                     public void run() {
                         try {
                             Response response = client.newCall(request).execute();
@@ -438,12 +437,14 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
                             e.printStackTrace();
                         }
                     }
-                }).start();
-                ((MainActivity) getActivity()).onLoginResult(result); // update ui in activity
+                });
+                thread.start();
+                thread.join();
             } catch (Exception e) {
                 e.printStackTrace();
             }
             updateUI();
+            ((MainActivity) getActivity()).onLoginResult(result); // update ui in activity
 
 
         }
