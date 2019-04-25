@@ -2,6 +2,7 @@ package uk.ac.ncl.northumberlandcouncil;
 
 
 /* Begin library imports */
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,9 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import java.io.*;
-import java.net.*;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,9 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import android.widget.ImageView;
-import android.widget.TextView;
-
+import okhttp3.HttpUrl;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -66,12 +68,12 @@ public class InformationFragment extends Fragment {
     private int childPrice; /* Price for a child to enter */
     private int adultPrice; /* Price for an adult to enter */
     private static String previousPage;
-
+    private static Boolean IAS_STORE; // IAS Store for thread results
     private String key = "AIzaSyA-SYN3vPXJ0Z7Xgw7QhkhTl7fo9xL48yw"; /* Places API key */
     private String urlString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/" +
             "json?input="; /* Places API URL */
     private URL url;
-
+    private static String API_URL = "http://18.130.117.241/";
 
     private String address;
     private String name;
@@ -143,9 +145,6 @@ public class InformationFragment extends Fragment {
 
         OkHttpClient client = new OkHttpClient();                       // WEB REQUEST //
 
-        String API_URL = "http://18.130.117.241/";
-
-
 
         try {
 
@@ -160,29 +159,103 @@ public class InformationFragment extends Fragment {
             castleImg.setAdjustViewBounds(true);
             castleImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            ImageView starImg = view.findViewById(R.id.imageStar);
-            starImg.bringToFront();
+            System.out.println(castleIDs.get(vcf.getChosenCastle()));
+            /* Check if the user is currently signed in to Google or Twitter */
+            if (((MainActivity) getActivity()).getSignedInStatus()) {
+                OkHttpClient web_client = new OkHttpClient();
+
+                // Declarations //
+                String tokenId;
+                int castleId = castleIDs.get(vcf.getChosenCastle());
+                // End Declarations //
 
 
-            starImg.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    if(fave == false){
-                        fave = true;
-                    }else{
-                        fave = false;
-                    }
-                    if(fave){
-                        starImg.setImageResource(getResources().getIdentifier("yellowstar","drawable", BuildConfig.APPLICATION_ID));
-                        starImg.setAdjustViewBounds(true);
-                    }else{
-                        starImg.setImageResource(getResources().getIdentifier("staroutline","drawable", BuildConfig.APPLICATION_ID));
-                        starImg.setAdjustViewBounds(true);
-                    }
-
+                // Find this users unique identification number //
+                if (((MainActivity) getActivity()).getTwitterSessionResult() != null) {
+                    tokenId = Long.toString(((MainActivity) (getActivity())).getTwitterSessionResult().data.getUserId());
+                } else {
+                    tokenId = ((MainActivity) getActivity()).getGoogleSignInResult().getSignInAccount().getId();
                 }
-            });
+
+                // Has the user already favourited this castle? //
+
+
+                // Setup the body of the request to include name-value pair of idToken //
+                HttpUrl.Builder urlBuilder = HttpUrl.parse(API_URL + "API.php" + "?isFavourite").newBuilder();
+                urlBuilder.addQueryParameter("tokenId", tokenId);
+                urlBuilder.addQueryParameter("castleId", Integer.toString(castleId));
+
+
+                // Build the URL for the request //
+                String url = urlBuilder.build().toString();
+
+                // Setup API URL //
+                Request request = new Request.Builder()
+                        .url(url)
+                        .build();
+
+                // Execute network activity off of the main thread //
+                boolean result;
+                Thread thread = new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            Response response = web_client.newCall(request).execute();
+                            String res = response.body().string();
+                            if (res.equals("true")) {
+                                IAS_STORE = true;
+                            } else {
+                                IAS_STORE = false;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                thread.start();
+                thread.join();
+                ImageView starImg = view.findViewById(R.id.imageStar);
+                if (IAS_STORE) {
+                    starImg.setImageResource(getResources().getIdentifier("yellowstar", "drawable", BuildConfig.APPLICATION_ID));
+                    starImg.setAdjustViewBounds(true);
+                    fave = true;
+                } else {
+                    starImg.setImageResource(getResources().getIdentifier("staroutline", "drawable", BuildConfig.APPLICATION_ID));
+                    starImg.setAdjustViewBounds(true);
+                }
+
+                starImg.bringToFront();
+
+
+                starImg.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        // If favourite button is selected, check its current state, if true (the star is already yellow and must go transparent)
+
+
+                        // Delete this castle from this users favourites //
+                        if (fave) {
+                            deleteFavourite(castleId, tokenId);
+                            if (IAS_STORE) {
+                                starImg.setImageResource(getResources().getIdentifier("staroutline", "drawable", BuildConfig.APPLICATION_ID));
+                                starImg.setAdjustViewBounds(true);
+                                fave = false;
+                            }
+                        } else {
+                            // Favourite this castle //
+                            addFavourite(castleId, tokenId);
+                            if (IAS_STORE) {
+                                starImg.setImageResource(getResources().getIdentifier("yellowstar", "drawable", BuildConfig.APPLICATION_ID));
+                                starImg.setAdjustViewBounds(true);
+                                fave = true;
+                            }
+                        }
+                    }
+                });
+            } else {
+                view.findViewById(R.id.imageStar).setVisibility(View.INVISIBLE);
+            }
             String casid = Integer.toString(vcf.getId());
             Log.i("castle", chosenCastle);
+
             // Setup the body of the request to include name-value pair of idToken //
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
@@ -282,6 +355,101 @@ public class InformationFragment extends Fragment {
 
     }
 
+    /**
+     * Adds a castle to a users favourite list on our database given a valid castle and user identification number
+     *
+     * @param castleId (0-9)
+     * @param tokenId  (Google/Twitter identification tokens)
+     */
+    private void addFavourite(int castleId, String tokenId) {
+        OkHttpClient client = new OkHttpClient();
+
+        // Setup the body of the request to include name-value pair of idToken //
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(API_URL + "API.php" + "?addFavourite").newBuilder();
+        urlBuilder.addQueryParameter("tokenId", tokenId);
+        urlBuilder.addQueryParameter("castleId", Integer.toString(castleId));
+
+
+        // Build the URL for the request //
+        String url = urlBuilder.build().toString();
+
+        // Setup API URL //
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        // Execute network activity off of the main thread //
+        boolean result;
+        try {
+            Thread thread = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        Response response = client.newCall(request).execute();
+                        String res = response.body().string();
+                        if (res.equals("Favourite added")) {
+                            IAS_STORE = true;
+                        } else {
+                            IAS_STORE = false;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Removes a castle from a users favourite list on our database given a valid castle and token identification number
+     *
+     * @param castleId (0-9) castleId
+     * @param tokenId  (Google/Twitter token id)
+     */
+    private void deleteFavourite(int castleId, String tokenId) {
+        OkHttpClient client = new OkHttpClient();
+
+        // Setup the body of the request to include name-value pair of idToken //
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(API_URL + "API.php" + "?deleteFavourite").newBuilder();
+        urlBuilder.addQueryParameter("tokenId", tokenId);
+        urlBuilder.addQueryParameter("castleId", Integer.toString(castleId));
+
+
+        // Build the URL for the request //
+        String url = urlBuilder.build().toString();
+
+        // Setup API URL //
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        // Execute network activity off of the main thread //
+        boolean result;
+        try {
+            Thread thread = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        Response response = client.newCall(request).execute();
+                        String res = response.body().string();
+                        if (res.equals("Favourite deleted")) {
+                            IAS_STORE = true;
+                        } else {
+                            IAS_STORE = false;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String args[]) {
         /* List of all the castles */

@@ -228,11 +228,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    /**
+     * Returns true or false depending on the authorisation status of this user
+     *
+     * @return true for a signed in user & false for a unauthorised user
+     */
+    public boolean getSignedInStatus() {
+        return (getTwitterSessionResult() != null || getGoogleSignInResult() != null);
+    }
 
     /**
      * Handle the changes to UI upon a successful login request for Google
      *
-     * @param result google login object
+     * @param googleSignInResult - google login object
      */
     protected void onLoginResult(GoogleSignInResult googleSignInResult) {
         /* Update UI */
