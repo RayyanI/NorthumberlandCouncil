@@ -196,8 +196,12 @@ public class InformationFragment extends Fragment {
                     try {
                         Response response = client.newCall(request).execute();
                         Response descResponse = client.newCall(request).execute();
+                        Response disabilityResponse = client.newCall(request).execute();
                         String shortDescription = descResponse.body().string().split("shortDescription")[1].replaceAll(
                                 "\"", "").replaceAll(":", "").split(",ageRange")[0];
+                        String disabilityDescription = descResponse.body().string().split("shortDescription")[1].replaceAll(
+                                "\"", "").replaceAll(":", "").split(",ageRange")[0];
+
 
                         String res = response.body().string().replace(":", " ").replace("" +
                                 "[{", "").replace("}]", "").replace("\"", "");
@@ -205,7 +209,7 @@ public class InformationFragment extends Fragment {
                         Log.d("worked", res);
                         for(String s : castleInfo){
                             String val1 = s.split(" ")[0];
-                            if(!val1.equals("shortDescription")){
+                            if(!val1.equals("shortDescription") || !val1.equals("disabilityDescription")){
                                 String val2 = s.split(" ")[1];
                                 Log.d("value", val2);
                                 refinedCastleInfo.put(val1, val2);
