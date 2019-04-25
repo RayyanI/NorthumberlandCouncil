@@ -2,16 +2,10 @@ package uk.ac.ncl.northumberlandcouncil;
 
 
 /* Begin library imports */
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,22 +14,15 @@ import java.io.*;
 import java.net.*;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.w3c.dom.Entity;
-import org.w3c.dom.Text;
 
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -124,7 +111,8 @@ public class InformationFragment extends Fragment {
         ImageView castleImg = view.findViewById(R.id.castle_img);
         ImageView backbutton = view.findViewById(R.id.backButton);
         TextView shortDescription = view.findViewById(R.id.shortDescription);
-        TextView access = view.findViewById(R.id.accessibility);
+        TextView ageRangeTV = view.findViewById(R.id.ageRange);
+        TextView access = view.findViewById(R.id.disabilityDescription);
 
 
         castleIDs.put("Alnwick%20castle", 0);
@@ -199,9 +187,10 @@ public class InformationFragment extends Fragment {
                         Response disabilityResponse = client.newCall(request).execute();
                         String shortDescription = descResponse.body().string().split("shortDescription")[1].replaceAll(
                                 "\"", "").replaceAll(":", "").split(",ageRange")[0];
-                        String disabilityDescription = disabilityResponse.body().string().split("access")[1].replaceAll(
-                                "\"", "").replaceAll(":", "").split(",ageRange")[0];
+                        String disabilityDescription = disabilityResponse.body().string().split("disabilityAccess")[1].replaceAll(
+                                "\"", "").replaceAll(":", "").replace("}]", "");
 
+                        Log.d("disabilityDescription0", disabilityDescription);
 
                         String res = response.body().string().replace(":", " ").replace("" +
                                 "[{", "").replace("}]", "").replace("\"", "");
@@ -209,10 +198,13 @@ public class InformationFragment extends Fragment {
                         Log.d("worked", res);
                         for(String s : castleInfo){
                             String val1 = s.split(" ")[0];
-                            if(!val1.equals("shortDescription")){
+                            if(!val1.equals("shortDescription") && !val1.equals("disabilityAccess")){
                                 String val2 = s.split(" ")[1];
                                 Log.d("value", val2);
                                 refinedCastleInfo.put(val1, val2);
+                            }else if(val1.equals("disabilityAccess")){
+                                Log.d("DISABILITY", disabilityDescription);
+                                refinedCastleInfo.put(val1, disabilityDescription);
                             }else{
                                 refinedCastleInfo.put(val1, shortDescription);
                             }

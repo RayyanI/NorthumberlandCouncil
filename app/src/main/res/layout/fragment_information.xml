@@ -193,12 +193,40 @@
                 <!-- End website link !-->
                 <!-- Address header !-->
                 <TextView
-                    android:id="@+id/accessibility"
+                    android:id="@+id/age_header"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    android:text="     Opening time"
+                    android:text="     Website"
                     android:textSize="25sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ageRange"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="        http://examplewebsite.co.uk"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/disabilityDescription_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="     Disability access"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/disabilityDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:paddingLeft="20dp"
+                    android:text="     Description"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/shortDescription_header"
