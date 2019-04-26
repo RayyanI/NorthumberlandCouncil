@@ -574,18 +574,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
+    /*called when activity was hidden comes back to view */
     public void onResume() {
         super.onResume();
         mapview.onResume();
     }
 
     @Override
+    /*called when activity is hidden from view */
     public void onPause() {
         super.onPause();
         mapview.onPause();
     }
 
     @Override
+    /*called when activity finishes lifestyle*/
     public void onDestroy() {
         super.onDestroy();
         closeKeyboard(getActivity());
@@ -593,6 +596,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
+    /*when system is low on memory*/
     public void onLowMemory() {
         super.onLowMemory();
         mapview.onLowMemory();
