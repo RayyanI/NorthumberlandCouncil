@@ -472,7 +472,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Log.e("JSONException", ex.getLocalizedMessage());
         }
     }
-    /* closes keyboard    */
+    /* closes keyboard when called   */
     public static void closeKeyboard(android.app.Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();
