@@ -61,14 +61,14 @@ import static com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
  * Handles code for Authorisation Fragment
  *
  * @author Alvin Ho and Jasper Griffin
- * Created on 01/04/2019
+ * Created on 06/03/2019
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     /* Declarations */
     protected GoogleMap theMap;
     private MapView mapview;
     protected String destinationAddress;
-    private String originAddress;
+    protected String originAddress;
     protected String distance;
     protected String duration;
     private String castleName;
