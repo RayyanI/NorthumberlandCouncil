@@ -48,22 +48,18 @@ public class SettingsFragment extends Fragment {
     // Declarations //
     private GoogleApiClient mGoogleApiClient;
     private final String API_URL = "http://18.130.117.241/";
-
-
     private Boolean changedField;
-
     private String tokenId;
     private String firstName;
     private String lastName;
     private String email;
-
-
     /* End Declarations */
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        // Check if this user is part of a Google login & instance appropriate singleton //
         if (AuthorisationFragment.mGoogleApiClient != null) {
             mGoogleApiClient = AuthorisationFragment.mGoogleApiClient;
         }
@@ -144,7 +140,7 @@ public class SettingsFragment extends Fragment {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    ((MainActivity) getActivity()).logout();
+                                    ((MainActivity) getActivity()).logout(); // Revoke and logout //
                                 }
                             });
                     AlertDialog dialog = builder.create();
