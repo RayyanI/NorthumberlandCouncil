@@ -67,16 +67,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     /* Declarations */
     protected GoogleMap theMap;
     private MapView mapview;
-    private String destinationAddress;
+    protected String destinationAddress;
     private String originAddress;
-    private String distance;
-    private String duration;
+    protected String distance;
+    protected String duration;
     private String castleName;
     private static BufferedReader in;
     private static StringBuffer response;
     protected Location currentLocation;
     private URL url;
-    private boolean isMarkerPressed = false;
+    protected boolean isMarkerPressed = false;
     protected LocationManager locationManager;
 
 
