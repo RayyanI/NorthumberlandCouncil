@@ -10,6 +10,7 @@ import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -55,6 +56,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
+import static android.content.Context.POWER_SERVICE;
 import static com.google.android.gms.maps.GoogleMap.*;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
@@ -94,6 +96,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         currentlocation = new Location("Northumberland Council");
         currentlocation.setLatitude(55.224470);
         currentlocation.setLongitude(-2.014950);
+
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+        }
 
         // Handle searching using the keyboard //
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -283,10 +293,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     public LatLng handleNewLocation() {
 
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
+            String error = "Please enable your location in your phone settings";
+            Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+            LatLng defaultPosition = new LatLng(55.224470, -2.014950);
+            theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultPosition, 8));
+            return null;
+        }
+
+        else {
+
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
-
 
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //return;
@@ -294,22 +314,58 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         currentlocation = locationManager.getLastKnownLocation(provider);
 
-        if (currentlocation != null) {
+            if (currentlocation != null) {
 
-            double latitude = currentlocation.getLatitude();
-            double longitude = currentlocation.getLongitude();
-            LatLng currentPosition = new LatLng(latitude, longitude);
-            theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition ,13f) );
-            return currentPosition;
+                double latitude = currentlocation.getLatitude();
+                double longitude = currentlocation.getLongitude();
+                LatLng currentPosition = new LatLng(latitude, longitude);
+                theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition ,13f) );
+                return currentPosition;
+
+            }
+
+            else {
+                LatLng defaultPosition = new LatLng(55.224470, -2.014950);
+                theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultPosition, 8));
+                //locationManager = null;
+                return null;
+
+            }
+
+            /*else {
+
+                LocationListener locationListener = new LocationListener() {
+
+                    @Override
+                    public void onLocationChanged(Location location) {
+
+                        double latitude = location.getLatitude();
+                        double longitude = location.getLongitude();
+                        LatLng newCurrentPosition = new LatLng(latitude, longitude);
+                        theMap.addMarker(new MarkerOptions().position(newCurrentPosition).title("I'm here!"));
+                    }
+
+                    @Override
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String provider) {
+
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String provider) {
+
+                    }
+                };
+                return null;
+            }*/
+
 
         }
 
-        else {
-            // if the user doesn't have signal, the default zoom is placed in the centre of Northumberland (zoomed out)
-            LatLng defaultPosition = new LatLng(55.224470, -2.014950);
-            theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultPosition ,8));
-            return null;
-        }
     }
 
     public LatLng passCurrentLocation() {

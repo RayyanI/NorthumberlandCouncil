@@ -3,6 +3,7 @@ package uk.ac.ncl.northumberlandcouncil;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -72,10 +73,9 @@ public class PopupWindow extends DialogFragment {
                     public void run() {
                         try {
                             if (mapFragment.passCurrentLocation() == null) {
-                                Toast.makeText(getContext(), "Error: location cannot be found", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Please enable your location", Toast.LENGTH_SHORT).show();
                                 return;
                             }
-
 
                         }
                         catch(Exception e){
@@ -85,11 +85,19 @@ public class PopupWindow extends DialogFragment {
                     
                 });
                 thread.run();
-                LatLng curloc = new LatLng(mapFragment.passCurrentLocation().latitude, mapFragment.passCurrentLocation().longitude);
 
-                mapFragment.theMap.addMarker(new MarkerOptions().position(curloc).title("current location"));
+                if (mapFragment.passCurrentLocation() == null) {
+                    Toast.makeText(getContext(), "Please enable your location", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                for (int i = 0; i < 10; i++) {
+                else {
+
+                    LatLng curloc = new LatLng(mapFragment.passCurrentLocation().latitude, mapFragment.passCurrentLocation().longitude);
+                    mapFragment.theMap.addMarker(new MarkerOptions().position(curloc).title("current location"));
+
+
+                    for (int i = 0; i < 10; i++) {
                         Thread thread1 = new Thread(new Runnable() {
                             public void run() {
                                 try {
@@ -101,33 +109,39 @@ public class PopupWindow extends DialogFragment {
                             }
 
                         });
-                    thread1.run();
-                    try {
-                        if (chosenCastle.equals(mapFragment.listOfCastleNames().get(i))) {
+                        thread1.run();
+                        try {
+                            if (chosenCastle.equals(mapFragment.listOfCastleNames().get(i))) {
 
 
-                            LatLng castleloc = new LatLng(mapFragment.listOfCastles().get(i).latitude, mapFragment.listOfCastles().get(i).longitude);
+                                LatLng castleloc = new LatLng(mapFragment.listOfCastles().get(i).latitude, mapFragment.listOfCastles().get(i).longitude);
 
-                            mapFragment.theMap.addMarker(new MarkerOptions().position(castleloc).title("castle location"));
+                                mapFragment.theMap.addMarker(new MarkerOptions().position(castleloc).title("castle location"));
 
-                            polyline = mapFragment.theMap.addPolyline(new PolylineOptions()
-                                    .add((curloc), (castleloc))
-                                    .width(5)
-                                    .color(Color.RED)
-                            );
+                                polyline = mapFragment.theMap.addPolyline(new PolylineOptions()
+                                        .add((curloc), (castleloc))
+                                        .width(5)
+                                        .color(Color.RED)
+                                );
 
-                            cameraZoom(polyline);
+                                cameraZoom(polyline);
+                                dismiss();
+                                break;
+                            } else {
+                                //continue;
+                            }
+                        }catch(Exception e ){
+                            e.printStackTrace();
 
-                            break;
-                        } else {
-                            //continue;
                         }
-                   }catch(Exception e ){
-                        e.printStackTrace();
-
+                        thread1.run();
                     }
-                    thread1.run();
                 }
+
+
+
+
+
 
             }
         });
