@@ -244,8 +244,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     //DISPLAYS MAP
     public void onMapReady(GoogleMap googleMap) {
 
-        this.theMap = googleMap;
-        theMap = googleMap;
+
+        theMap=googleMap;
 
         getCastleCoordinates();
 
@@ -472,7 +472,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Log.e("JSONException", ex.getLocalizedMessage());
         }
     }
-
+    /* closes keyboard    */
     public static void closeKeyboard(android.app.Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();
