@@ -310,9 +310,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         getBorder();
 
     }
-
+    /*a method to handle location and current location*/
     public LatLng handleNewLocation() {
-
+        // if statement to handle if the location manager isnt enabled on the phone
         if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
             String error = "Please enable your location in your phone settings";
@@ -321,7 +321,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultPosition, 8));
             return null;
         }
-
+        // else statement to handle the access and permission of the application
         else {
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -331,9 +331,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //return;
         }
-
+        // gets the users last known location
         currentlocation = locationManager.getLastKnownLocation(provider);
-
+              // if statement to handle if the location currently isn't empty then get the coordinates and move the camera towards that position
             if (currentlocation != null) {
 
                 double latitude = currentlocation.getLatitude();
@@ -343,7 +343,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 return currentPosition;
 
             }
-
+            // a else statement to place a default position if there is no current location
             else {
                 LatLng defaultPosition = new LatLng(55.224470, -2.014950);
                 theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultPosition, 8));
@@ -392,7 +392,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return handleNewLocation();
     }
 
-
+        /* a method that sets a marker for each castle in its location                */
     public void getCastleCoordinates() {
 
         // Castle coordinates
@@ -417,7 +417,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         LatLng Edlingham = new LatLng(55.3767, -1.8185);
         theMap.addMarker(new MarkerOptions().position(Edlingham).title("Edlingham castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
     }
-
+    /* adds each castle into a array list of castles       */
     public List<LatLng> listOfCastles() {
 
         List<LatLng> points = new ArrayList<LatLng>();
@@ -433,7 +433,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         points.add(new LatLng(55.3767, -1.8185));
         return points;
     }
-
+    /*   adds each castle name into a array list            */
     public List<String> listOfCastleNames() {
 
         List<String> names = new ArrayList<>();
