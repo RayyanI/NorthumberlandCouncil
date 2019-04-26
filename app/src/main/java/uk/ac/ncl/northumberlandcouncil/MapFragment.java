@@ -58,7 +58,12 @@ import java.util.Objects;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static android.content.Context.POWER_SERVICE;
 import static com.google.android.gms.maps.GoogleMap.*;
-
+/**
+ * Handles code for Authorisation Fragment
+ *
+ * @author Alvin Ho and Jasper Griffin
+ * Created on 01/04/2019
+ */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     /* Declarations */
     GoogleMap theMap;
@@ -85,7 +90,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
+    /*
+     * Inflate fragment upon selection
+     *
+     * @param inflater           for instancing xml fragments
+     * @param container          container to display content stream
+     * @param savedInstanceState current activity datas store
+     * @return display xml view on screen
+     */
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        // Select the button and text elements
         View look = inflater.inflate(R.layout.fragment_map, container, false);
         Button searchButton = look.findViewById(R.id.searchbutton);
         EditText editText = look.findViewById(R.id.address);
@@ -125,10 +140,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         getActivity());
 
-                // set title
+                // sets the title
                 alertDialogBuilder.setTitle("Castles");
 
-                // set dialog message
+                // set the message of the dialog
                 alertDialogBuilder
                         .setMessage("Castles to Enter are as follows:\n" + "Alnwick Castle\n" + "Bamburgh Castle\n" + "Warkworth Castle\n" + "Lindisfarne Castle\n" + "Mitford Castle\n " + "Dunstanburgh Castle\n" + "Chillingham Castle\n" + "Berwick Castle\n" + "Prudhoe Castle\n" + "Edlinghan Castle\n"
 
@@ -142,10 +157,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         });
 
 
-                // create alert dialog
+                // create the alert dialog
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.getWindow().setLayout(600, 350);
-                // show it
+                // show the alert dialog
                 alertDialog.show();
             }
         });
@@ -161,6 +176,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 System.out.println(location);
 
                 if (location != null) {
+                    // Geocoder used to transform a description from location to data and puts the data stored into the array listOfAddress
                     Geocoder geocoder = new Geocoder(getActivity());
                     try {
                         listOfAddress = geocoder.getFromLocationName(location, 1);
@@ -168,11 +184,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    // statement if the data collected from the geocoder isn't empty
                     if (listOfAddress != null) {
-
+                        // if statement to make sure that if the size of the array is greater than 0 then get the first element in the array and get the address and latitude
                         if (listOfAddress.size() > 0) {
                             Address address = listOfAddress.get(0);
-                            String loc = address.getLocality();
+
+
                             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
 
@@ -181,7 +199,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                 public void run() {
 
                                     try {
+                                        // Statement below is setting a new location and clears map first then create a new location sets the coordinates and removes any markers that are the same
                                         theMap.clear();
+
                                         getCastleCoordinates();
 
                                         Location castleSearch = new Location("point B");
@@ -528,7 +548,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             e.printStackTrace();
         }
     }
-
+    /*A method to handle duplicate markers being removed*/
     public void removeDuplicateMarkers(Location castleSearch, List<LatLng> points) {
 
         for (int i = 0; i < 10; i++) {
