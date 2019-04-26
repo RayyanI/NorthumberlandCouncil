@@ -10,7 +10,6 @@ import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -56,8 +55,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
-import static android.content.Context.POWER_SERVICE;
-import static com.google.android.gms.maps.GoogleMap.*;
+import static com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 /**
  * Handles code for Authorisation Fragment
  *
@@ -88,8 +86,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public MapFragment() {
         // Required empty public constructor
     }
-
-    @Override
     /*
      * Inflate fragment upon selection
      *
@@ -98,6 +94,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
      * @param savedInstanceState current activity datas store
      * @return display xml view on screen
      */
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         // Select the button and text elements

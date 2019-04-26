@@ -48,9 +48,44 @@ import okhttp3.Response;
  *
  * @author Rayyan Iqbal
  * Created on 21/02/2019
- * Last modified 17/04/2019 (R Iqbal)
+ * Last modified 26/04/2019 (R Iqbal)
  */
 public class AuthorisationFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+    /* Declarations */
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final int RC_LOG_IN = 3820;
+    private static final String API_URL = "http://18.130.117.241/";
+    public static GoogleApiClient mGoogleApiClient;
+    public static Boolean existingTwitterUser; // existing twitter user
+    private TwitterLoginButton twitterLoginButton;
+    private String firstName;
+    private String lastName;
+    private String email;
+    /* End Declarations */
+
+    /**
+     * Returns true or false when given an email string that is valid (minor counter examples exist for performance i.e. @ 127.0.0.1)
+     *
+     * @param emailStr - email string to be checked
+     * @return boolean - true or false depending on email validity
+     */
+    public static boolean validateEmail(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
+    }
+
+    /**
+     * Returns true or false when given a name string, expects a first and last name separated by a space
+     * consisting of at least 3 characters in each element
+     *
+     * @param name - name string to be checked
+     * @return boolean - true or false depending on email validity
+     */
+    public static boolean validateName(String name) {
+        return name.matches("([a-zA-Z\\-]+){3,}\\s+([a-zA-Z\\-]+){3,}");
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -64,20 +99,6 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
-    /* Declarations */
-    private static final int RC_LOG_IN = 3820;
-    private static final String API_URL = "http://18.130.117.241/";
-    public static GoogleApiClient mGoogleApiClient;
-    private TwitterLoginButton twitterLoginButton;
-    private String firstName;
-    public static Boolean existingTwitterUser; // existing twitter user
-    private String lastName;
-    private String email;
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
-            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-
-
 
     /* End Declarations */
     @Override
@@ -381,7 +402,6 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
 
     }
 
-
     /**
      * Handle authorisation responses, passed from this fragment's activity container
      *
@@ -402,7 +422,6 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
         // Pass the activity result to the twitter login button
         twitterLoginButton.onActivityResult(requestCode, resultCode, data);
     }
-
 
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
@@ -450,29 +469,6 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
         }
 
 
-    }
-
-    /**
-     * Returns true or false when given an email string that is valid (minor counter examples exist for performance i.e. @ 127.0.0.1)
-     *
-     * @param emailStr - email string to be checked
-     * @return boolean - true or false depending on email validity
-     */
-    public static boolean validateEmail(String emailStr) {
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
-        return matcher.find();
-    }
-
-
-    /**
-     * Returns true or false when given a name string, expects a first and last name separated by a space
-     * consisting of at least 3 characters in each element
-     *
-     * @param name - name string to be checked
-     * @return boolean - true or false depending on email validity
-     */
-    public static boolean validateName(String name) {
-        return name.matches("([a-zA-Z\\-]+){3,}\\s+([a-zA-Z\\-]+){3,}");
     }
 
     /**
