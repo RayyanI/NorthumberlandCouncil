@@ -56,6 +56,7 @@ import java.util.Objects;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
+
 /**
  * Handles code for Authorisation Fragment
  *
@@ -64,19 +65,19 @@ import static com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     /* Declarations */
-    GoogleMap theMap;
-    MapView mapview;
-    String destinationAddress;
-    String originAddress;
-    String distance;
-    String duration;
-    String cName;
+    protected GoogleMap theMap;
+    private MapView mapview;
+    private String destinationAddress;
+    private String originAddress;
+    private String distance;
+    private String duration;
+    private String castleName;
     private static BufferedReader in;
     private static StringBuffer response;
-    Location currentlocation;
-    URL url;
-    boolean isMarkerPressed = false;
-    LocationManager locationManager;
+    protected Location currentLocation;
+    private URL url;
+    private boolean isMarkerPressed = false;
+    protected LocationManager locationManager;
 
 
     private ViewGroup infoWindow;
@@ -86,6 +87,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public MapFragment() {
         // Required empty public constructor
     }
+
     /*
      * Inflate fragment upon selection
      *
@@ -105,9 +107,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         ImageButton infoButton = look.findViewById(R.id.infobutton);
 
         // TODO: SET THE CURRENT LOCATION TO USERS CURRENT LOCATION HERE OR THIS IF NO LOCATION ACCESS //
-        currentlocation = new Location("Northumberland Council");
-        currentlocation.setLatitude(55.224470);
-        currentlocation.setLongitude(-2.014950);
+        currentLocation = new Location("Northumberland Council");
+        currentLocation.setLatitude(55.224470);
+        currentLocation.setLongitude(-2.014950);
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
@@ -263,8 +265,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     View row = getLayoutInflater().inflate(R.layout.info_window, null);
                     TextView t1_name = row.findViewById(R.id.markerTitle);
                     t1_name.setText(marker.getTitle());
-                    cName = marker.getTitle();
-                    Log.i("name", cName);
+                    castleName = marker.getTitle();
+                    Log.i("name", castleName);
                     return row;
                 }
 
@@ -281,8 +283,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 PopupWindow popUp = new PopupWindow();
 
                 popUp.show(getActivity().getSupportFragmentManager(), "");
-                Log.i("Title", cName);
-                popUp.setTitle(cName);
+                Log.i("Title", castleName);
+                popUp.setTitle(castleName);
 
 
             }
@@ -307,10 +309,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         getBorder();
 
     }
+
     /*a method to handle location and current location*/
     public LatLng handleNewLocation() {
         // if statement to handle if the location manager isnt enabled on the phone
-        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
             String error = "Please enable your location in your phone settings";
             Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
@@ -321,22 +324,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // else statement to handle the access and permission of the application
         else {
 
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String provider = locationManager.getBestProvider(criteria, true);
+            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            String provider = locationManager.getBestProvider(criteria, true);
 
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //return;
-        }
-        // gets the users last known location
-        currentlocation = locationManager.getLastKnownLocation(provider);
-              // if statement to handle if the location currently isn't empty then get the coordinates and move the camera towards that position
-            if (currentlocation != null) {
+            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                //return;
+            }
+            // gets the users last known location
+            currentLocation = locationManager.getLastKnownLocation(provider);
+            // if statement to handle if the location currently isn't empty then get the coordinates and move the camera towards that position
+            if (currentLocation != null) {
 
-                double latitude = currentlocation.getLatitude();
-                double longitude = currentlocation.getLongitude();
+                double latitude = currentLocation.getLatitude();
+                double longitude = currentLocation.getLongitude();
                 LatLng currentPosition = new LatLng(latitude, longitude);
-                theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition ,13f) );
+                theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 13f));
                 return currentPosition;
 
             }
@@ -389,7 +392,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return handleNewLocation();
     }
 
-        /* a method that sets a marker for each castle in its location                */
+    /* a method that sets a marker for each castle in its location                */
     public void getCastleCoordinates() {
 
         // Castle coordinates
@@ -401,7 +404,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         theMap.addMarker(new MarkerOptions().position(Warkworth).title("Warkworth castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Lindisfarne = new LatLng(55.669, -1.785);
         theMap.addMarker(new MarkerOptions().position(Lindisfarne).title("Lindisfarne castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
-        LatLng Mitford = new LatLng(55.164,-1.734);
+        LatLng Mitford = new LatLng(55.164, -1.734);
         theMap.addMarker(new MarkerOptions().position(Mitford).title("Mitford castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
         LatLng Dunstanburgh = new LatLng(55.4894, -1.5950);
         theMap.addMarker(new MarkerOptions().position(Dunstanburgh).title("Dunstanburgh castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
@@ -414,6 +417,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         LatLng Edlingham = new LatLng(55.3767, -1.8185);
         theMap.addMarker(new MarkerOptions().position(Edlingham).title("Edlingham castle").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
     }
+
     /* adds each castle into a array list of castles       */
     public List<LatLng> listOfCastles() {
 
@@ -422,7 +426,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         points.add(new LatLng(55.608, -1.709));
         points.add(new LatLng(55.3447, -1.6105));
         points.add(new LatLng(55.669, -1.785));
-        points.add(new LatLng(55.164,-1.734));
+        points.add(new LatLng(55.164, -1.734));
         points.add(new LatLng(55.4894, -1.5950));
         points.add(new LatLng(55.5259, -1.9038));
         points.add(new LatLng(55.7736, -2.0125));
@@ -430,6 +434,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         points.add(new LatLng(55.3767, -1.8185));
         return points;
     }
+
     /*   adds each castle name into a array list            */
     public List<String> listOfCastleNames() {
 
@@ -453,13 +458,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             GeoJsonLayer layer = new GeoJsonLayer(theMap, R.raw.geojson, getActivity().getApplicationContext());
 
             GeoJsonPolygonStyle map = layer.getDefaultPolygonStyle();
-            map.setFillColor(Color.argb(60,255,195,195));
+            map.setFillColor(Color.argb(60, 255, 195, 195));
             map.setStrokeWidth(5);
-            map.setStrokeColor(Color.rgb(255,77,77));
+            map.setStrokeColor(Color.rgb(255, 77, 77));
 
             layer.addLayerToMap();
 
-        }catch (IOException ex) {
+        } catch (IOException ex) {
             Log.e("IOException", ex.getLocalizedMessage());
 
         } catch (JSONException ex) {
@@ -475,7 +480,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    public void data(){
+    public void data() {
 
         // Array of castle's locations
         String[] destinations = {"NE66%201NG", "NE69%207DF", "NE65%200UJ", "TD15%202SH", "NE30%204BZ",
@@ -483,7 +488,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
         // For loop to calculate each castle's data. currently the origin is just Newcastle
-        for(String destination : destinations) {
+        for (String destination : destinations) {
             calcDistAndDur(originAddress, destination); // <-- Change first argument to correct origin
             System.out.println("-------------------");
         }
@@ -491,7 +496,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     // Method to calculate the specified castle data
 
     private void calcDistAndDur(String origin, String dest) {
-        origin = currentlocation.toString();
+        origin = currentLocation.toString();
         String urlString = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin + "&destinations=" + dest + "&key=AIzaSyA-SYN3vPXJ0Z7Xgw7QhkhTl7fo9xL48yw";
         try {
             url = new URL(urlString);
@@ -541,10 +546,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         try {
             thread.start();
             thread.join();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /*A method to handle duplicate markers being removed*/
     public void removeDuplicateMarkers(Location castleSearch, List<LatLng> points) {
 
@@ -559,7 +565,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             if (distance < 1000) {
 
                 theMap.addMarker(new MarkerOptions().position(points.get(i)).title(points.get(i).toString()).snippet("").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_castle_marker)));
-                theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(points.get(i),13f));
+                theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(points.get(i), 13f));
                 theMap.clear();
                 getCastleCoordinates();
                 //getBorder();
