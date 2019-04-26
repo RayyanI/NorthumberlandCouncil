@@ -162,7 +162,6 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
              */
             @Override
             public void success(Result<TwitterSession> result) {
-                System.out.println(result.data.getUserId());
                 /* Successful twitter login has occurred
                     (1) Has this user already registered with twitter before? --> fetch data and redirect
                     (2) Create a popup to request additional information from the user
@@ -213,7 +212,6 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
                     e.printStackTrace();
                 }
 
-                System.out.println(" TWITTER STATUS " + existingTwitterUser);
                 if (existingTwitterUser) {
                     updateUI();
                     ((MainActivity) getActivity()).onLoginResult(result); // update ui in activity
@@ -264,13 +262,10 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
                             lastName = lastName.split(" ")[1];
 
 
-                            System.out.println(firstName + " " + lastName + " " + email);
                             /* Communicate with the backend API to store user-record on our database */
 
 
                             // Pass the user data to the backend server for authentication via HTTPS Post //
-
-                            System.out.println(idToken);
                             try {
                                 // Setup the body of the request to include name-value pair of idToken //
                                 RequestBody requestBody = new MultipartBody.Builder()
@@ -294,7 +289,6 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
                                     public void run() {
                                         try {
                                             Response response = client.newCall(request).execute();
-                                            System.out.println(response.body().string());
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
@@ -302,7 +296,6 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
                                 });
                                 thread.start();
                                 thread.join();
-                                System.out.println("HERE ALREADY");
                                 ((MainActivity) getActivity()).onLoginResult(result); // update ui in activity
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -430,7 +423,6 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
 
             OkHttpClient client = new OkHttpClient();
             String idToken = result.getSignInAccount().getIdToken();
-            System.out.println(idToken);
             try {
                 // Setup the body of the request to include name-value pair of idToken //
                 RequestBody requestBody = new MultipartBody.Builder()
@@ -451,7 +443,6 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
                     public void run() {
                         try {
                             Response response = client.newCall(request).execute();
-                            System.out.println(response.body().string());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
