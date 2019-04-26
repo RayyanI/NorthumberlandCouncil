@@ -68,7 +68,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     protected GoogleMap theMap;
     private MapView mapview;
     protected String destinationAddress;
-    private String originAddress;
+    protected String originAddress;
     protected String distance;
     protected String duration;
     private String castleName;
