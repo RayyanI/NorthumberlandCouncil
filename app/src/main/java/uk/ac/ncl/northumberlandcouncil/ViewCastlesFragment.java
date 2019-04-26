@@ -124,7 +124,7 @@ public class ViewCastlesFragment extends Fragment {
                 mitfordButton.startAnimation(animation);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, InformationFragment).commit();
                 chosenCastle = mitfordButton.getText().toString();
-                chosenImage = "mitfordtest1";
+                chosenImage = "mitfordtest";
             }
         });
         dunstanburghButton.setOnClickListener(new View.OnClickListener() {

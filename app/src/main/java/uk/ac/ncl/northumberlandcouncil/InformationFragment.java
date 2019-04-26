@@ -67,9 +67,21 @@ public class InformationFragment extends Fragment {
     private HashMap<String, Integer> castleIDs = new HashMap<>();   // Castle name to castle ID
     private HashMap<String, Boolean> isDisabled = new HashMap<>();  // Castle name to accessability
 
-    private ViewCastlesFragment vcf;// ViewCastlesFragment necassary to see what castle to display
-
-
+    String[] values;
+    TextView castleNameTV;
+    TextView castleLocationTV;
+    TextView castleRatingTV;
+    TextView childPriceTV;
+    TextView adultPriceTV;
+    ImageView castlePhotoImg;
+    TextView openingTimeTV;
+    TextView castleWebsiteTV;
+    ImageView castleImg;
+    ImageView backbutton;
+    TextView shortDescription;
+    TextView ageRangeTV;
+    TextView access;
+    ImageView disabledIV;
 
     @Nullable
     @Override
@@ -78,21 +90,24 @@ public class InformationFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_information, container, false);
 
-        TextView castleNameTV = view.findViewById(R.id.castle_name);
-        TextView castleLocationTV = view.findViewById(R.id.castle_address);
-        TextView castleRatingTV = view.findViewById(R.id.rating);
-        TextView childPriceTV = view.findViewById(R.id.child_price);
-        TextView adultPriceTV = view.findViewById(R.id.adult_price);
-        ImageView castlePhotoImg = view.findViewById(R.id.castle_img);
-        TextView openingTimeTV = view.findViewById(R.id.castle_times);
-        TextView castleWebsiteTV = view.findViewById(R.id.website);
-        ImageView castleImg = view.findViewById(R.id.castle_img);
-        ImageView backbutton = view.findViewById(R.id.backButton);
-        TextView shortDescription = view.findViewById(R.id.shortDescription);
-        TextView ageRangeTV = view.findViewById(R.id.ageRange);
-        TextView access = view.findViewById(R.id.disabilityDescription);
-        ImageView disabledIV = view.findViewById(R.id.disabledIcon);
+        // Identify the fields we will need to edit
+        castleNameTV = view.findViewById(R.id.castle_name);
+        castleLocationTV = view.findViewById(R.id.castle_address);
+        castleRatingTV = view.findViewById(R.id.rating);
+        childPriceTV = view.findViewById(R.id.child_price);
+        adultPriceTV = view.findViewById(R.id.adult_price);
+        castlePhotoImg = view.findViewById(R.id.castle_img);
+        openingTimeTV = view.findViewById(R.id.castle_times);
+        castleWebsiteTV = view.findViewById(R.id.website);
+        castleImg = view.findViewById(R.id.castle_img);
+        backbutton = view.findViewById(R.id.backButton);
+        shortDescription = view.findViewById(R.id.shortDescription);
+        ageRangeTV = view.findViewById(R.id.ageRange);
+        access = view.findViewById(R.id.disabilityDescription);
+        disabledIV = view.findViewById(R.id.disabledIcon);
+        // End of identifying
 
+        // Place each castle into the array list with it's ID that matches the database's ID
         castleIDs.put("Alnwick%20castle", 0);
         castleIDs.put("Bamburgh%20castle", 1);
         castleIDs.put("Warkworth%20castle", 2);
@@ -104,7 +119,9 @@ public class InformationFragment extends Fragment {
         castleIDs.put("Berwick%20castle", 7);
         castleIDs.put("Prudhoe%20castle", 8);
         castleIDs.put("Edlingham%20castle", 9);
+        // End castle name/id placements
 
+        // Place each castle with disability true/false values
         isDisabled.put("Alnwick%20castle", true);
         isDisabled.put("Bamburgh%20castle", true);
         isDisabled.put("Warkworth%20castle", true);
@@ -116,10 +133,11 @@ public class InformationFragment extends Fragment {
         isDisabled.put("Berwick%20castle", true);
         isDisabled.put("Prudhoe%20castle", false);
         isDisabled.put("Edlingham%20castle", false);
+        // End name/access placements
 
         OkHttpClient client = new OkHttpClient();                       // WEB REQUEST //
 
-
+        // Gathers the database's details depenending on which castle is the chosen castle
         try {
 
             ViewCastlesFragment vcf = new ViewCastlesFragment();
@@ -241,24 +259,26 @@ public class InformationFragment extends Fragment {
                     .build();
             // Execute network activity off of the main thread //
 
-
+            // Refine all of the data from a response body so it is easy to read and implement
             Thread t1 = new Thread(new Runnable() {
                 public void run() {
                     try {
+                        // Client/response calls start
                         Response response = client.newCall(request).execute();
                         Response descResponse = client.newCall(request).execute();
                         Response disabilityResponse = client.newCall(request).execute();
+                        // Client/response calls end
+
+                        // Extract the descriptions
                         String shortDescription = descResponse.body().string().split("shortDescription")[1].replaceAll(
                                 "\"", "").replaceAll(":", "").split(",ageRange")[0];
                         String disabilityDescription = disabilityResponse.body().string().split("disabilityAccess")[1].replaceAll(
                                 "\"", "").replaceAll(":", "").replace("}]", "");
 
-                        Log.d("disabilityDescription0", disabilityDescription);
-
+                        // Main response, gathers all the data needed and puts it into an arraylist
                         String res = response.body().string().replace(":", " ").replace("" +
                                 "[{", "").replace("}]", "").replace("\"", "");
                         castleInfo = new ArrayList<String>(Arrays.asList(res.split(",")));
-                        Log.d("worked", res);
                         for(String s : castleInfo){
                             String val1 = s.split(" ")[0];
                             if(!val1.equals("shortDescription") && !val1.equals("disabilityAccess")){
@@ -271,28 +291,26 @@ public class InformationFragment extends Fragment {
                             }else{
                                 refinedCastleInfo.put(val1, shortDescription);
                             }
-
-
                         }
                     } catch (Exception e) {
+                        // Failed, find out why and silent fail
                         Log.e("response", "failure");
                         e.printStackTrace();
                     }
                 }
             });
-            Log.d("threadRun", "b4");
-        t1.start();
-        t1.join();
-        Log.d("threadRun", "after");
+            // Start thread
+            t1.start();
+            t1.join();
         }catch(Exception e){
+            // Silent fail, most likely an FTP error
             Log.e("FTP_ERROR", e.getMessage());
-       }
+        }
 
+        // Implement all of the data gathered into the actual app
         try {
-            GooglePlacesTask gpt = new GooglePlacesTask();
-            gpt.execute();
-            String results = gpt.get();
-            String[] values = results.split("\n", 3);
+           String[] values = getPlacesData();
+            // Start setting text
             castleLocationTV.setText(values[0].replaceAll(",", "\n       "));
             castleNameTV.setText(values[1]);
             castleRatingTV.setText(values[2]);
@@ -312,11 +330,14 @@ public class InformationFragment extends Fragment {
             ageRangeTV.setText(refinedCastleInfo.get("ageRange"));
             access.setText(refinedCastleInfo.get("disabilityAccess"));
             shortDescription.setText(refinedCastleInfo.get ("shortDescription"));
+            // End setting text
         } catch (Exception e) {
-            Log.e("FTPFAIL", "hi");
+            // Silent fail, find out why it failed
+            Log.e("FTPFAIL", e.getMessage());
             e.printStackTrace();
         }
 
+        // Go to the previous page
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -332,11 +353,6 @@ public class InformationFragment extends Fragment {
             return view;
         }
 
-    /* Eventually this method will be called when a castle is clicked, it will run the places API */
-    public void displayCastle(String name, String location) throws java.io.IOException{
-        getCastleDetails(name);
-
-    }
 
     /**
      * Adds a castle to a users favourite list on our database given a valid castle and user identification number
@@ -441,14 +457,6 @@ public class InformationFragment extends Fragment {
 
     }
 
-    /* Method gathers castle details */
-    private void getCastleDetails(String castle) throws IOException {
-        Log.d("CASTLE", castle);
-        Log.d("CASTLE", vcf.getChosenCastle());
-
-
-//        setCastleDetails(name, address, rating, "temp");
-    }
 
     public static void setPreviousPage(String prevPage){
         previousPage = prevPage;
@@ -456,18 +464,24 @@ public class InformationFragment extends Fragment {
     public static void setID(int id){
         castleid = id;
     }
-    // When called it updates the page information
-//
-//    private void setCastleDetails(){
-//
-//
-//        String price = vcf.getInfo().get("Price");
 
+    private String[] getPlacesData(){
+        String[] values = new String[0];
+        try{
+            // Link to google places API and return data using GooglePlacesTask thread
+            GooglePlacesTask gpt = new GooglePlacesTask();
+            gpt.execute();
+            String results = gpt.get();
+            values = results.split("\n", 3);   // Place returned string into
+                                                                    // a splitted array
+            return values;
+        }catch(Exception e){
 
-//        castlePhotoImg.setImage(castleImgRef); Will hold the image
+            Log.e("PlacesError", e.getMessage());
+        }
 
-
-//    }
+      return values;
+    }
 
 
 
