@@ -48,15 +48,6 @@ public class MapDirections extends AsyncTask<String, Void, String> {
         MapDirections mp = new MapDirections();
         PopupWindow pop = new PopupWindow();
 
-        //CALL TO DIRECTIONS
-        listOfPaths = mp.getJson(data);
-
-        if (listOfPaths != null) {
-            pop.displayPolyline(listOfPaths);
-        } else {
-            return;
-        }
-
 
     }
 
@@ -98,27 +89,4 @@ public class MapDirections extends AsyncTask<String, Void, String> {
 
     }
 
-
-
-    public String[] getJson(String finalData) {
-
-        JSONArray jsonArray = null;
-        JSONObject jsonObject;
-
-        try {
-            jsonObject = new JSONObject(finalData);
-
-            if (jsonObject != null) {
-                jsonArray = jsonObject.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps");
-            }
-
-        } catch (JSONException e) {
-            Log.d("Json object:", "Json Object is null");
-            e.printStackTrace();
-        }
-
-        Log.d("jsonArray", "jsonArray is empty");
-        return null;
-
-    }
 }
