@@ -49,7 +49,7 @@ public class MapDirections extends AsyncTask<String, Void, String> {
         PopupWindow pop = new PopupWindow();
 
         //CALL TO DIRECTIONS
-        listOfPaths = mp.Directions(data);
+        listOfPaths = mp.getJson(data);
 
         if (listOfPaths != null) {
             pop.displayPolyline(listOfPaths);
@@ -100,7 +100,7 @@ public class MapDirections extends AsyncTask<String, Void, String> {
 
 
 
-    public String[] Directions(String finalData) {
+    public String[] getJson(String finalData) {
 
         JSONArray jsonArray = null;
         JSONObject jsonObject;
