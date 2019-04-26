@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,14 +20,19 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
+
+/**
+ * Defines functionalities for the moreInfo and getDirection button
+ *
+ * @author Sean Fuller and Jasper Griffin
+ * Created on 21/04/19
+ */
 
 public class PopupWindow extends DialogFragment {
 
@@ -110,6 +116,7 @@ public class PopupWindow extends DialogFragment {
 
                         });
                         thread1.run();
+
                         try {
                             if (chosenCastle.equals(mapFragment.listOfCastleNames().get(i))) {
 
@@ -118,13 +125,16 @@ public class PopupWindow extends DialogFragment {
 
                                 mapFragment.theMap.addMarker(new MarkerOptions().position(castleloc).title("castle location"));
 
-                                polyline = mapFragment.theMap.addPolyline(new PolylineOptions()
-                                        .add((curloc), (castleloc))
-                                        .width(5)
-                                        .color(Color.RED)
-                                );
 
-                                cameraZoom(polyline);
+                                String url = getGoogleUrl(curloc, castleloc);
+                                getUrl(url);
+
+                                MapDirections directions = new MapDirections();
+
+
+                                directions.execute(url);
+
+
                                 dismiss();
                                 break;
                             } else {
@@ -137,11 +147,6 @@ public class PopupWindow extends DialogFragment {
                         thread1.run();
                     }
                 }
-
-
-
-
-
 
             }
         });
@@ -166,6 +171,19 @@ public class PopupWindow extends DialogFragment {
         chosenCastle = cName;
     }
 
+    public String getGoogleUrl(LatLng curloc, LatLng casteloc) {
+
+        String origin = "origin=" + curloc.latitude + "," + casteloc.longitude;
+
+        String destination = "destination=" + casteloc.latitude + "," + casteloc.longitude;
+
+        String mode = "mode=driving";
+
+        String url = "https://maps.googleapis.com/maps/api/directions/" + "json" + "?" + origin + "&" + destination + "&" + mode;
+
+        return url;
+    }
+
     private void cameraZoom(Polyline p) {
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
@@ -180,6 +198,29 @@ public class PopupWindow extends DialogFragment {
         CameraUpdate zoom = CameraUpdateFactory.newLatLngBounds(bounds, 150);
         mapFragment.theMap.animateCamera(zoom);
 
+    }
+
+
+    public void displayPolyline(String[] listOfPaths) {
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
+
+        int count = listOfPaths.length;
+
+        for (int i = 0; i < count; i++) {
+
+            polyline = mapFragment.theMap.addPolyline(new PolylineOptions()
+                    .addAll(PolyUtil.decode(String.valueOf(listOfPaths)))
+                    .width(5)
+                    .color(Color.RED)
+            );
+        }
+        cameraZoom(polyline);
+    }
+
+    public String getUrl(String url) {
+//        Toast.makeText(getContext(), url, Toast.LENGTH_SHORT).show();
+        return url;
     }
 
 }

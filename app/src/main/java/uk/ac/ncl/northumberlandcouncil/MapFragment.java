@@ -10,6 +10,7 @@ import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -344,16 +345,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 return currentPosition;
 
             }
-            // a else statement to place a default position if there is no current location
+
             else {
-                LatLng defaultPosition = new LatLng(55.224470, -2.014950);
-                theMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultPosition, 8));
-                //locationManager = null;
-                return null;
-
-            }
-
-            /*else {
 
                 LocationListener locationListener = new LocationListener() {
 
@@ -382,7 +375,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     }
                 };
                 return null;
-            }*/
+            }
 
 
         }
