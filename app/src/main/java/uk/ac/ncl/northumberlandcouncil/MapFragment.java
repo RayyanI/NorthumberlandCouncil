@@ -245,7 +245,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
 
 
-        theMap=googleMap;
+        theMap = googleMap;
 
         getCastleCoordinates();
 
@@ -472,6 +472,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Log.e("JSONException", ex.getLocalizedMessage());
         }
     }
+
     /* closes keyboard when called   */
     public static void closeKeyboard(android.app.Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
@@ -598,8 +599,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     /*when system is low on memory
-    *
-    * */
+     *
+     * */
     public void onLowMemory() {
         super.onLowMemory();
         mapview.onLowMemory();
