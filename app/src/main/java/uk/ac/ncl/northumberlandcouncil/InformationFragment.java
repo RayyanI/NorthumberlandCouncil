@@ -55,47 +55,21 @@ public class InformationFragment extends Fragment {
      * @param savedInstanceState current activity datas store
      * @return display xml view on screen
      */
-    private ArrayList<String> castleInfo;
-    private HashMap<String, String> refinedCastleInfo = new HashMap<>();
-    private Connection connect = null;
-    private Statement statement = null;
-    private PreparedStatement preparedStatement = null;
-    private ResultSet resultSet = null;
-    private static int castleid;
-    private String castleLocation; /* API's castle location */
-    private String castleName; /* Targeted castle name */
-    private String ageRange; /* Age range for the castle */
-    private int childPrice; /* Price for a child to enter */
-    private int adultPrice; /* Price for an adult to enter */
-    private static String previousPage;
-    private static Boolean IAS_STORE; // IAS Store for thread results
-    private String key = "AIzaSyA-SYN3vPXJ0Z7Xgw7QhkhTl7fo9xL48yw"; /* Places API key */
-    private String urlString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/" +
-            "json?input="; /* Places API URL */
-    private URL url;
-    private static String API_URL = "http://18.130.117.241/";
+    private ArrayList<String> castleInfo;   // Will store the raw castle database data
+    private HashMap<String, String> refinedCastleInfo = new HashMap<>();    // Will store the only
+                                                                            // necessary data
+    private static int castleid;    // Castle's ID which links to the database castle ID
+    private static String previousPage;    // Previous fragment's name
+    private static Boolean IAS_STORE; // IAS Store for thread result
+    private String API_URL = "http://18.130.117.241/";  // URL for our database API linked with PHP
+    private boolean fave = false;   // Boolean to declare whether the castle is a favourite or not
 
-    private String address;
-    private String name;
-    private boolean open;
-    private boolean fave = false;
-    private String photoReference;
-    private String rating;
-    private HashMap<String, Integer> castleIDs = new HashMap<>();
-    private HashMap<String, Boolean> isDisabled = new HashMap<>();
-    String ip;
-    String db;
-    String DBUserNameStr;
-    String DBPasswordStr;
+    private HashMap<String, Integer> castleIDs = new HashMap<>();   // Castle name to castle ID
+    private HashMap<String, Boolean> isDisabled = new HashMap<>();  // Castle name to accessability
 
-    TextView castleNameTV; /* Displayed castle name to change */
-    TextView castleLocationTV;
-    TextView castleRatingTV;
-    ImageView castlePhotoImg;
-    TextView castleWebsiteTV;
-    ViewCastlesFragment vcf;
+    private ViewCastlesFragment vcf;// ViewCastlesFragment necassary to see what castle to display
 
-    HttpURLConnection connection;
+
 
     @Nullable
     @Override
@@ -319,14 +293,14 @@ public class InformationFragment extends Fragment {
             gpt.execute();
             String results = gpt.get();
             String[] values = results.split("\n", 3);
-            castleLocationTV.setText("        " + values[0].replaceAll(",", "\n       "));
+            castleLocationTV.setText(values[0].replaceAll(",", "\n       "));
             castleNameTV.setText(values[1]);
-            castleRatingTV.setText("        " + values[2]);
-            childPriceTV.setText("        Adult:  £" + refinedCastleInfo.get("childCost"));
-            adultPriceTV.setText("        Child:  £" + refinedCastleInfo.get("adultCost"));
-            castleWebsiteTV.setText("        " + refinedCastleInfo.get("website"));
-            openingTimeTV.setText("        " + refinedCastleInfo.get("openingClosing"));
-            ageRangeTV.setText("        " + refinedCastleInfo.get("ageRange"));
+            castleRatingTV.setText(values[2]);
+            childPriceTV.setText("Adult: £" + refinedCastleInfo.get("childCost"));
+            adultPriceTV.setText("Child: £" + refinedCastleInfo.get("adultCost"));
+            castleWebsiteTV.setText(refinedCastleInfo.get("website"));
+            openingTimeTV.setText(refinedCastleInfo.get("openingClosing"));
+            ageRangeTV.setText(refinedCastleInfo.get("ageRange"));
             access.setText(refinedCastleInfo.get("disabilityAccess"));
             shortDescription.setText(refinedCastleInfo.get ("shortDescription"));
         } catch (Exception e) {

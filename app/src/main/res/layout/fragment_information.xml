@@ -17,7 +17,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:minHeight="10000dp">
 
             <!-- Stores everything in the scroll view in a linear layout !-->
             <LinearLayout
@@ -40,11 +41,12 @@
 
                         <ImageView
                             android:id="@+id/castle_img"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:srcCompat="@tools:sample/backgrounds/scenic[11]"
+                            android:layout_width="420dp"
+                            android:layout_height="298dp"
                             android:scaleType="fitXY"
-                            tools:ignore="MissingConstraints" />
+                            tools:ignore="MissingConstraints"
+                            tools:layout_editor_absoluteX="-2dp"
+                            tools:srcCompat="@tools:sample/backgrounds/scenic[11]" />
 
                         <ImageView
                             android:id="@+id/backButton"
@@ -55,8 +57,8 @@
                             app:layout_constraintHorizontal_bias="1.0"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
-                            tools:layout_editor_absoluteY="16dp"
-                            tools:ignore="MissingConstraints" />
+                            tools:ignore="MissingConstraints"
+                            tools:layout_editor_absoluteY="16dp" />
 
                         <TextView
                             android:id="@+id/castle_name"
@@ -64,42 +66,42 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginBottom="8dp"
-                            android:text="Castle @string/app_name"
+                            android:text="Castle name"
                             android:textColor="#F7F3F3"
                             android:textSize="30sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            tools:text="n/a" />
+                            tools:text="Castle name" />
 
                         <ImageView
                             android:id="@+id/imageStar"
-                            android:layout_width="61dp"
-                            android:layout_height="61dp"
+                            android:layout_width="39dp"
+                            android:layout_height="39dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="8dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/castle_img"
-                            app:layout_constraintHorizontal_bias="0.976"
+                            app:layout_constraintHorizontal_bias="0.703"
                             app:layout_constraintStart_toStartOf="@+id/castle_img"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.955"
+                            app:layout_constraintVertical_bias="1.0"
                             app:srcCompat="@drawable/staroutline" />
 
                         <ImageView
                             android:id="@+id/disabledIcon"
-                            android:layout_width="61dp"
-                            android:layout_height="61dp"
+                            android:layout_width="39dp"
+                            android:layout_height="39dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="8dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/castle_img"
-                            app:layout_constraintHorizontal_bias="0.754"
+                            app:layout_constraintHorizontal_bias="0.983"
                             app:layout_constraintStart_toStartOf="@+id/castle_img"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.955"
+                            app:layout_constraintVertical_bias="1.0"
                             app:srcCompat="@drawable/disabledicon" />
 
                     </android.support.constraint.ConstraintLayout>
@@ -115,9 +117,15 @@
                 <TextView
                     android:id="@+id/header"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:text="     Opening time"
-                    android:textSize="25sp"
+                    android:layout_height="62dp"
+                    android:paddingStart="40dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="30dp"
+                    android:paddingEnd="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="Opening time:"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <!-- End opening time header !-->
@@ -127,9 +135,16 @@
                 <TextView
                     android:id="@+id/castle_times"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:text="        Castle times"
-                    android:textSize="20sp" />
+                    android:layout_height="37dp"
+                    android:layout_weight="0"
+                    android:paddingStart="60dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="Castle times"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp" />
 
                 <!-- End opening times text !-->
 
@@ -138,9 +153,14 @@
                 <TextView
                     android:id="@+id/prices_header"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:text="     Prices"
-                    android:textSize="25sp"
+                    android:layout_height="30dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="     Prices:"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <!-- End prices header !-->
@@ -150,16 +170,27 @@
                 <TextView
                     android:id="@+id/adult_price"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:text="        Adult - £0"
-                    android:textSize="20sp" />
+                    android:layout_height="33dp"
+                    android:paddingStart="60dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="Adult - £0"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/child_price"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    android:text="        Child - £0"
-                    android:textSize="20sp" />
+                    android:paddingLeft="60dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="Child - £0"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp" />
 
                 <!-- End price details !-->
 
@@ -167,9 +198,15 @@
                 <TextView
                     android:id="@+id/rating_header"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:text="     Rating"
-                    android:textSize="25sp"
+                    android:layout_height="28dp"
+                    android:paddingStart="40dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="Rating:"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <!-- End rating header !-->
@@ -180,8 +217,14 @@
                     android:id="@+id/rating"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    android:text="        Castle rating"
-                    android:textSize="20sp" />
+                    android:paddingStart="60dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="Castle rating"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp" />
 
                 <!-- End rating details !-->
 
@@ -190,9 +233,15 @@
                 <TextView
                     android:id="@+id/website_header"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:text="     Website"
-                    android:textSize="25sp"
+                    android:layout_height="31dp"
+                    android:paddingStart="40dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="Website:"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <!-- End website header !-->
@@ -202,33 +251,54 @@
                 <TextView
                     android:id="@+id/website"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:text="        http://examplewebsite.co.uk"
-                    android:textSize="20sp" />
+                    android:layout_height="35dp"
+                    android:paddingLeft="60dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="http://examplewebsite.co.uk"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp" />
 
                 <!-- End website link !-->
                 <!-- Address header !-->
                 <TextView
                     android:id="@+id/age_header"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:text="     Age range"
-                    android:textSize="25sp"
+                    android:layout_height="30dp"
+                    android:paddingLeft="40dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="Age range:"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/ageRange"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    android:text="        http://examplewebsite.co.uk"
-                    android:textSize="20sp" />
+                    android:paddingLeft="60dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="http://examplewebsite.co.uk"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/disabilityDescription_header"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:text="     Disability access"
-                    android:textSize="25sp"
+                    android:layout_height="32dp"
+                    android:paddingLeft="40dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:background="@null"
+                    android:text="Disability access:"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -236,20 +306,60 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    android:editable="false"
                     android:ems="10"
                     android:gravity="start|top"
                     android:inputType="textMultiLine"
+                    android:paddingLeft="60dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="Description:"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/address_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
                     android:paddingLeft="20dp"
-                    android:text="     Description"
-                    android:textColor="@android:color/primary_text_light"
-                    android:textSize="20sp" />
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="     Address:"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/castle_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:ems="10"
+                    android:inputType="textMultiLine"
+                    android:background="@null"
+                    android:paddingLeft="60dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="60dp"
+                    android:text="        Line 1\n        Line 2\n        Line 3\n        Line 4"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/shortDescription_header"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:text="     Description"
-                    android:textSize="25sp"
+                    android:layout_height="50dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="0dp"
+                    android:text="Information:"
+                    android:background="@null"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -257,35 +367,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:height="119dp"
+                    android:editable="false"
                     android:ems="10"
                     android:gravity="start|top"
                     android:inputType="textMultiLine"
-                    android:paddingLeft="20dp"
+                    android:paddingLeft="60dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
                     android:text="     Description"
-                    android:textColor="@android:color/primary_text_light"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/address_header"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:text="     Address:"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textColorHint="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20dp" />
 
                 <!-- End address header !-->
 
 
                 <!-- Castle address details !-->
-
-                <EditText
-                    android:id="@+id/castle_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textMultiLine"
-                    android:text="        Line 1\n        Line 2\n        Line 3\n        Line 4"
-                    android:textSize="20sp" />
 
                 <!-- End castle address details !-->
             </LinearLayout>
