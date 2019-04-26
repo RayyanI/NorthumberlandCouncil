@@ -97,7 +97,7 @@ public class InformationFragment extends Fragment {
         castleIDs.put("Bamburgh%20castle", 1);
         castleIDs.put("Warkworth%20castle", 2);
         castleIDs.put("Lindisfarne%20castle", 3);
-        castleIDs.put("Mitford%20Castle", 4);
+        castleIDs.put("Mitford%20castle", 4);
         castleIDs.put("National%20Trust%20-%20Dunstanburgh%20Castle", 5);
         castleIDs.put("Dunstanburgh%20castle", 5);
         castleIDs.put("Chillingham%20castle", 6);
@@ -109,7 +109,7 @@ public class InformationFragment extends Fragment {
         isDisabled.put("Bamburgh%20castle", true);
         isDisabled.put("Warkworth%20castle", true);
         isDisabled.put("Lindisfarne%20castle", false);
-        isDisabled.put("Mitford%20Castle", false);
+        isDisabled.put("Mitford%20castle", false);
         isDisabled.put("National%20Trust%20-%20Dunstanburgh%20Castle", true);
         isDisabled.put("Dunstanburgh%20castle", true);
         isDisabled.put("Chillingham%20castle", true);
@@ -296,8 +296,17 @@ public class InformationFragment extends Fragment {
             castleLocationTV.setText(values[0].replaceAll(",", "\n       "));
             castleNameTV.setText(values[1]);
             castleRatingTV.setText(values[2]);
-            childPriceTV.setText("Adult: £" + refinedCastleInfo.get("childCost"));
-            adultPriceTV.setText("Child: £" + refinedCastleInfo.get("adultCost"));
+            if(refinedCastleInfo.get("childCost").equals("0.00")){
+                childPriceTV.setText("Free");
+            }else{
+                childPriceTV.setText("Child: £" + refinedCastleInfo.get("childCost"));
+            }
+
+            if(refinedCastleInfo.get("adultCost").equals("0.00")){
+                adultPriceTV.setText("Free");
+            }else{
+                adultPriceTV.setText("Adult: £" + refinedCastleInfo.get("adultCost"));
+            }
             castleWebsiteTV.setText(refinedCastleInfo.get("website"));
             openingTimeTV.setText(refinedCastleInfo.get("openingClosing"));
             ageRangeTV.setText(refinedCastleInfo.get("ageRange"));
