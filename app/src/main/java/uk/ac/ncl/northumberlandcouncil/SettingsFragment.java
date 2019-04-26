@@ -123,7 +123,6 @@ public class SettingsFragment extends Fragment {
                                     Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                                         @Override
                                         public void onResult(@NonNull Status status) {
-                                            System.out.println(((MainActivity) getActivity()).getGoogleSignInResult().getSignInAccount().getIdToken());
                                             ((MainActivity) getActivity()).logout();
                                         }
                                     });
@@ -233,7 +232,6 @@ public class SettingsFragment extends Fragment {
 
                         // Call thew appropriate API function to change this users email address //
 
-                        System.out.println(email);
 
                     }
                 });
@@ -312,8 +310,6 @@ public class SettingsFragment extends Fragment {
                         firstName = firstName.split(" ")[0];
                         lastName = lastName.split(" ")[1];
 
-
-                        System.out.println(firstName + " " + lastName);
                         /* Work with the output now */
                         try {
 
