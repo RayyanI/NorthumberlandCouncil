@@ -276,6 +276,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         theMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
             @Override
+            /*sets the popup when marker is clicked*/
             public void onInfoWindowClick(Marker marker) {
 
                 isMarkerPressed = true;
@@ -596,7 +597,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    /*when system is low on memory*/
+    /*when system is low on memory
+    *
+    * */
     public void onLowMemory() {
         super.onLowMemory();
         mapview.onLowMemory();
