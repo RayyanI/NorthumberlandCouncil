@@ -13,14 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -67,77 +59,94 @@ public class InformationFragment extends Fragment {
     private HashMap<String, Integer> castleIDs = new HashMap<>();   // Castle name to castle ID
     private HashMap<String, Boolean> isDisabled = new HashMap<>();  // Castle name to accessability
 
-    String[] values;
-    TextView castleNameTV;
-    TextView castleLocationTV;
-    TextView castleRatingTV;
-    TextView childPriceTV;
-    TextView adultPriceTV;
-    ImageView castlePhotoImg;
-    TextView openingTimeTV;
-    TextView castleWebsiteTV;
-    ImageView castleImg;
-    ImageView backbutton;
-    TextView shortDescription;
-    TextView ageRangeTV;
-    TextView access;
-    ImageView disabledIV;
+    private String[] values;
+    private TextView castleNameTV;
+    private TextView castleLocationTV;
+    private TextView castleRatingTV;
+    private TextView childPriceTV;
+    private TextView adultPriceTV;
+    private ImageView castlePhotoImg;
+    private TextView openingTimeTV;
+    private TextView castleWebsiteTV;
+    private ImageView castleImg;
+    private ImageView backbutton;
+    private TextView shortDescription;
+    private TextView ageRangeTV;
+    private TextView access;
+    private ImageView disabledIV;
+    private View view;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-        View view = inflater.inflate(R.layout.fragment_information, container, false);
+        view = inflater.inflate(R.layout.fragment_information, container, false);
 
-        // Identify the fields we will need to edit
-        castleNameTV = view.findViewById(R.id.castle_name);
-        castleLocationTV = view.findViewById(R.id.castle_address);
-        castleRatingTV = view.findViewById(R.id.rating);
-        childPriceTV = view.findViewById(R.id.child_price);
-        adultPriceTV = view.findViewById(R.id.adult_price);
-        castlePhotoImg = view.findViewById(R.id.castle_img);
-        openingTimeTV = view.findViewById(R.id.castle_times);
-        castleWebsiteTV = view.findViewById(R.id.website);
-        castleImg = view.findViewById(R.id.castle_img);
-        backbutton = view.findViewById(R.id.backButton);
-        shortDescription = view.findViewById(R.id.shortDescription);
-        ageRangeTV = view.findViewById(R.id.ageRange);
-        access = view.findViewById(R.id.disabilityDescription);
-        disabledIV = view.findViewById(R.id.disabledIcon);
-        // End of identifying
-
-        // Place each castle into the array list with it's ID that matches the database's ID
-        castleIDs.put("Alnwick%20castle", 0);
-        castleIDs.put("Bamburgh%20castle", 1);
-        castleIDs.put("Warkworth%20castle", 2);
-        castleIDs.put("Lindisfarne%20castle", 3);
-        castleIDs.put("Mitford%20castle", 4);
-        castleIDs.put("National%20Trust%20-%20Dunstanburgh%20Castle", 5);
-        castleIDs.put("Dunstanburgh%20castle", 5);
-        castleIDs.put("Chillingham%20castle", 6);
-        castleIDs.put("Berwick%20castle", 7);
-        castleIDs.put("Prudhoe%20castle", 8);
-        castleIDs.put("Edlingham%20castle", 9);
-        // End castle name/id placements
-
-        // Place each castle with disability true/false values
-        isDisabled.put("Alnwick%20castle", true);
-        isDisabled.put("Bamburgh%20castle", true);
-        isDisabled.put("Warkworth%20castle", true);
-        isDisabled.put("Lindisfarne%20castle", false);
-        isDisabled.put("Mitford%20castle", false);
-        isDisabled.put("National%20Trust%20-%20Dunstanburgh%20Castle", true);
-        isDisabled.put("Dunstanburgh%20castle", true);
-        isDisabled.put("Chillingham%20castle", true);
-        isDisabled.put("Berwick%20castle", true);
-        isDisabled.put("Prudhoe%20castle", false);
-        isDisabled.put("Edlingham%20castle", false);
-        // End name/access placements
+        identifyViews();        // Updates the view variables
+        createCastleIDs();      // Adds each castle name with the database's ID to that castle name
+        createCastleAccess();   // Creates a hashmap showing if that castle has disability access or not
 
         OkHttpClient client = new OkHttpClient();                       // WEB REQUEST //
 
-        // Gathers the database's details depenending on which castle is the chosen castle
+        // Accesses the database and places the data into an array list
+        gatherDatabaseData(client);
+
+        // Update the page with the relevant information
+        updateFragment();
+
+        return view;
+        }
+
+        // Update the fragment's information
+        private void updateFragment() {
+            // Go to the previous page
+            backbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(previousPage.equals("ViewCastlesFragment")){
+                        getFragmentManager().beginTransaction().replace(R.id.fragment_container, new ViewCastlesFragment()).commit();
+                    }else{
+                        getFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
+                    }
+
+                }
+            });
+
+            // Implement all of the data gathered into the actual app
+            try {
+                String[] values = getPlacesData();
+                // Start setting text
+                castleLocationTV.setText(values[0].replaceAll(",", "\n       "));
+                castleNameTV.setText(values[1]);
+                castleRatingTV.setText(values[2]);
+                if(refinedCastleInfo.get("childCost").equals("0.00")){
+                    childPriceTV.setText("Free");
+                }else{
+                    childPriceTV.setText("Child: £" + refinedCastleInfo.get("childCost"));
+                }
+
+                if(refinedCastleInfo.get("adultCost").equals("0.00")){
+                    adultPriceTV.setText("Free");
+                }else{
+                    adultPriceTV.setText("Adult: £" + refinedCastleInfo.get("adultCost"));
+                }
+                castleWebsiteTV.setText(refinedCastleInfo.get("website"));
+                openingTimeTV.setText(refinedCastleInfo.get("openingClosing"));
+                ageRangeTV.setText(refinedCastleInfo.get("ageRange"));
+                access.setText(refinedCastleInfo.get("disabilityAccess"));
+                shortDescription.setText(refinedCastleInfo.get ("shortDescription"));
+                // End setting text
+            } catch (Exception e) {
+                // Silent fail, find out why it failed
+                Log.e("FTPFAIL", e.getMessage());
+                e.printStackTrace();
+            }
+    }
+
+    // Gathers the database's details depenending on which castle is the chosen castle
+    private void gatherDatabaseData(OkHttpClient client) {
+
         try {
 
             ViewCastlesFragment vcf = new ViewCastlesFragment();
@@ -306,52 +315,57 @@ public class InformationFragment extends Fragment {
             // Silent fail, most likely an FTP error
             Log.e("FTP_ERROR", e.getMessage());
         }
+    }
 
-        // Implement all of the data gathered into the actual app
-        try {
-           String[] values = getPlacesData();
-            // Start setting text
-            castleLocationTV.setText(values[0].replaceAll(",", "\n       "));
-            castleNameTV.setText(values[1]);
-            castleRatingTV.setText(values[2]);
-            if(refinedCastleInfo.get("childCost").equals("0.00")){
-                childPriceTV.setText("Free");
-            }else{
-                childPriceTV.setText("Child: £" + refinedCastleInfo.get("childCost"));
-            }
+    // Place each castle with disability true/false values
+    private void createCastleAccess() {
+        isDisabled.put("Alnwick%20castle", true);
+        isDisabled.put("Bamburgh%20castle", true);
+        isDisabled.put("Warkworth%20castle", true);
+        isDisabled.put("Lindisfarne%20castle", false);
+        isDisabled.put("Mitford%20castle", false);
+        isDisabled.put("National%20Trust%20-%20Dunstanburgh%20Castle", true);
+        isDisabled.put("Dunstanburgh%20castle", true);
+        isDisabled.put("Chillingham%20castle", true);
+        isDisabled.put("Berwick%20castle", true);
+        isDisabled.put("Prudhoe%20castle", false);
+        isDisabled.put("Edlingham%20castle", false);
+    }
 
-            if(refinedCastleInfo.get("adultCost").equals("0.00")){
-                adultPriceTV.setText("Free");
-            }else{
-                adultPriceTV.setText("Adult: £" + refinedCastleInfo.get("adultCost"));
-            }
-            castleWebsiteTV.setText(refinedCastleInfo.get("website"));
-            openingTimeTV.setText(refinedCastleInfo.get("openingClosing"));
-            ageRangeTV.setText(refinedCastleInfo.get("ageRange"));
-            access.setText(refinedCastleInfo.get("disabilityAccess"));
-            shortDescription.setText(refinedCastleInfo.get ("shortDescription"));
-            // End setting text
-        } catch (Exception e) {
-            // Silent fail, find out why it failed
-            Log.e("FTPFAIL", e.getMessage());
-            e.printStackTrace();
-        }
+    // Place each castle into the array list with it's ID that matches the database's ID
+    private void createCastleIDs() {
+        castleIDs.put("Alnwick%20castle", 0);
+        castleIDs.put("Bamburgh%20castle", 1);
+        castleIDs.put("Warkworth%20castle", 2);
+        castleIDs.put("Lindisfarne%20castle", 3);
+        castleIDs.put("Mitford%20castle", 4);
+        castleIDs.put("National%20Trust%20-%20Dunstanburgh%20Castle", 5);
+        castleIDs.put("Dunstanburgh%20castle", 5);
+        castleIDs.put("Chillingham%20castle", 6);
+        castleIDs.put("Berwick%20castle", 7);
+        castleIDs.put("Prudhoe%20castle", 8);
+        castleIDs.put("Edlingham%20castle", 9);
 
-        // Go to the previous page
-        backbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(previousPage.equals("ViewCastlesFragment")){
-                    getFragmentManager().beginTransaction().replace(R.id.fragment_container, new ViewCastlesFragment()).commit();
-                }else{
-                    getFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
-                }
+    }
 
-            }
-        });
-
-            return view;
-        }
+    // Identify the fields we will need to edit
+    private void identifyViews() {
+        castleNameTV = view.findViewById(R.id.castle_name);
+        castleLocationTV = view.findViewById(R.id.castle_address);
+        castleRatingTV = view.findViewById(R.id.rating);
+        childPriceTV = view.findViewById(R.id.child_price);
+        adultPriceTV = view.findViewById(R.id.adult_price);
+        castlePhotoImg = view.findViewById(R.id.castle_img);
+        openingTimeTV = view.findViewById(R.id.castle_times);
+        castleWebsiteTV = view.findViewById(R.id.website);
+        castleImg = view.findViewById(R.id.castle_img);
+        backbutton = view.findViewById(R.id.backButton);
+        shortDescription = view.findViewById(R.id.shortDescription);
+        ageRangeTV = view.findViewById(R.id.ageRange);
+        access = view.findViewById(R.id.disabilityDescription);
+        disabledIV = view.findViewById(R.id.disabledIcon);
+        // End of identifying
+    }
 
 
     /**

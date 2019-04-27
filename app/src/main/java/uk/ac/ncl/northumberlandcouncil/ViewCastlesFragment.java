@@ -39,39 +39,54 @@ import android.widget.TextView;
  */
 
 public class ViewCastlesFragment extends Fragment {
-    private static TextView cName;
     private static String chosenCastle;
     private static int castleID;
     private static String chosenImage;
 
+    private Button alnwickButton;
+    private Button warkworthButton;
+    private Button bamburghButton;
+    private Button lindisfarneButton;
+    private Button mitfordButton;
+    private Button dunstanburghButton;
+    private Button chillinghamButton;
+    private Button berwickButton;
+    private Button prudhoeButton;
+    private Button edlinghamButton;
+    private Fragment InformationFragment;
 
-    private static List<String> castles = new ArrayList<>(Arrays.asList("Alnwick%20Castle", "Bamburgh%20Castle", "Warkworth%20Castle",
-            "Lindisfarne%20Castle","Mitford%20Castle","Dunstanburgh%20castle",
-            "Chillingham%20Castle", "Berwick%20castle", "Prudhoe%20castle", "Edlingham%20castle"));
+    private AlphaAnimation animation;
 
-    private static HashMap<String, String> castleIDs = new HashMap<>();
-    private static HashMap<String, HashMap<String, String>> castleInfo = new HashMap<>();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Fragment InformationFragment = new InformationFragment();
+        InformationFragment = new InformationFragment();
         View view = inflater.inflate(R.layout.fragment_viewcastles, container, false);
 
-        ((InformationFragment) InformationFragment).setPreviousPage("ViewCastlesFragment");
+        uk.ac.ncl.northumberlandcouncil.InformationFragment.setPreviousPage("ViewCastlesFragment");
 
-        Button alnwickButton = (Button) view.findViewById(R.id.alnwick);
-        Button warkworthButton = (Button) view.findViewById(R.id.warkworth);
-        Button bamburghButton = (Button) view.findViewById(R.id.bamburgh);
-        Button lindisfarneButton = (Button) view.findViewById(R.id.lindisfarne);
-        Button mitfordButton = (Button) view.findViewById(R.id.mitford);
-        Button dunstanburghButton = (Button) view.findViewById(R.id.dunstanburgh);
-        Button chillinghamButton = (Button) view.findViewById(R.id.chillingham);
-        Button berwickButton = (Button) view.findViewById(R.id.berwick);
-        Button prudhoeButton = (Button) view.findViewById(R.id.prudhoe);
-        Button edlinghamButton = (Button) view.findViewById(R.id.edlingham);
+        alnwickButton = view.findViewById(R.id.alnwick);
+        warkworthButton = view.findViewById(R.id.warkworth);
+        bamburghButton = view.findViewById(R.id.bamburgh);
+        lindisfarneButton = view.findViewById(R.id.lindisfarne);
+        mitfordButton = view.findViewById(R.id.mitford);
+        dunstanburghButton = view.findViewById(R.id.dunstanburgh);
+        chillinghamButton = view.findViewById(R.id.chillingham);
+        berwickButton = view.findViewById(R.id.berwick);
+        prudhoeButton = view.findViewById(R.id.prudhoe);
+        edlinghamButton = view.findViewById(R.id.edlingham);
 
         //Animation for button onclicks
-        AlphaAnimation animation = new AlphaAnimation(1.0f, 0.8f);
+        animation = new AlphaAnimation(1.0f, 0.8f);
+
+        setupOnClicks();
+
+
+        return view;
+
+    }
+
+    private void setupOnClicks() {
 
         alnwickButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,14 +195,8 @@ public class ViewCastlesFragment extends Fragment {
                 chosenImage = "edlinghamtest";
             }
         });
-
-
-
-        int i = 0;
-
-        return view;
-
     }
+
     public static String getChosenCastle(){
         return chosenCastle.replaceAll("\\s", "%20");
     }
@@ -206,11 +215,7 @@ public class ViewCastlesFragment extends Fragment {
     public static void setChosenImage(String img){
         chosenImage = img;
     }
-    public static HashMap<String, String> getInfo(){
 
-        Log.d("chosenCastle", getChosenCastle());
-        return castleInfo.get("Alnwick Castle");
-    }
 
 
     public static int getCastleID(){
