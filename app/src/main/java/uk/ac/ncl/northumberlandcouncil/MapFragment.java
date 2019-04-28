@@ -589,17 +589,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     public void fetchDataFromJson() {
 
-        for (int i = 0; i < finalListOfPaths.length; i++) {
-
-            PolylineOptions polyline = new PolylineOptions();
-            polyline.addAll(PolyUtil.decode(finalListOfPaths[i]));
-            polyline.width(10);
-            polyline.color(Color.RED);
-
-            theMap.addPolyline(polyline);
+        if (finalListOfPaths == null) {
+            throw new NullPointerException();
         }
+        else {
 
-        Log.d("fetchDataFromJson","finished");
+            for (int i = 0; i < finalListOfPaths.length; i++) {
+
+                PolylineOptions polyline = new PolylineOptions();
+                polyline.addAll(PolyUtil.decode(finalListOfPaths[i]));
+                polyline.width(10);
+                polyline.color(Color.RED);
+
+                theMap.addPolyline(polyline);
+            }
+
+            Log.d("fetchDataFromJson","finished");
+        }
 
     }
 

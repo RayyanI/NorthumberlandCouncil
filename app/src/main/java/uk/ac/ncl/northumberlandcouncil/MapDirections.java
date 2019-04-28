@@ -63,7 +63,6 @@ public class MapDirections extends AsyncTask<String, Object, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        Log.i("getDirectionsjson", s);
     }
 
     public String downloadUrl(String url) {
