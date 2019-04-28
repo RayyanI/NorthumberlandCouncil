@@ -39,6 +39,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
 import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
 
@@ -52,6 +55,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,7 +70,7 @@ import static com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     /* Declarations */
-    protected GoogleMap theMap;
+    public GoogleMap theMap;
     private MapView mapview;
     protected String destinationAddress;
     private String originAddress;
@@ -309,6 +313,28 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         //getCastleCoordinates();
         handleNewLocation();
         getBorder();
+        fetchDataFromJson();
+
+    }
+
+    public void fetchDataFromJson() {
+
+        String str1 = "klpnIxcwHe@wC";
+
+        //for (int i = 0; i < str.length; i++) {
+
+            PolylineOptions polyline = new PolylineOptions();
+                        polyline.addAll(PolyUtil.decode(str1));
+                        polyline.width(10);
+                        polyline.color(Color.RED);
+
+
+                theMap.addPolyline(polyline);
+            //for each point in listOfpaths
+            //add polyline to map
+
+        //}
+
 
     }
 
