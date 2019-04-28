@@ -1,17 +1,7 @@
 package uk.ac.ncl.northumberlandcouncil;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.maps.android.PolyUtil;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +13,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.Map;
 
 /**
  * Defines functionality for the getDirections button
@@ -33,8 +22,6 @@ import java.util.Map;
  */
 
 public class MapDirections extends AsyncTask<String, Object, String> {
-
-    GoogleMap theMap;
 
     @Override
     protected String doInBackground(String... url) {
@@ -61,7 +48,7 @@ public class MapDirections extends AsyncTask<String, Object, String> {
 
                 //Display polyline with list of paths
                 MapFragment mf = new MapFragment();
-
+                mf.fetchListOfPaths(listOfPaths);
             }
             else {
                 Log.d("listOfPathsData","listOfPaths is null");
@@ -76,7 +63,7 @@ public class MapDirections extends AsyncTask<String, Object, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        //Log.i("getDirectionsjson", s);
+        Log.i("getDirectionsjson", s);
     }
 
     public String downloadUrl(String url) {
@@ -95,7 +82,7 @@ public class MapDirections extends AsyncTask<String, Object, String> {
         URL newUrl = null;
         try {
             newUrl = new URL(url);
-            Log.d("URLISEQUALTO",url);
+            Log.d("URLEQUALTO",url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -166,7 +153,6 @@ public class MapDirections extends AsyncTask<String, Object, String> {
                     jsonStr = new String[count];
 
                     for (int i = 0; i < count; i++) {
-                        // for every loop, jsonStr
                         JSONObject stepsObject = steps.getJSONObject(i);
                         jsonStr[i] = stepsObject.getJSONObject("polyline").getString("points");
                         Log.i("getFinalJsonString", jsonStr[i]);
@@ -191,66 +177,4 @@ public class MapDirections extends AsyncTask<String, Object, String> {
 
         return null;
     }
-
-
-
-
-    public void displayPolyline(String[] listOfPaths) {
-
-        Log.d("poly","displayPolyLine Running");
-
-        PolylineOptions polyline = null;
-
-        int count = listOfPaths.length;
-
-        if (count == 0) {
-            Log.d("PolyCount","PolyCount is null");
-            return;
-        }
-        else {
-
-            /*for (int i = 0; i < count; i++) {
-
-                //Method crashes because theMap is null
-
-                polyline = theMap.addPolyline(new PolylineOptions()
-                        .addAll(PolyUtil.decode(listOfPaths[i]))
-                        .width(5)
-                        .color(Color.RED)
-                );*/
-
-                //for each point in listOfpaths
-                //add polyline to map
-
-            }
-
-            /*if (polyline != null) {
-                Log.d("polyPassed","polyline is not empty!");
-                //cameraZoom(polyline);
-            }
-            else {
-                Log.d("polyerr","polyline is null");
-                //Toast.makeText(getContext(), "Polyline empty", Toast.LENGTH_SHORT).show();
-                //return;
-            }*/
-
-    }
-
-    private void cameraZoom(PolylineOptions p) {
-
-
-        Log.d("Camera zoom","Camera zoom running");
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (int i = 0; i < p.getPoints().size(); i++) {
-            builder.include(p.getPoints().get(i));
-        }
-
-        LatLngBounds bounds = builder.build();
-
-        CameraUpdate zoom = CameraUpdateFactory.newLatLngBounds(bounds, 150);
-        //theMap.animateCamera(zoom);
-
-    }
-
-
 }

@@ -30,6 +30,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -37,6 +38,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -85,6 +87,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     protected boolean isMarkerPressed = false;
     protected LocationManager locationManager;
     private ViewGroup infoWindow;
+    static String[] finalListOfPaths;
 
     /* End Declarations */
 
@@ -570,28 +573,51 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    public void fetchListOfPaths(String[] listOfPaths) {
+
+        if (listOfPaths == null) {
+            Log.d("listOfPathNull","listOfPaths is null");
+        }
+        else {
+            Log.d("listOfPathisNOTNull","listOfPaths is NOT null");
+            //return listOfPaths;
+            finalListOfPaths = listOfPaths;
+
+        }
+    }
+
 
     public void fetchDataFromJson() {
 
+        for (int i = 0; i < finalListOfPaths.length; i++) {
 
-        String str1 = "sopnIxkwHCKG[";
+            PolylineOptions polyline = new PolylineOptions();
+            polyline.addAll(PolyUtil.decode(finalListOfPaths[i]));
+            polyline.width(10);
+            polyline.color(Color.RED);
 
-        //for (int i = 0; i < array.length; i++) {
-
-        PolylineOptions polyline = new PolylineOptions();
-        polyline.addAll(PolyUtil.decode(str1));
-        polyline.width(10);
-        polyline.color(Color.RED);
-
-        theMap.addPolyline(polyline);
+            theMap.addPolyline(polyline);
+        }
 
         Log.d("fetchDataFromJson","finished");
 
-        //for each point in listOfpaths
-        //add polyline to map
+    }
 
-        // }
-        // }
+    /*Camera zooms out to capture full size of route*/
+    private void cameraZoom(PolylineOptions p) {
+
+
+        Log.d("Camera zoom","Camera zoom running");
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (int i = 0; i < p.getPoints().size(); i++) {
+            builder.include(p.getPoints().get(i));
+        }
+
+        LatLngBounds bounds = builder.build();
+
+        CameraUpdate zoom = CameraUpdateFactory.newLatLngBounds(bounds, 150);
+        theMap.animateCamera(zoom);
+
     }
 
 

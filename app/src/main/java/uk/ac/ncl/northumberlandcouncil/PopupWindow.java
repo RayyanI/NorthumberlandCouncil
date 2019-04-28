@@ -39,7 +39,6 @@ public class PopupWindow extends DialogFragment {
     private static TextView castleName;
     private String chosenCastle;
     private static Fragment popupFragment;
-    Polyline polyline;
 
     public PopupWindow() {
 
@@ -88,7 +87,7 @@ public class PopupWindow extends DialogFragment {
                             e.printStackTrace();
                         }
                     }
-                    
+
                 });
                 thread.run();
 
@@ -118,17 +117,14 @@ public class PopupWindow extends DialogFragment {
                         thread1.run();
 
                         try {
-                            if (chosenCastle.equals(mapFragment.listOfCastleNames().get(i))) {
 
+                            if (chosenCastle.equals(mapFragment.listOfCastleNames().get(i))) {
 
                                 LatLng castleloc = new LatLng(mapFragment.listOfCastles().get(i).latitude, mapFragment.listOfCastles().get(i).longitude);
 
                                 mapFragment.theMap.addMarker(new MarkerOptions().position(castleloc).title("castle location"));
 
-
                                 String url = getGoogleUrl(curloc, castleloc);
-
-                                //getUrl(url);
 
                                 MapDirections directions = new MapDirections();
 
