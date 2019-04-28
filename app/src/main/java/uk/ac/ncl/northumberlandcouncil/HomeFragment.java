@@ -16,7 +16,7 @@ import android.view.ViewGroup;
  * Handles code for Home Fragment
  * @author Rayyan Iqbal
  * Created on 20/02/2019
- * Last modified 21/02/2019 (R Iqbal)
+ * Last modified 28/02/2019 (R Iqbal)
  */
 public class HomeFragment extends Fragment {
     /**

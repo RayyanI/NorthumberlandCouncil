@@ -39,7 +39,8 @@ import static uk.ac.ncl.northumberlandcouncil.AuthorisationFragment.validateName
 
 
 /**
- * Handles code for Favourites Fragment
+ * Handles code for user settings. Users can delete their account, change their names and or email addresses. Appropriate validation in place
+ * for data integrity
  * @author Rayyan Iqbal
  * Created on 11/04/2019
  * Last modified 11/04/2019 (R Iqbal)

@@ -44,11 +44,12 @@ import okhttp3.Response;
 /* End library imports */
 
 /**
- * Handles code for Authorisation Fragment
+ * Handles code for Authorisation Fragment - Users can sign into the application with Google or Twitter via open authorisation and authentication with a
+ * back-end server
  *
  * @author Rayyan Iqbal
  * Created on 21/02/2019
- * Last modified 26/04/2019 (R Iqbal)
+ * Last modified 28/04/2019 (R Iqbal)
  */
 public class AuthorisationFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
     /* Declarations */

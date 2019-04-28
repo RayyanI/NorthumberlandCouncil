@@ -47,10 +47,10 @@ import okhttp3.Response;
 
 /**
  * Handles the main activity of the application and creates listeners/formats navigation
- *
+ * Deals with navigation, handling the responses and ui changes for activities and storing authorisation data
  * @author Rayyan Iqbal
  * Created on 20/02/2019
- * Last modified 05/04/2019 (R Iqbal)
+ * Last modified 28/04/2019 (R Iqbal)
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
