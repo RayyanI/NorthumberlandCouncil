@@ -589,20 +589,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (finalListOfPaths == null) {
             throw new NullPointerException("Route not possible!");
         }
-        else {
 
-            for (int i = 0; i < finalListOfPaths.length; i++) {
+        for (int i = 0; i < finalListOfPaths.length; i++) {
 
-                PolylineOptions polyline = new PolylineOptions();
-                polyline.addAll(PolyUtil.decode(finalListOfPaths[i]));
-                polyline.width(10);
-                polyline.color(Color.RED);
+            PolylineOptions polyline = new PolylineOptions();
+            polyline.addAll(PolyUtil.decode(finalListOfPaths[i]));
+            polyline.width(10);
+            polyline.color(Color.RED);
 
-                theMap.addPolyline(polyline);
-            }
-
-            Log.d("fetchDataFromJson","finished");
+            theMap.addPolyline(polyline);
         }
+
+        Log.d("fetchDataFromJson", "finished");
 
     }
 
