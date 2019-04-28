@@ -469,7 +469,7 @@ public class AuthorisationFragment extends Fragment implements GoogleApiClient.O
     private void updateUI() {
         ((MainActivity) getActivity()).restoreActionBar();
         getFragmentManager().beginTransaction()
-                .replace(((ViewGroup) getView().getParent()).getId(), new HomeFragment())
+                .replace(((ViewGroup) getView().getParent()).getId(), new MapFragment())
                 .addToBackStack(null)
                 .commit();
     }

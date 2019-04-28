@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /* Load default activity on start, check instance status to prevent double load upon orientation change */
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AuthorisationFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_home);
+            navigationView.setCheckedItem(R.id.mapactivity);
 
         }
         /* End activity loading */
@@ -139,9 +139,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.nav_home:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-                break;
             case R.id.nav_login:
                 if (getSupportActionBar() != null)
                     getSupportActionBar().hide(); // hide action bar on login page
@@ -328,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         /* Let's also update the current fragment being displayed */
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
 
     }
 

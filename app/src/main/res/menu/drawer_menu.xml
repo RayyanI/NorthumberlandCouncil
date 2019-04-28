@@ -6,10 +6,6 @@
     <!-- Navigation Bar -->
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_home"
-            android:title="Home" />
-        <item
             android:id="@+id/mapactivity"
             android:icon="@drawable/ic_gps"
             android:title="Map"/>
