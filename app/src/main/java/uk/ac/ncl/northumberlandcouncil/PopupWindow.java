@@ -184,40 +184,6 @@ public class PopupWindow extends DialogFragment {
         return url;
     }
 
-    private void cameraZoom(Polyline p) {
-
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
-
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (int i = 0; i < p.getPoints().size(); i++) {
-            builder.include(p.getPoints().get(i));
-        }
-
-        LatLngBounds bounds = builder.build();
-
-        CameraUpdate zoom = CameraUpdateFactory.newLatLngBounds(bounds, 150);
-        mapFragment.theMap.animateCamera(zoom);
-
-    }
-
-
-    public void displayPolyline(String[] listOfPaths) {
-
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
-
-        int count = listOfPaths.length;
-
-        for (int i = 0; i < count; i++) {
-
-            polyline = mapFragment.theMap.addPolyline(new PolylineOptions()
-                    .addAll(PolyUtil.decode(String.valueOf(listOfPaths)))
-                    .width(5)
-                    .color(Color.RED)
-            );
-        }
-        cameraZoom(polyline);
-    }
-
     public String getUrl(String url) {
 //        Toast.makeText(getContext(), url, Toast.LENGTH_SHORT).show();
         return url;
