@@ -127,15 +127,21 @@ public class PopupWindow extends DialogFragment {
 
 
                                 String url = getGoogleUrl(curloc, castleloc);
-                                getUrl(url);
+
+                                //getUrl(url);
 
                                 MapDirections directions = new MapDirections();
 
-
                                 directions.execute(url);
 
+                                //THIS PRINTS MAP
+                                mapFragment.fetchDataFromJson();
+
+
+                                Log.d("Directions","Directions finished");
 
                                 dismiss();
+
                                 break;
                             } else {
                                 //continue;
@@ -173,20 +179,16 @@ public class PopupWindow extends DialogFragment {
 
     public String getGoogleUrl(LatLng curloc, LatLng casteloc) {
 
-        String origin = "origin=" + curloc.latitude + "," + casteloc.longitude;
+        String origin = "origin=" + curloc.latitude + "," + curloc.longitude;
 
         String destination = "destination=" + casteloc.latitude + "," + casteloc.longitude;
 
         String mode = "mode=driving";
 
-        String url = "https://maps.googleapis.com/maps/api/directions/" + "json" + "?" + origin + "&" + destination + "&" + mode;
+        String url = "https://maps.googleapis.com/maps/api/directions/" + "json" + "?" + origin + "&" + destination + "&" + mode + "&key=AIzaSyA-SYN3vPXJ0Z7Xgw7QhkhTl7fo9xL48yw";
 
         return url;
     }
 
-    public String getUrl(String url) {
-//        Toast.makeText(getContext(), url, Toast.LENGTH_SHORT).show();
-        return url;
-    }
 
 }

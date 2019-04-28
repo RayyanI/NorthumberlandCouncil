@@ -57,6 +57,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
@@ -83,8 +84,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private URL url;
     protected boolean isMarkerPressed = false;
     protected LocationManager locationManager;
-
-
     private ViewGroup infoWindow;
 
     /* End Declarations */
@@ -313,28 +312,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         //getCastleCoordinates();
         handleNewLocation();
         getBorder();
-        fetchDataFromJson();
-
-    }
-
-    public void fetchDataFromJson() {
-
-        String str1 = "klpnIxcwHe@wC";
-
-        //for (int i = 0; i < str.length; i++) {
-
-            PolylineOptions polyline = new PolylineOptions();
-                        polyline.addAll(PolyUtil.decode(str1));
-                        polyline.width(10);
-                        polyline.color(Color.RED);
-
-
-                theMap.addPolyline(polyline);
-            //for each point in listOfpaths
-            //add polyline to map
-
-        //}
-
 
     }
 
@@ -589,10 +566,34 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 theMap.animateCamera(CameraUpdateFactory.newLatLngZoom(points.get(i), 13f));
                 theMap.clear();
                 getCastleCoordinates();
-                //getBorder();
             }
         }
     }
+
+
+    public void fetchDataFromJson() {
+
+
+        String str1 = "sopnIxkwHCKG[";
+
+        //for (int i = 0; i < array.length; i++) {
+
+        PolylineOptions polyline = new PolylineOptions();
+        polyline.addAll(PolyUtil.decode(str1));
+        polyline.width(10);
+        polyline.color(Color.RED);
+
+        theMap.addPolyline(polyline);
+
+        Log.d("fetchDataFromJson","finished");
+
+        //for each point in listOfpaths
+        //add polyline to map
+
+        // }
+        // }
+    }
+
 
     @Override
     /*called when activity was hidden comes back to view */

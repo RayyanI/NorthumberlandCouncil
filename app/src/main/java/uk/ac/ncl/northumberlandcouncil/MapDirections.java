@@ -1,11 +1,17 @@
 package uk.ac.ncl.northumberlandcouncil;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,7 +21,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Map;
 
 /**
  * Defines functionality for the getDirections button
@@ -24,27 +32,77 @@ import java.net.URL;
  * Created 26/04/2019
  */
 
-public class MapDirections extends AsyncTask<String, String, String> {
+public class MapDirections extends AsyncTask<String, Object, String> {
+
+    GoogleMap theMap;
 
     @Override
-    protected String doInBackground(String...url) {
+    protected String doInBackground(String... url) {
+
         Log.d("Background_start: ", "Fetching directions");
 
+        String data = "";
+
+        data = downloadUrl(url[0]);
+
+        MapDirections mp = new MapDirections();
+        String[] listOfPaths;
+
+        if (data == null) {
+            Log.d("StringData","Data is null");
+            return null;
+        }
+        else {
+
+            //parse data through and return of a list of paths
+            listOfPaths = mp.parser(data);
+
+            if (listOfPaths != null) {
+
+                //Display polyline with list of paths
+                MapFragment mf = new MapFragment();
+
+            }
+            else {
+                Log.d("listOfPathsData","listOfPaths is null");
+                return null;
+            }
+
+        }
+
+        return data;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        //Log.i("getDirectionsjson", s);
+    }
+
+    public String downloadUrl(String url) {
+
+        Log.d("downloaded", "data downloaded");
+
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
+        InputStream inputStream = null;
+        String data = "";
+
+        //PopupWindow p = new PopupWindow();
+        //p.getUrl(url);
+        Log.d("Url status: ", "Url passed");
+
+        URL newUrl = null;
         try {
-            Log.d("downloaded", "data downloaded");
+            newUrl = new URL(url);
+            Log.d("URLISEQUALTO",url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        //"origin=" + curloc.latitude + "," + casteloc.longitude
+        //URL newUrl = new URL("https://maps.googleapis.com/maps/api/directions/json?origin=54.9757,-1.5984&destination=54.964,-1.854&mode=driving&key=AIzaSyA-SYN3vPXJ0Z7Xgw7QhkhTl7fo9xL48yw");
 
-            HttpURLConnection urlConnection = null;
-            BufferedReader reader = null;
-            InputStream inputStream = null;
-            String data = "";
-
-            PopupWindow p = new PopupWindow();
-            //p.getUrl(url);
-            Log.d("Url status: ", "Url passed");
-
-            //URL newUrl = new URL(url);
-            //"origin=" + curloc.latitude + "," + casteloc.longitude
-            URL newUrl = new URL("https://maps.googleapis.com/maps/api/directions/json?origin=54.9757,-1.5984&destination=54.964,-1.854&mode=driving&key=AIzaSyA-SYN3vPXJ0Z7Xgw7QhkhTl7fo9xL48yw");
+        try {
             urlConnection = (HttpURLConnection) newUrl.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
@@ -64,53 +122,20 @@ public class MapDirections extends AsyncTask<String, String, String> {
 
             if (data != null) {
                 Log.d("dataPassedIsn'tNull","data is not null!");
-
-                MapDirections mp = new MapDirections();
-                String[] listOfPaths;
-
-                if (data == null) {
-                    Log.d("StringData","Data is null");
-                    return null;
-                }
-                else {
-                    //parse data through and return of a list of paths
-                    listOfPaths = mp.parser(data);
-
-                    if (listOfPaths != null) {
-
-                        //Display polyline with list of paths
-                        mp.displayPolyline(listOfPaths);
-                    }
-                    else {
-                        Log.d("listOfPathsData","listOfPaths is null");
-                        return null;
-                    }
-
-                }
-
                 return data;
             }
             else {
                 Log.d("dataPassedIsNull", "data is null");
                 return null;
             }
-
-        } catch (MalformedURLException e) {
+        } catch (ProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
-        return null;
+        return data;
     }
-
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-        Log.i("getDirectionsjson", s);
-    }
-
 
 
     public String[] parser(String data) {
@@ -168,6 +193,8 @@ public class MapDirections extends AsyncTask<String, String, String> {
     }
 
 
+
+
     public void displayPolyline(String[] listOfPaths) {
 
         Log.d("poly","displayPolyLine Running");
@@ -182,11 +209,11 @@ public class MapDirections extends AsyncTask<String, String, String> {
         }
         else {
 
-            for (int i = 0; i < count; i++) {
+            /*for (int i = 0; i < count; i++) {
 
                 //Method crashes because theMap is null
 
-                /*polyline = theMap.addPolyline(new PolylineOptions()
+                polyline = theMap.addPolyline(new PolylineOptions()
                         .addAll(PolyUtil.decode(listOfPaths[i]))
                         .width(5)
                         .color(Color.RED)
@@ -197,18 +224,15 @@ public class MapDirections extends AsyncTask<String, String, String> {
 
             }
 
-            if (polyline != null) {
+            /*if (polyline != null) {
                 Log.d("polyPassed","polyline is not empty!");
                 //cameraZoom(polyline);
             }
             else {
                 Log.d("polyerr","polyline is null");
                 //Toast.makeText(getContext(), "Polyline empty", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
-
-
+                //return;
+            }*/
 
     }
 
@@ -227,4 +251,6 @@ public class MapDirections extends AsyncTask<String, String, String> {
         //theMap.animateCamera(zoom);
 
     }
+
+
 }
